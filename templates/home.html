@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+
+        <!-- Hero Section -->
+        <div class="card border-0 shadow-lg mb-4" style="background: linear-gradient(135deg, #c0392b, #e74c3c); color: white; border-radius: 15px;">
+            <div class="card-body p-5 text-center">
+                <i class="fas fa-heartbeat fa-4x mb-3"></i>
+                <h1 class="display-5 fw-bold">CardioPredict AI</h1>
+                <p class="lead mb-4">A web-based machine learning system for heart attack risk estimation using clinical parameters.</p>
+                <a href="/predict" class="btn btn-light btn-lg me-3 fw-bold">
+                    <i class="fas fa-stethoscope me-2"></i>Start Prediction
+                </a>
+                <a href="/about" class="btn btn-outline-light btn-lg fw-bold">
+                    <i class="fas fa-info-circle me-2"></i>Learn More
+                </a>
+            </div>
+        </div>
+
+        <!-- Feature Cards -->
+        <div class="row mb-4">
+            <div class="col-md-4 mb-3">
+                <div class="card border-0 shadow h-100 text-center p-4">
+                    <i class="fas fa-bolt fa-2x text-danger mb-3"></i>
+                    <h5 class="fw-bold">Fast Prediction</h5>
+                    <p class="text-muted">Get an instant heart attack risk estimate from your clinical inputs in seconds.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card border-0 shadow h-100 text-center p-4">
+                    <i class="fas fa-brain fa-2x text-danger mb-3"></i>
+                    <h5 class="fw-bold">ML Powered</h5>
+                    <p class="text-muted">Model trained on UCI Heart Disease dataset using Random Forest algorithm.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card border-0 shadow h-100 text-center p-4">
+                    <i class="fas fa-shield-alt fa-2x text-danger mb-3"></i>
+                    <h5 class="fw-bold">Educational Use</h5>
+                    <p class="text-muted">Supports awareness and does not replace professional medical diagnosis.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Disclaimer -->
+        <div class="alert alert-warning text-center">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            <strong>Disclaimer:</strong> This tool is for educational purposes only and does not replace professional medical advice.
+        </div>
+
+    </div>
+</div>
+{% endblock %}

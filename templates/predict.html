@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-lg">
+            <div class="card-header text-white text-center py-3" style="background: linear-gradient(135deg, #c0392b, #e74c3c);">
+                <h4 class="mb-0"><i class="fas fa-stethoscope me-2"></i>Heart Attack Risk Prediction</h4>
+                <small>Enter your clinical parameters below</small>
+            </div>
+            <div class="card-body p-4">
+                <form method="POST" action="/predict">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-bold">Age</label>
+                            <input type="number" name="age" class="form-control" placeholder="e.g. 52" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-bold">Resting Blood Pressure</label>
+                            <input type="number" name="trestbps" class="form-control" placeholder="mmHg e.g. 120" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-bold">Cholesterol</label>
+                            <input type="number" name="chol" class="form-control" placeholder="mg/dl e.g. 200" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-bold">Max Heart Rate</label>
+                            <input type="number" name="thalach" class="form-control" placeholder="e.g. 150" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-bold">Oldpeak (ST depression)</label>
+                            <input type="number" step="0.1" name="oldpeak" class="form-control" placeholder="e.g. 1.0" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-bold">CA (Major Vessels)</label>
+                            <input type="number" name="ca" class="form-control" placeholder="0-3" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-bold">Sex</label>
+                            <select name="sex" class="form-select" required>
+                                <option value="">Select</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-bold">Chest Pain Type</label>
+                            <select name="cp" class="form-select" required>
+                                <option value="">Select</option>
+                                <option value="typical angina">Typical Angina</option>
+                                <option value="atypical angina">Atypical Angina</option>
+                                <option value="non-anginal">Non-Anginal</option>
+                                <option value="asymptomatic">Asymptomatic</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-bold">Fasting Blood Sugar &gt; 120</label>
+                            <select name="fbs" class="form-select" required>
+                                <option value="">Select</option>
+                                <option value="True">Yes</option>
+                                <option value="False">No</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-bold">Resting ECG</label>
+                            <select name="restecg" class="form-select" required>
+                                <option value="">Select</option>
+                                <option value="normal">Normal</option>
+                                <option value="lv hypertrophy">LV Hypertrophy</option>
+                                <option value="st-t abnormality">ST-T Abnormality</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-bold">Exercise Induced Angina</label>
+                            <select name="exang" class="form-select" required>
+                                <option value="">Select</option>
+                                <option value="True">Yes</option>
+                                <option value="False">No</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-bold">Slope</label>
+                            <select name="slope" class="form-select" required>
+                                <option value="">Select</option>
+                                <option value="upsloping">Upsloping</option>
+                                <option value="flat">Flat</option>
+                                <option value="downsloping">Downsloping</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-bold">Thal</label>
+                            <select name="thal" class="form-select" required>
+                                <option value="">Select</option>
+                                <option value="normal">Normal</option>
+                                <option value="fixed defect">Fixed Defect</option>
+                                <option value="reversable defect">Reversable Defect</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="alert alert-info mt-2">
+                        <i class="fas fa-info-circle me-2"></i>This tool provides an educational risk estimate only. Consult a doctor for medical advice.
+                    </div>
+                    <div class="d-grid gap-2 d-md-flex mt-3">
+                        <button type="submit" class="btn btn-danger btn-lg flex-fill fw-bold">
+                            <i class="fas fa-heartbeat me-2"></i>Predict Risk
+                        </button>
+                        <button type="reset" class="btn btn-outline-secondary btn-lg flex-fill">
+                            <i class="fas fa-redo me-2"></i>Reset
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

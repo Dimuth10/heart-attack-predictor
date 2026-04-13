@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-lg">
+            <div class="card-header text-white text-center py-3" style="background: linear-gradient(135deg, #c0392b, #e74c3c);">
+                <h4 class="mb-0"><i class="fas fa-info-circle me-2"></i>About CardioPredict AI</h4>
+            </div>
+            <div class="card-body p-4">
+                <h5 class="fw-bold text-danger">Project Overview</h5>
+                <p>CardioPredict AI is a web-based heart attack prediction system developed as a final year project for BSc (Hons) Software Engineering at NSBM Green University in partnership with the University of Plymouth.</p>
+
+                <h5 class="fw-bold text-danger mt-4">Technology Stack</h5>
+                <ul>
+                    <li><strong>Programming Language:</strong> Python 3.x</li>
+                    <li><strong>Web Framework:</strong> Flask</li>
+                    <li><strong>Machine Learning:</strong> Scikit-learn (Random Forest, Logistic Regression)</li>
+                    <li><strong>Data Processing:</strong> Pandas, NumPy</li>
+                    <li><strong>Frontend:</strong> HTML5, Bootstrap 5</li>
+                    <li><strong>Dataset:</strong> UCI Heart Disease Dataset</li>
+                </ul>
+
+                <h5 class="fw-bold text-danger mt-4">How It Works</h5>
+                <p>The system accepts clinical parameters such as age, cholesterol, blood pressure, and chest pain type. These inputs are passed through a trained Random Forest machine learning pipeline which outputs a probability score indicating the likelihood of a heart attack.</p>
+
+                <h5 class="fw-bold text-danger mt-4">Model Performance</h5>
+                <div class="row text-center">
+                    <div class="col-md-4 mb-3">
+                        <div class="card bg-danger text-white p-3">
+                            <h3 class="fw-bold">84.78%</h3>
+                            <p class="mb-0">Model Accuracy</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card bg-dark text-white p-3">
+                            <h3 class="fw-bold">920+</h3>
+                            <p class="mb-0">Training Records</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card bg-secondary text-white p-3">
+                            <h3 class="fw-bold">13</h3>
+                            <p class="mb-0">Clinical Features</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert alert-warning mt-4">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    <strong>Disclaimer:</strong> This system is intended for educational and research purposes only. It does not replace professional medical diagnosis or clinical advice.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
