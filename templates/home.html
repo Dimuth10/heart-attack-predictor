@@ -1,55 +1,149 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-lg-10">
 
-        <!-- Hero Section -->
-        <div class="card border-0 shadow-lg mb-4" style="background: linear-gradient(135deg, #c0392b, #e74c3c); color: white; border-radius: 15px;">
-            <div class="card-body p-5 text-center">
-                <i class="fas fa-heartbeat fa-4x mb-3"></i>
-                <h1 class="display-5 fw-bold">CardioPredict AI</h1>
-                <p class="lead mb-4">A web-based machine learning system for heart attack risk estimation using clinical parameters.</p>
-                <a href="/predict" class="btn btn-light btn-lg me-3 fw-bold">
-                    <i class="fas fa-stethoscope me-2"></i>Start Prediction
-                </a>
-                <a href="/about" class="btn btn-outline-light btn-lg fw-bold">
-                    <i class="fas fa-info-circle me-2"></i>Learn More
-                </a>
-            </div>
+<!-- ── Hero Section ── -->
+<div class="row align-items-center mb-5" style="min-height: 80vh; margin-top: -20px;">
+    <div class="col-lg-6 mb-5">
+        <div class="mb-3">
+            <span style="background: rgba(220,53,69,0.15); color: #dc3545; padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; border: 1px solid rgba(220,53,69,0.3);">
+                <i class="fas fa-shield-alt me-2"></i>AI-Powered Heart Health Assessment
+            </span>
         </div>
-
-        <!-- Feature Cards -->
-        <div class="row mb-4">
-            <div class="col-md-4 mb-3">
-                <div class="card border-0 shadow h-100 text-center p-4">
-                    <i class="fas fa-bolt fa-2x text-danger mb-3"></i>
-                    <h5 class="fw-bold">Fast Prediction</h5>
-                    <p class="text-muted">Get an instant heart attack risk estimate from your clinical inputs in seconds.</p>
+        <h1 class="display-4 fw-800 mb-4" style="color: white; line-height: 1.2;">
+            Predict Your <span style="color: #dc3545;">Heart Attack</span> Risk With AI
+        </h1>
+        <p class="lead mb-4" style="color: #888; line-height: 1.8;">
+            CardioPredict AI uses advanced machine learning trained on clinical data to estimate your heart attack risk. Get instant results based on your medical parameters.
+        </p>
+        <div class="d-flex gap-3 flex-wrap">
+            {% if current_user.is_authenticated %}
+            <a href="/predict" class="btn btn-danger btn-lg px-4">
+                <i class="fas fa-heartbeat me-2"></i>Start Prediction
+            </a>
+            <a href="/dashboard" class="btn btn-outline-danger btn-lg px-4">
+                <i class="fas fa-th-large me-2"></i>My Dashboard
+            </a>
+            {% else %}
+            <a href="/register" class="btn btn-danger btn-lg px-4">
+                <i class="fas fa-user-plus me-2"></i>Get Started Free
+            </a>
+            <a href="/login" class="btn btn-outline-danger btn-lg px-4">
+                <i class="fas fa-sign-in-alt me-2"></i>Login
+            </a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-lg-6 text-center">
+        <div style="background: rgba(220,53,69,0.05); border: 1px solid rgba(220,53,69,0.2); border-radius: 20px; padding: 40px;">
+            <i class="fas fa-heartbeat fa-6x mb-4" style="color: #dc3545; opacity: 0.8;"></i>
+            <div class="row text-center mt-3">
+                <div class="col-4">
+                    <div class="stat-card">
+                        <div class="stat-number">84%</div>
+                        <div class="stat-label">Accuracy</div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="stat-card">
+                        <div class="stat-number">920+</div>
+                        <div class="stat-label">Records</div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="stat-card">
+                        <div class="stat-number">13</div>
+                        <div class="stat-label">Features</div>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-4 mb-3">
-                <div class="card border-0 shadow h-100 text-center p-4">
-                    <i class="fas fa-brain fa-2x text-danger mb-3"></i>
-                    <h5 class="fw-bold">ML Powered</h5>
-                    <p class="text-muted">Model trained on UCI Heart Disease dataset using Random Forest algorithm.</p>
-                </div>
-            </div>
-            <div class="col-md-4 mb-3">
-                <div class="card border-0 shadow h-100 text-center p-4">
-                    <i class="fas fa-shield-alt fa-2x text-danger mb-3"></i>
-                    <h5 class="fw-bold">Educational Use</h5>
-                    <p class="text-muted">Supports awareness and does not replace professional medical diagnosis.</p>
-                </div>
-            </div>
         </div>
-
-        <!-- Disclaimer -->
-        <div class="alert alert-warning text-center">
-            <i class="fas fa-exclamation-triangle me-2"></i>
-            <strong>Disclaimer:</strong> This tool is for educational purposes only and does not replace professional medical advice.
-        </div>
-
     </div>
 </div>
+
+<!-- ── How It Works ── -->
+<div class="mb-5">
+    <div class="text-center mb-5">
+        <h2 class="section-title">How It <span>Works</span></h2>
+        <p style="color: #666;">Three simple steps to get your heart attack risk assessment</p>
+    </div>
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 p-4 text-center" style="border-top: 3px solid #dc3545;">
+                <div style="width:60px; height:60px; background:rgba(220,53,69,0.1); border-radius:50%; display:flex; align-items:center; justify-content:center; margin: 0 auto 20px;">
+                    <i class="fas fa-user-plus fa-xl" style="color:#dc3545"></i>
+                </div>
+                <h5 style="color:white; font-weight:700;">1. Create Account</h5>
+                <p style="color:#666;">Register with your basic details to get started with your personal health dashboard.</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 p-4 text-center" style="border-top: 3px solid #dc3545;">
+                <div style="width:60px; height:60px; background:rgba(220,53,69,0.1); border-radius:50%; display:flex; align-items:center; justify-content:center; margin: 0 auto 20px;">
+                    <i class="fas fa-clipboard-list fa-xl" style="color:#dc3545"></i>
+                </div>
+                <h5 style="color:white; font-weight:700;">2. Enter Parameters</h5>
+                <p style="color:#666;">Input your clinical data such as age, cholesterol, blood pressure and other indicators.</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 p-4 text-center" style="border-top: 3px solid #dc3545;">
+                <div style="width:60px; height:60px; background:rgba(220,53,69,0.1); border-radius:50%; display:flex; align-items:center; justify-content:center; margin: 0 auto 20px;">
+                    <i class="fas fa-chart-line fa-xl" style="color:#dc3545"></i>
+                </div>
+                <h5 style="color:white; font-weight:700;">3. Get Results</h5>
+                <p style="color:#666;">Receive instant AI-powered risk assessment with probability score and recommendations.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ── Features ── -->
+<div class="mb-5">
+    <div class="text-center mb-5">
+        <h2 class="section-title">Why Choose <span>CardioPredict AI</span></h2>
+    </div>
+    <div class="row">
+        <div class="col-md-3 mb-4">
+            <div class="card p-4 text-center h-100">
+                <i class="fas fa-bolt fa-2x mb-3" style="color:#dc3545"></i>
+                <h6 style="color:white; font-weight:700;">Instant Results</h6>
+                <p style="color:#666; font-size:0.9rem;">Get your risk assessment in seconds.</p>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card p-4 text-center h-100">
+                <i class="fas fa-brain fa-2x mb-3" style="color:#dc3545"></i>
+                <h6 style="color:white; font-weight:700;">ML Powered</h6>
+                <p style="color:#666; font-size:0.9rem;">Random Forest algorithm with 84% accuracy.</p>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card p-4 text-center h-100">
+                <i class="fas fa-history fa-2x mb-3" style="color:#dc3545"></i>
+                <h6 style="color:white; font-weight:700;">Track History</h6>
+                <p style="color:#666; font-size:0.9rem;">Monitor your risk levels over time.</p>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card p-4 text-center h-100">
+                <i class="fas fa-lock fa-2x mb-3" style="color:#dc3545"></i>
+                <h6 style="color:white; font-weight:700;">Secure & Private</h6>
+                <p style="color:#666; font-size:0.9rem;">Your data is encrypted and protected.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ── CTA ── -->
+{% if not current_user.is_authenticated %}
+<div class="card p-5 text-center mb-5" style="background: linear-gradient(135deg, rgba(220,53,69,0.15), rgba(220,53,69,0.05)); border: 1px solid rgba(220,53,69,0.3);">
+    <h3 style="color:white; font-weight:800;">Ready to Check Your Heart Health?</h3>
+    <p style="color:#888;">Create a free account and get your first heart attack risk assessment today.</p>
+    <a href="/register" class="btn btn-danger btn-lg px-5 mt-2">
+        <i class="fas fa-heartbeat me-2"></i>Get Started Now
+    </a>
+</div>
+{% endif %}
+
 {% endblock %}

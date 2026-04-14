@@ -7,40 +7,266 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        body { background-color: #f8f9fa; }
-        .navbar { background: linear-gradient(135deg, #c0392b, #e74c3c); }
-        .navbar-brand, .nav-link { color: white !important; font-weight: 600; }
-        .nav-link:hover { color: #ffd700 !important; }
-        .footer { background: #2c3e50; color: white; padding: 20px 0; margin-top: 60px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: #0a0e1a;
+            color: #e0e0e0;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        /* ── Navbar ── */
+        .navbar {
+            background: rgba(10, 14, 26, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(220, 53, 69, 0.3);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white !important;
+            letter-spacing: 1px;
+        }
+        .navbar-brand span { color: #dc3545; }
+        .nav-link {
+            color: #aaa !important;
+            font-weight: 500;
+            margin: 0 5px;
+            transition: color 0.3s;
+        }
+        .nav-link:hover { color: #dc3545 !important; }
+        .nav-link.active { color: #dc3545 !important; }
+        .btn-nav-login {
+            border: 1px solid #dc3545;
+            color: #dc3545 !important;
+            border-radius: 25px;
+            padding: 6px 20px !important;
+            transition: all 0.3s;
+        }
+        .btn-nav-login:hover {
+            background: #dc3545;
+            color: white !important;
+        }
+        .btn-nav-register {
+            background: #dc3545;
+            color: white !important;
+            border-radius: 25px;
+            padding: 6px 20px !important;
+            transition: all 0.3s;
+        }
+        .btn-nav-register:hover { background: #b02a37; }
+
+        /* ── Cards ── */
+        .card {
+            background: #111827;
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 15px;
+            color: #e0e0e0;
+        }
+
+        /* ── Forms ── */
+        .form-control, .form-select {
+            background: #1a2035 !important;
+            border: 1px solid rgba(255,255,255,0.1) !important;
+            color: #e0e0e0 !important;
+            border-radius: 8px;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #dc3545 !important;
+            box-shadow: 0 0 0 0.2rem rgba(220,53,69,0.15) !important;
+        }
+        .form-control::placeholder { color: #666 !important; }
+        .form-label { color: #aaa; font-weight: 500; }
+
+        /* ── Buttons ── */
+        .btn-danger {
+            background: linear-gradient(135deg, #dc3545, #b02a37);
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(220,53,69,0.4);
+        }
+        .btn-outline-danger {
+            border-color: #dc3545;
+            color: #dc3545;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+        .btn-outline-danger:hover {
+            background: #dc3545;
+            transform: translateY(-2px);
+        }
+
+        /* ── Alerts ── */
+        .alert {
+            border-radius: 10px;
+            border: none;
+        }
+        .alert-danger { background: rgba(220,53,69,0.15); color: #ff6b7a; border: 1px solid rgba(220,53,69,0.3); }
+        .alert-success { background: rgba(25,135,84,0.15); color: #6edba8; border: 1px solid rgba(25,135,84,0.3); }
+        .alert-info { background: rgba(13,202,240,0.1); color: #7edfee; border: 1px solid rgba(13,202,240,0.2); }
+        .alert-warning { background: rgba(255,193,7,0.1); color: #ffd85e; border: 1px solid rgba(255,193,7,0.2); }
+
+        /* ── Footer ── */
+        .footer {
+            background: #060912;
+            border-top: 1px solid rgba(220,53,69,0.2);
+            color: #666;
+            padding: 40px 0 20px;
+            margin-top: 80px;
+        }
+        .footer h6 { color: #dc3545; font-weight: 700; margin-bottom: 15px; }
+        .footer a { color: #666; text-decoration: none; transition: color 0.3s; display: block; margin-bottom: 5px; }
+        .footer a:hover { color: #dc3545; }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.05); margin-top: 30px; padding-top: 20px; }
+
+        /* ── Section titles ── */
+        .section-title { color: white; font-weight: 800; }
+        .section-title span { color: #dc3545; }
+
+        /* ── Stat cards ── */
+        .stat-card {
+            background: #111827;
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        .stat-card:hover { transform: translateY(-3px); }
+        .stat-number { font-size: 2rem; font-weight: 800; color: #dc3545; }
+        .stat-label { color: #888; font-size: 0.85rem; }
+
+        /* ── Table ── */
+        .table { color: #e0e0e0; }
+        .table thead th {
+            background: rgba(220,53,69,0.1);
+            color: #dc3545;
+            border-color: rgba(255,255,255,0.05);
+            font-weight: 600;
+        }
+        .table td, .table th { border-color: rgba(255,255,255,0.05); }
+        .table tbody tr:hover { background: rgba(255,255,255,0.03); }
+
+        /* ── Badge ── */
+        .badge-high { background: rgba(220,53,69,0.2); color: #ff6b7a; border: 1px solid rgba(220,53,69,0.4); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; }
+        .badge-low { background: rgba(25,135,84,0.2); color: #6edba8; border: 1px solid rgba(25,135,84,0.4); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; }
+
+        /* ── Scrollbar ── */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0a0e1a; }
+        ::-webkit-scrollbar-thumb { background: #dc3545; border-radius: 3px; }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg">
-        <div class="container">
-            <a class="navbar-brand" href="/">
-                <i class="fas fa-heartbeat me-2"></i>CardioPredict AI
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="/"><i class="fas fa-home me-1"></i>Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/predict"><i class="fas fa-stethoscope me-1"></i>Prediction</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/about"><i class="fas fa-info-circle me-1"></i>About</a></li>
-                </ul>
+
+<!-- ── Navbar ── -->
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <i class="fas fa-heartbeat me-2" style="color:#dc3545"></i>Cardio<span>Predict</span> AI
+        </a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <i class="fas fa-bars" style="color:white"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item"><a class="nav-link" href="/"><i class="fas fa-home me-1"></i>Home</a></li>
+                {% if current_user.is_authenticated %}
+                <li class="nav-item"><a class="nav-link" href="/dashboard"><i class="fas fa-th-large me-1"></i>Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="/predict"><i class="fas fa-stethoscope me-1"></i>Predict</a></li>
+                <li class="nav-item"><a class="nav-link" href="/history"><i class="fas fa-history me-1"></i>History</a></li>
+                {% endif %}
+                <li class="nav-item"><a class="nav-link" href="/about"><i class="fas fa-info-circle me-1"></i>About</a></li>
+            </ul>
+            <ul class="navbar-nav">
+                {% if current_user.is_authenticated %}
+                <li class="nav-item me-2">
+                    <span class="nav-link" style="color:#6edba8">
+                        <i class="fas fa-user-circle me-1"></i>{{ current_user.full_name }}
+                    </span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn-nav-login" href="/logout">
+                        <i class="fas fa-sign-out-alt me-1"></i>Logout
+                    </a>
+                </li>
+                {% else %}
+                <li class="nav-item me-2">
+                    <a class="nav-link btn-nav-login" href="/login">
+                        <i class="fas fa-sign-in-alt me-1"></i>Login
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn-nav-register" href="/register">
+                        <i class="fas fa-user-plus me-1"></i>Register
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- ── Flash Messages ── -->
+<div class="container mt-3">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    <i class="fas fa-info-circle me-2"></i>{{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
+
+<!-- ── Content ── -->
+<div class="container mt-4">
+    {% block content %}{% endblock %}
+</div>
+
+<!-- ── Footer ── -->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <h6><i class="fas fa-heartbeat me-2"></i>CardioPredict AI</h6>
+                <p style="color:#555; font-size:0.9rem;">A web-based heart attack prediction system using machine learning. Built for educational purposes.</p>
+            </div>
+            <div class="col-md-2 mb-4">
+                <h6>Navigation</h6>
+                <a href="/"><i class="fas fa-chevron-right me-1"></i>Home</a>
+                <a href="/predict"><i class="fas fa-chevron-right me-1"></i>Predict</a>
+                <a href="/about"><i class="fas fa-chevron-right me-1"></i>About</a>
+            </div>
+            <div class="col-md-3 mb-4">
+                <h6>Account</h6>
+                <a href="/login"><i class="fas fa-chevron-right me-1"></i>Login</a>
+                <a href="/register"><i class="fas fa-chevron-right me-1"></i>Register</a>
+                <a href="/dashboard"><i class="fas fa-chevron-right me-1"></i>Dashboard</a>
+                <a href="/history"><i class="fas fa-chevron-right me-1"></i>History</a>
+            </div>
+            <div class="col-md-3 mb-4">
+                <h6>Disclaimer</h6>
+                <p style="color:#555; font-size:0.85rem;">This tool is for educational purposes only and does not replace professional medical diagnosis.</p>
             </div>
         </div>
-    </nav>
-
-    <div class="container mt-4">
-        {% block content %}{% endblock %}
+        <div class="footer-bottom text-center">
+            <p class="mb-0" style="font-size:0.85rem;">© 2025 CardioPredict AI — BSc (Hons) Software Engineering Final Year Project | NSBM Green University</p>
+        </div>
     </div>
+</footer>
 
-    <footer class="footer text-center">
-        <p class="mb-0">© 2025 CardioPredict AI — Educational ML Risk Assessment Tool</p>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

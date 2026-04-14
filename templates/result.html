@@ -2,75 +2,104 @@
 
 {% block content %}
 <div class="row justify-content-center">
-    <div class="col-lg-7">
-        <div class="card border-0 shadow-lg">
-            <div class="card-header text-white text-center py-3
-                {% if risk_level == 'High Risk' %}bg-danger{% else %}bg-success{% endif %}">
-                <h4 class="mb-0">
-                    {% if risk_level == 'High Risk' %}
-                        <i class="fas fa-exclamation-triangle me-2"></i>High Risk of Heart Attack
-                    {% else %}
-                        <i class="fas fa-check-circle me-2"></i>Low Risk of Heart Attack
-                    {% endif %}
-                </h4>
-                <small>Machine learning-based risk estimation output</small>
+    <div class="col-lg-8">
+
+        <!-- ── Result Card ── -->
+        <div class="card shadow-lg mb-4">
+            <div class="p-4 text-center" style="background: linear-gradient(135deg,
+                {% if risk_level == 'High Risk' %}rgba(220,53,69,0.2), rgba(220,53,69,0.05)
+                {% else %}rgba(25,135,84,0.2), rgba(25,135,84,0.05){% endif %};
+                border-radius: 15px 15px 0 0;
+                border-bottom: 1px solid {% if risk_level == 'High Risk' %}rgba(220,53,69,0.3){% else %}rgba(25,135,84,0.3){% endif %};">
+                {% if risk_level == 'High Risk' %}
+                <i class="fas fa-exclamation-triangle fa-3x mb-3" style="color:#ff6b7a"></i>
+                <h3 style="color:#ff6b7a; font-weight:800;">High Risk of Heart Attack</h3>
+                {% else %}
+                <i class="fas fa-check-circle fa-3x mb-3" style="color:#6edba8"></i>
+                <h3 style="color:#6edba8; font-weight:800;">Low Risk of Heart Attack</h3>
+                {% endif %}
+                <p style="color:#666; margin:0;">Machine learning-based risk estimation output</p>
             </div>
-            <div class="card-body p-4 text-center">
-                <p class="text-muted mb-1">Predicted Probability</p>
-                <h1 class="display-4 fw-bold
-                    {% if risk_level == 'High Risk' %}text-danger{% else %}text-success{% endif %}">
-                    {{ probability }}%
-                </h1>
-                <div class="progress mb-2" style="height: 25px; border-radius: 10px;">
-                    <div class="progress-bar
-                        {% if risk_level == 'High Risk' %}bg-danger{% else %}bg-success{% endif %}"
-                        style="width: {{ probability }}%;">
+
+            <div class="card-body p-4">
+                <!-- Probability -->
+                <div class="text-center mb-4">
+                    <p style="color:#888; margin-bottom:5px;">Predicted Probability</p>
+                    <h1 style="font-size:4rem; font-weight:900;
+                        {% if risk_level == 'High Risk' %}color:#ff6b7a{% else %}color:#6edba8{% endif %}">
                         {{ probability }}%
+                    </h1>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="mb-2">
+                    <div class="progress" style="height:20px; border-radius:10px; background:#1a2035;">
+                        <div class="progress-bar {% if risk_level == 'High Risk' %}bg-danger{% else %}bg-success{% endif %}"
+                            style="width:{{ probability }}%; border-radius:10px; transition: width 1s ease;">
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between mt-1" style="color:#555; font-size:0.8rem;">
+                        <span>0% - Low Risk</span>
+                        <span>50% - Moderate</span>
+                        <span>100% - High Risk</span>
                     </div>
                 </div>
-                <div class="d-flex justify-content-between text-muted small mb-4">
-                    <span>Low Risk</span>
-                    <span>Moderate Risk</span>
-                    <span>High Risk</span>
-                </div>
 
-                <div class="alert {% if risk_level == 'High Risk' %}alert-danger{% else %}alert-success{% endif %} text-start">
-                    <h6 class="fw-bold"><i class="fas fa-notes-medical me-2"></i>Clinical Interpretation</h6>
+                <hr style="border-color:rgba(255,255,255,0.05); margin: 25px 0;">
+
+                <!-- Clinical Interpretation -->
+                <div class="mb-4 p-3" style="background:rgba(255,255,255,0.03); border-radius:10px; border-left: 3px solid {% if risk_level == 'High Risk' %}#dc3545{% else %}#198754{% endif %};">
+                    <h6 style="color:white; font-weight:700;">
+                        <i class="fas fa-notes-medical me-2" style="color:#dc3545"></i>Clinical Interpretation
+                    </h6>
                     {% if risk_level == 'High Risk' %}
-                    <p class="mb-0">The model estimates a significantly elevated risk of heart attack. Further clinical evaluation is strongly recommended.</p>
+                    <p style="color:#888; margin:0;">The model estimates a significantly elevated risk of heart attack. This may be associated with clinical factors such as abnormal chest pain patterns, exercise-related symptoms, reduced maximum heart rate, high blood pressure, or cholesterol imbalance. Further clinical evaluation is strongly recommended.</p>
                     {% else %}
-                    <p class="mb-0">The model estimates a lower likelihood of heart attack. Maintaining a healthy lifestyle and periodic check-ups is recommended.</p>
+                    <p style="color:#888; margin:0;">The model estimates a lower likelihood of heart attack. This does not guarantee the absence of disease. Maintaining a healthy lifestyle and periodic medical check-ups is recommended to ensure continued heart health.</p>
                     {% endif %}
                 </div>
 
-                <div class="alert alert-warning text-start">
-                    <h6 class="fw-bold"><i class="fas fa-list-check me-2"></i>Recommended Next Steps</h6>
+                <!-- Recommendations -->
+                <div class="mb-4 p-3" style="background:rgba(255,193,7,0.05); border-radius:10px; border-left: 3px solid #ffc107;">
+                    <h6 style="color:white; font-weight:700;">
+                        <i class="fas fa-list-check me-2" style="color:#ffc107"></i>Recommended Next Steps
+                    </h6>
                     {% if risk_level == 'High Risk' %}
-                    <ul class="mb-0">
-                        <li>Consult a cardiologist immediately</li>
-                        <li>Consider ECG, blood profile and stress test</li>
-                        <li>Monitor blood pressure and cholesterol regularly</li>
-                        <li>Adopt lifestyle improvements (diet, exercise, no smoking)</li>
+                    <ul style="color:#888; margin:0; padding-left:20px;">
+                        <li>Consult a cardiologist or medical professional immediately</li>
+                        <li>Consider tests such as ECG, blood profile, stress test or echocardiography</li>
+                        <li>Monitor blood pressure and cholesterol levels regularly</li>
+                        <li>Adopt lifestyle improvements — healthy diet, regular exercise, quit smoking</li>
+                        <li>Reduce stress and maintain a healthy body weight</li>
                     </ul>
                     {% else %}
-                    <ul class="mb-0">
+                    <ul style="color:#888; margin:0; padding-left:20px;">
                         <li>Maintain a healthy diet and regular physical activity</li>
-                        <li>Schedule periodic check-ups for preventive screening</li>
-                        <li>Monitor key indicators such as BP, cholesterol and glucose</li>
+                        <li>Schedule periodic check-ups for preventive heart screening</li>
+                        <li>Monitor key indicators such as BP, cholesterol and glucose levels</li>
+                        <li>Avoid smoking, excessive alcohol and high-stress lifestyle</li>
                     </ul>
                     {% endif %}
                 </div>
 
-                <div class="alert alert-secondary text-start small">
-                    <i class="fas fa-shield-alt me-2"></i><strong>Disclaimer:</strong> This prediction is generated by a machine learning model for educational purposes only and does not replace professional medical diagnosis.
+                <!-- Disclaimer -->
+                <div class="p-3 mb-4" style="background:rgba(255,255,255,0.03); border-radius:10px; border: 1px solid rgba(255,255,255,0.05);">
+                    <p style="color:#555; font-size:0.85rem; margin:0;">
+                        <i class="fas fa-shield-alt me-2" style="color:#666"></i>
+                        <strong style="color:#666;">Disclaimer:</strong> This prediction is generated by a machine learning model trained on publicly available datasets. It is for educational purposes only and does not replace professional medical diagnosis. Always consult a qualified healthcare professional for medical advice.
+                    </p>
                 </div>
 
-                <div class="d-grid gap-2 d-md-flex mt-3">
+                <!-- Buttons -->
+                <div class="d-grid gap-2 d-md-flex">
                     <a href="/predict" class="btn btn-danger btn-lg flex-fill fw-bold">
                         <i class="fas fa-redo me-2"></i>Try Another Prediction
                     </a>
-                    <a href="/" class="btn btn-outline-secondary btn-lg flex-fill">
-                        <i class="fas fa-home me-2"></i>Back to Home
+                    <a href="/dashboard" class="btn btn-outline-danger btn-lg flex-fill">
+                        <i class="fas fa-th-large me-2"></i>Go to Dashboard
+                    </a>
+                    <a href="/history" class="btn btn-outline-danger btn-lg flex-fill">
+                        <i class="fas fa-history me-2"></i>View History
                     </a>
                 </div>
             </div>

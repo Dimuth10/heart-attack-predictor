@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-5">
+        <div class="card p-4 shadow-lg">
+            <div class="text-center mb-4">
+                <i class="fas fa-heartbeat fa-3x mb-3" style="color:#dc3545"></i>
+                <h3 style="color:white; font-weight:800;">Welcome Back</h3>
+                <p style="color:#666;">Sign in to your CardioPredict AI account</p>
+            </div>
+            <form method="POST" action="/login">
+                <div class="mb-3">
+                    <label class="form-label">Email Address</label>
+                    <div class="input-group">
+                        <span class="input-group-text" style="background:#1a2035; border-color:rgba(255,255,255,0.1); color:#666;">
+                            <i class="fas fa-envelope"></i>
+                        </span>
+                        <input type="email" name="email" class="form-control" placeholder="Enter your email" required>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label">Password</label>
+                    <div class="input-group">
+                        <span class="input-group-text" style="background:#1a2035; border-color:rgba(255,255,255,0.1); color:#666;">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                        <input type="password" name="password" class="form-control" placeholder="Enter your password" required>
+                    </div>
+                </div>
+                <div class="d-grid mb-3">
+                    <button type="submit" class="btn btn-danger btn-lg">
+                        <i class="fas fa-sign-in-alt me-2"></i>Login
+                    </button>
+                </div>
+            </form>
+            <div class="text-center">
+                <p style="color:#666;">Don't have an account? 
+                    <a href="/register" style="color:#dc3545; text-decoration:none; font-weight:600;">Register here</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
