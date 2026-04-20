@@ -200,9 +200,55 @@ def predict():
                 'date':        datetime.now().strftime('%Y-%m-%d %H:%M'),
             }
 
+            # ── Build Factor Analysis ─────────────────────────────────────
+            factors = []
+
+            # Cholesterol
+            if user_input['chol'] >= 240:
+                factors.append({'name': 'Cholesterol', 'value': f"{int(user_input['chol'])} mg/dl", 'status': 'danger', 'msg': 'High — above 240 mg/dl is considered high risk'})
+            elif user_input['chol'] >= 200:
+                factors.append({'name': 'Cholesterol', 'value': f"{int(user_input['chol'])} mg/dl", 'status': 'warning', 'msg': 'Borderline — healthy range is below 200 mg/dl'})
+            else:
+                factors.append({'name': 'Cholesterol', 'value': f"{int(user_input['chol'])} mg/dl", 'status': 'success', 'msg': 'Normal — within healthy range'})
+
+            # Blood Pressure
+            if user_input['trestbps'] >= 140:
+                factors.append({'name': 'Blood Pressure', 'value': f"{int(user_input['trestbps'])} mmHg", 'status': 'danger', 'msg': 'High — above 140 mmHg indicates hypertension'})
+            elif user_input['trestbps'] >= 120:
+                factors.append({'name': 'Blood Pressure', 'value': f"{int(user_input['trestbps'])} mmHg", 'status': 'warning', 'msg': 'Elevated — healthy range is below 120 mmHg'})
+            else:
+                factors.append({'name': 'Blood Pressure', 'value': f"{int(user_input['trestbps'])} mmHg", 'status': 'success', 'msg': 'Normal — within healthy range'})
+
+            # Max Heart Rate
+            expected_max = 220 - user_input['age']
+            if user_input['thalach'] < expected_max * 0.5:
+                factors.append({'name': 'Maximum Heart Rate', 'value': f"{int(user_input['thalach'])} bpm", 'status': 'danger', 'msg': f"Very low — expected around {int(expected_max * 0.85)} bpm for your age"})
+            elif user_input['thalach'] < expected_max * 0.7:
+                factors.append({'name': 'Maximum Heart Rate', 'value': f"{int(user_input['thalach'])} bpm", 'status': 'warning', 'msg': f"Below average — expected around {int(expected_max * 0.85)} bpm for your age"})
+            else:
+                factors.append({'name': 'Maximum Heart Rate', 'value': f"{int(user_input['thalach'])} bpm", 'status': 'success', 'msg': 'Normal — within expected range for your age'})
+
+            # Fasting Blood Sugar
+            if user_input['fbs'] == 1:
+                factors.append({'name': 'Fasting Blood Sugar', 'value': 'Above 120 mg/dl', 'status': 'warning', 'msg': 'Elevated — may indicate diabetes risk which affects heart health'})
+            else:
+                factors.append({'name': 'Fasting Blood Sugar', 'value': 'Below 120 mg/dl', 'status': 'success', 'msg': 'Normal — within healthy range'})
+
+            # Chest Pain
+            cp_analysis = {
+                0: ('Asymptomatic', 'danger',  'No chest pain felt — often associated with higher cardiac risk'),
+                1: ('Typical Angina',   'warning', 'Chest pain triggered by activity — may indicate reduced blood flow'),
+                2: ('Atypical Angina',  'warning', 'Unusual chest discomfort — worth monitoring'),
+                3: ('Non-Anginal',      'success', 'Chest pain unrelated to heart — lower cardiac concern'),
+            }
+            cp_info = cp_analysis.get(user_input['cp'], ('Unknown', 'warning', ''))
+            factors.append({'name': 'Chest Pain Type', 'value': cp_info[0], 'status': cp_info[1], 'msg': cp_info[2]})
+
             return render_template('result.html',
                                    probability=probability_pct,
-                                   risk_level=risk_level)
+                                   risk_level=risk_level,
+                                   factors=factors)
+
         except Exception as e:
             flash(f'Error: {str(e)}', 'danger')
             return redirect(url_for('predict'))
@@ -227,7 +273,6 @@ def download_report():
     styles = getSampleStyleSheet()
     elements = []
 
-    # ── Title ──
     title_style = ParagraphStyle('title',
         fontSize=24, fontName='Helvetica-Bold',
         textColor=colors.HexColor('#dc3545'),
@@ -258,49 +303,49 @@ def download_report():
     elements.append(HRFlowable(width="100%", thickness=1,
                                color=colors.HexColor('#dc3545'), spaceAfter=20))
 
-    # ── Patient Info ──
+    # Patient Info
     elements.append(Paragraph('Patient Information', heading_style))
     patient_data = [
         ['Full Name', current_user.full_name],
-        ['Email', current_user.email],
+        ['Email',     current_user.email],
         ['Report Date', data['date']],
     ]
     patient_table = Table(patient_data, colWidths=[5*cm, 12*cm])
     patient_table.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (0, -1), colors.HexColor('#f8f9fa')),
-        ('TEXTCOLOR', (0, 0), (0, -1), colors.HexColor('#555555')),
-        ('FONTNAME', (0, 0), (0, -1), 'Helvetica-Bold'),
-        ('FONTNAME', (1, 0), (1, -1), 'Helvetica'),
-        ('FONTSIZE', (0, 0), (-1, -1), 10),
-        ('PADDING', (0, 0), (-1, -1), 8),
-        ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor('#dddddd')),
+        ('TEXTCOLOR',  (0, 0), (0, -1), colors.HexColor('#555555')),
+        ('FONTNAME',   (0, 0), (0, -1), 'Helvetica-Bold'),
+        ('FONTNAME',   (1, 0), (1, -1), 'Helvetica'),
+        ('FONTSIZE',   (0, 0), (-1, -1), 10),
+        ('PADDING',    (0, 0), (-1, -1), 8),
+        ('GRID',       (0, 0), (-1, -1), 0.5, colors.HexColor('#dddddd')),
         ('ROWBACKGROUNDS', (0, 0), (-1, -1),
          [colors.HexColor('#ffffff'), colors.HexColor('#f8f9fa')]),
     ]))
     elements.append(patient_table)
     elements.append(Spacer(1, 0.5*cm))
 
-    # ── Clinical Input ──
+    # Clinical Input
     elements.append(Paragraph('Clinical Input Parameters', heading_style))
     input_data = [
-        ['Parameter', 'Value', 'Unit'],
-        ['Age', str(data['age']), 'Years'],
-        ['Sex', data['sex'], '—'],
-        ['Chest Pain Type', data['cp'], '—'],
-        ['Resting Blood Pressure', str(data['trestbps']), 'mmHg'],
-        ['Serum Cholesterol', str(data['chol']), 'mg/dl'],
-        ['Fasting Blood Sugar > 120', data['fbs'], '—'],
-        ['Maximum Heart Rate', str(data['thalach']), 'bpm'],
+        ['Parameter',               'Value',          'Unit'],
+        ['Age',                     str(data['age']),     'Years'],
+        ['Sex',                     data['sex'],          '—'],
+        ['Chest Pain Type',         data['cp'],           '—'],
+        ['Resting Blood Pressure',  str(data['trestbps']), 'mmHg'],
+        ['Serum Cholesterol',       str(data['chol']),    'mg/dl'],
+        ['Fasting Blood Sugar > 120', data['fbs'],        '—'],
+        ['Maximum Heart Rate',      str(data['thalach']), 'bpm'],
     ]
     input_table = Table(input_data, colWidths=[7*cm, 5*cm, 5*cm])
     input_table.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#dc3545')),
-        ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
-        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-        ('FONTNAME', (0, 1), (-1, -1), 'Helvetica'),
-        ('FONTSIZE', (0, 0), (-1, -1), 10),
-        ('PADDING', (0, 0), (-1, -1), 8),
-        ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor('#dddddd')),
+        ('TEXTCOLOR',  (0, 0), (-1, 0), colors.white),
+        ('FONTNAME',   (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('FONTNAME',   (0, 1), (-1, -1), 'Helvetica'),
+        ('FONTSIZE',   (0, 0), (-1, -1), 10),
+        ('PADDING',    (0, 0), (-1, -1), 8),
+        ('GRID',       (0, 0), (-1, -1), 0.5, colors.HexColor('#dddddd')),
         ('ROWBACKGROUNDS', (0, 1), (-1, -1),
          [colors.HexColor('#ffffff'), colors.HexColor('#f8f9fa')]),
         ('ALIGN', (1, 0), (-1, -1), 'CENTER'),
@@ -308,34 +353,34 @@ def download_report():
     elements.append(input_table)
     elements.append(Spacer(1, 0.5*cm))
 
-    # ── Result ──
+    # Result
     elements.append(Paragraph('Prediction Result', heading_style))
     risk_color = '#dc3545' if data['risk_level'] == 'High Risk' else '#198754'
     result_data = [
-        ['Risk Level', data['risk_level']],
+        ['Risk Level',           data['risk_level']],
         ['Predicted Probability', f"{data['probability']}%"],
-        ['Model Used', 'Random Forest Classifier'],
-        ['Dataset', 'UCI Heart Disease + Statlog Cleveland Hungary'],
-        ['Model Accuracy', '89.14%'],
+        ['Model Used',           'Random Forest Classifier'],
+        ['Dataset',              'UCI Heart Disease + Statlog Cleveland Hungary'],
+        ['Model Accuracy',       '89.14%'],
     ]
     result_table = Table(result_data, colWidths=[7*cm, 10*cm])
     result_table.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (0, -1), colors.HexColor('#f8f9fa')),
-        ('TEXTCOLOR', (0, 0), (0, -1), colors.HexColor('#555555')),
-        ('FONTNAME', (0, 0), (0, -1), 'Helvetica-Bold'),
-        ('FONTNAME', (1, 0), (1, -1), 'Helvetica'),
-        ('TEXTCOLOR', (1, 0), (1, 0), colors.HexColor(risk_color)),
-        ('FONTNAME', (1, 0), (1, 0), 'Helvetica-Bold'),
-        ('FONTSIZE', (0, 0), (-1, -1), 10),
-        ('PADDING', (0, 0), (-1, -1), 8),
-        ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor('#dddddd')),
+        ('TEXTCOLOR',  (0, 0), (0, -1), colors.HexColor('#555555')),
+        ('FONTNAME',   (0, 0), (0, -1), 'Helvetica-Bold'),
+        ('FONTNAME',   (1, 0), (1, -1), 'Helvetica'),
+        ('TEXTCOLOR',  (1, 0), (1, 0),  colors.HexColor(risk_color)),
+        ('FONTNAME',   (1, 0), (1, 0),  'Helvetica-Bold'),
+        ('FONTSIZE',   (0, 0), (-1, -1), 10),
+        ('PADDING',    (0, 0), (-1, -1), 8),
+        ('GRID',       (0, 0), (-1, -1), 0.5, colors.HexColor('#dddddd')),
         ('ROWBACKGROUNDS', (0, 0), (-1, -1),
          [colors.HexColor('#ffffff'), colors.HexColor('#f8f9fa')]),
     ]))
     elements.append(result_table)
     elements.append(Spacer(1, 0.5*cm))
 
-    # ── Recommendations ──
+    # Recommendations
     elements.append(Paragraph('Recommended Next Steps', heading_style))
     if data['risk_level'] == 'High Risk':
         recommendations = [
@@ -359,7 +404,6 @@ def download_report():
     elements.append(HRFlowable(width="100%", thickness=0.5,
                                color=colors.HexColor('#dddddd'), spaceAfter=10))
 
-    # ── Disclaimer ──
     disclaimer = (
         'DISCLAIMER: This report is generated by a machine learning model for educational '
         'and research purposes only. It does not replace professional medical diagnosis or '

@@ -47,6 +47,46 @@
 
                 <hr style="border-color:rgba(255,255,255,0.05); margin: 25px 0;">
 
+                <!-- ── Health Factors Analysis ── -->
+                {% if factors %}
+                <div class="mb-4">
+                    <h6 style="color:white; font-weight:700; margin-bottom:15px;">
+                        <i class="fas fa-microscope me-2" style="color:#dc3545"></i>Your Health Factors Analysis
+                    </h6>
+                    {% for factor in factors %}
+                    <div class="d-flex align-items-start mb-3 p-3" style="background:rgba(255,255,255,0.03); border-radius:10px; border-left: 3px solid
+                        {% if factor.status == 'danger' %}#dc3545
+                        {% elif factor.status == 'warning' %}#ffc107
+                        {% else %}#198754{% endif %};">
+                        <div class="me-3 mt-1">
+                            {% if factor.status == 'danger' %}
+                            <i class="fas fa-times-circle" style="color:#dc3545; font-size:1.2rem;"></i>
+                            {% elif factor.status == 'warning' %}
+                            <i class="fas fa-exclamation-circle" style="color:#ffc107; font-size:1.2rem;"></i>
+                            {% else %}
+                            <i class="fas fa-check-circle" style="color:#198754; font-size:1.2rem;"></i>
+                            {% endif %}
+                        </div>
+                        <div class="flex-grow-1">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span style="color:white; font-weight:600; font-size:0.95rem;">{{ factor.name }}</span>
+                                <span class="badge
+                                    {% if factor.status == 'danger' %}bg-danger
+                                    {% elif factor.status == 'warning' %}bg-warning text-dark
+                                    {% else %}bg-success{% endif %}"
+                                    style="font-size:0.8rem;">
+                                    {{ factor.value }}
+                                </span>
+                            </div>
+                            <p style="color:#777; font-size:0.85rem; margin:4px 0 0 0;">{{ factor.msg }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <hr style="border-color:rgba(255,255,255,0.05); margin: 25px 0;">
+                {% endif %}
+
                 <!-- Clinical Interpretation -->
                 <div class="mb-4 p-3" style="background:rgba(255,255,255,0.03); border-radius:10px; border-left: 3px solid {% if risk_level == 'High Risk' %}#dc3545{% else %}#198754{% endif %};">
                     <h6 style="color:white; font-weight:700;">
