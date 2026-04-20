@@ -1,11 +1,18 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session, make_response
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from flask_bcrypt import Bcrypt
 from pathlib import Path
 from datetime import datetime
+from reportlab.lib.pagesizes import A4
+from reportlab.lib import colors
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.units import cm
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, HRFlowable
+from reportlab.lib.enums import TA_CENTER, TA_LEFT
 import joblib
 import pandas as pd
+import io
 
 # ── App Setup ────────────────────────────────────────────────────────────────
 app = Flask(__name__)
@@ -142,7 +149,6 @@ def dashboard():
 def predict():
     if request.method == 'POST':
         try:
-            # cp comes in as numeric string '0','1','2','3' from the form
             cp_val  = int(request.form['cp'])
             sex_val = int(request.form['sex'])
             fbs_val = int(request.form['fbs'])
@@ -180,6 +186,20 @@ def predict():
             db.session.add(pred)
             db.session.commit()
 
+            # Store result in session for PDF download
+            session['last_prediction'] = {
+                'probability': probability_pct,
+                'risk_level':  risk_level,
+                'age':         int(request.form['age']),
+                'sex':         'Male' if sex_val == 1 else 'Female',
+                'cp':          CP_LABELS.get(request.form['cp'], 'Unknown'),
+                'trestbps':    float(request.form['trestbps']),
+                'chol':        float(request.form['chol']),
+                'fbs':         'Yes' if fbs_val == 1 else 'No',
+                'thalach':     float(request.form['thalach']),
+                'date':        datetime.now().strftime('%Y-%m-%d %H:%M'),
+            }
+
             return render_template('result.html',
                                    probability=probability_pct,
                                    risk_level=risk_level)
@@ -188,6 +208,176 @@ def predict():
             return redirect(url_for('predict'))
 
     return render_template('predict.html')
+
+
+# ── PDF Download Route ───────────────────────────────────────────────────────
+@app.route('/download-report')
+@login_required
+def download_report():
+    data = session.get('last_prediction')
+    if not data:
+        flash('No prediction found. Please run a prediction first.', 'warning')
+        return redirect(url_for('predict'))
+
+    buffer = io.BytesIO()
+    doc = SimpleDocTemplate(buffer, pagesize=A4,
+                            rightMargin=2*cm, leftMargin=2*cm,
+                            topMargin=2*cm, bottomMargin=2*cm)
+
+    styles = getSampleStyleSheet()
+    elements = []
+
+    # ── Title ──
+    title_style = ParagraphStyle('title',
+        fontSize=24, fontName='Helvetica-Bold',
+        textColor=colors.HexColor('#dc3545'),
+        alignment=TA_CENTER, spaceAfter=5)
+
+    subtitle_style = ParagraphStyle('subtitle',
+        fontSize=11, fontName='Helvetica',
+        textColor=colors.HexColor('#888888'),
+        alignment=TA_CENTER, spaceAfter=20)
+
+    heading_style = ParagraphStyle('heading',
+        fontSize=13, fontName='Helvetica-Bold',
+        textColor=colors.HexColor('#222222'),
+        spaceBefore=15, spaceAfter=8)
+
+    body_style = ParagraphStyle('body',
+        fontSize=10, fontName='Helvetica',
+        textColor=colors.HexColor('#444444'),
+        spaceAfter=5, leading=16)
+
+    small_style = ParagraphStyle('small',
+        fontSize=8, fontName='Helvetica',
+        textColor=colors.HexColor('#888888'),
+        alignment=TA_CENTER, spaceAfter=5)
+
+    elements.append(Paragraph('CardioPredict AI', title_style))
+    elements.append(Paragraph('Heart Attack Risk Assessment Report', subtitle_style))
+    elements.append(HRFlowable(width="100%", thickness=1,
+                               color=colors.HexColor('#dc3545'), spaceAfter=20))
+
+    # ── Patient Info ──
+    elements.append(Paragraph('Patient Information', heading_style))
+    patient_data = [
+        ['Full Name', current_user.full_name],
+        ['Email', current_user.email],
+        ['Report Date', data['date']],
+    ]
+    patient_table = Table(patient_data, colWidths=[5*cm, 12*cm])
+    patient_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (0, -1), colors.HexColor('#f8f9fa')),
+        ('TEXTCOLOR', (0, 0), (0, -1), colors.HexColor('#555555')),
+        ('FONTNAME', (0, 0), (0, -1), 'Helvetica-Bold'),
+        ('FONTNAME', (1, 0), (1, -1), 'Helvetica'),
+        ('FONTSIZE', (0, 0), (-1, -1), 10),
+        ('PADDING', (0, 0), (-1, -1), 8),
+        ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor('#dddddd')),
+        ('ROWBACKGROUNDS', (0, 0), (-1, -1),
+         [colors.HexColor('#ffffff'), colors.HexColor('#f8f9fa')]),
+    ]))
+    elements.append(patient_table)
+    elements.append(Spacer(1, 0.5*cm))
+
+    # ── Clinical Input ──
+    elements.append(Paragraph('Clinical Input Parameters', heading_style))
+    input_data = [
+        ['Parameter', 'Value', 'Unit'],
+        ['Age', str(data['age']), 'Years'],
+        ['Sex', data['sex'], '—'],
+        ['Chest Pain Type', data['cp'], '—'],
+        ['Resting Blood Pressure', str(data['trestbps']), 'mmHg'],
+        ['Serum Cholesterol', str(data['chol']), 'mg/dl'],
+        ['Fasting Blood Sugar > 120', data['fbs'], '—'],
+        ['Maximum Heart Rate', str(data['thalach']), 'bpm'],
+    ]
+    input_table = Table(input_data, colWidths=[7*cm, 5*cm, 5*cm])
+    input_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#dc3545')),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('FONTNAME', (0, 1), (-1, -1), 'Helvetica'),
+        ('FONTSIZE', (0, 0), (-1, -1), 10),
+        ('PADDING', (0, 0), (-1, -1), 8),
+        ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor('#dddddd')),
+        ('ROWBACKGROUNDS', (0, 1), (-1, -1),
+         [colors.HexColor('#ffffff'), colors.HexColor('#f8f9fa')]),
+        ('ALIGN', (1, 0), (-1, -1), 'CENTER'),
+    ]))
+    elements.append(input_table)
+    elements.append(Spacer(1, 0.5*cm))
+
+    # ── Result ──
+    elements.append(Paragraph('Prediction Result', heading_style))
+    risk_color = '#dc3545' if data['risk_level'] == 'High Risk' else '#198754'
+    result_data = [
+        ['Risk Level', data['risk_level']],
+        ['Predicted Probability', f"{data['probability']}%"],
+        ['Model Used', 'Random Forest Classifier'],
+        ['Dataset', 'UCI Heart Disease + Statlog Cleveland Hungary'],
+        ['Model Accuracy', '89.14%'],
+    ]
+    result_table = Table(result_data, colWidths=[7*cm, 10*cm])
+    result_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (0, -1), colors.HexColor('#f8f9fa')),
+        ('TEXTCOLOR', (0, 0), (0, -1), colors.HexColor('#555555')),
+        ('FONTNAME', (0, 0), (0, -1), 'Helvetica-Bold'),
+        ('FONTNAME', (1, 0), (1, -1), 'Helvetica'),
+        ('TEXTCOLOR', (1, 0), (1, 0), colors.HexColor(risk_color)),
+        ('FONTNAME', (1, 0), (1, 0), 'Helvetica-Bold'),
+        ('FONTSIZE', (0, 0), (-1, -1), 10),
+        ('PADDING', (0, 0), (-1, -1), 8),
+        ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor('#dddddd')),
+        ('ROWBACKGROUNDS', (0, 0), (-1, -1),
+         [colors.HexColor('#ffffff'), colors.HexColor('#f8f9fa')]),
+    ]))
+    elements.append(result_table)
+    elements.append(Spacer(1, 0.5*cm))
+
+    # ── Recommendations ──
+    elements.append(Paragraph('Recommended Next Steps', heading_style))
+    if data['risk_level'] == 'High Risk':
+        recommendations = [
+            '• Consult a cardiologist or medical professional immediately',
+            '• Consider tests such as ECG, blood profile, stress test or echocardiography',
+            '• Monitor blood pressure and cholesterol levels regularly',
+            '• Adopt lifestyle improvements: healthy diet, regular exercise, quit smoking',
+            '• Reduce stress and maintain a healthy body weight',
+        ]
+    else:
+        recommendations = [
+            '• Maintain a healthy diet and regular physical activity',
+            '• Schedule periodic check-ups for preventive heart screening',
+            '• Monitor key indicators such as BP, cholesterol and glucose levels',
+            '• Avoid smoking, excessive alcohol and high-stress lifestyle',
+        ]
+    for rec in recommendations:
+        elements.append(Paragraph(rec, body_style))
+
+    elements.append(Spacer(1, 0.5*cm))
+    elements.append(HRFlowable(width="100%", thickness=0.5,
+                               color=colors.HexColor('#dddddd'), spaceAfter=10))
+
+    # ── Disclaimer ──
+    disclaimer = (
+        'DISCLAIMER: This report is generated by a machine learning model for educational '
+        'and research purposes only. It does not replace professional medical diagnosis or '
+        'clinical advice. Always consult a qualified healthcare professional for medical decisions. '
+        'CardioPredict AI — BSc (Hons) Software Engineering Final Year Project, '
+        'NSBM Green University | University of Plymouth.'
+    )
+    elements.append(Paragraph(disclaimer, small_style))
+
+    doc.build(elements)
+    buffer.seek(0)
+
+    filename = f"CardioPredict_Report_{current_user.full_name.replace(' ', '_')}_{datetime.now().strftime('%Y%m%d')}.pdf"
+    response = make_response(buffer.read())
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = f'attachment; filename={filename}'
+    return response
+
 
 @app.route('/history')
 @login_required
