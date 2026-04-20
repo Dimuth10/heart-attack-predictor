@@ -2,159 +2,134 @@
 
 {% block content %}
 <div class="row justify-content-center">
-    <div class="col-lg-9">
+    <div class="col-lg-8">
         <div class="card shadow-lg">
             <div class="card-body p-4">
                 <div class="text-center mb-4">
                     <i class="fas fa-stethoscope fa-3x mb-3" style="color:#dc3545"></i>
                     <h3 style="color:white; font-weight:800;">Heart Attack Risk Prediction</h3>
-                    <p style="color:#666;">Enter your clinical parameters below for AI-powered risk assessment</p>
+                    <p style="color:#666;">Fill in your basic health information below</p>
                 </div>
 
                 <form method="POST" action="/predict">
-                    <!-- Row 1 -->
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">Age</label>
-                            <div class="input-group">
-                                <span class="input-group-text" style="background:#1a2035; border-color:rgba(255,255,255,0.1); color:#666;">
-                                    <i class="fas fa-user"></i>
-                                </span>
-                                <input type="number" name="age" class="form-control" placeholder="e.g. 52" required>
+
+                    <!-- Section 1 - Basic Info -->
+                    <div class="mb-4">
+                        <h6 style="color:#dc3545; font-weight:700; border-bottom: 1px solid rgba(220,53,69,0.3); padding-bottom:10px;">
+                            <i class="fas fa-user me-2"></i>Basic Information
+                        </h6>
+                        <div class="row mt-3">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Age <span style="color:#dc3545">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text" style="background:#1a2035; border-color:rgba(255,255,255,0.1); color:#666;">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+                                    <input type="number" name="age" class="form-control" placeholder="e.g. 45" min="1" max="120" required>
+                                </div>
+                                <small style="color:#555;">Your current age in years</small>
                             </div>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">Resting Blood Pressure <small style="color:#555">(mmHg)</small></label>
-                            <div class="input-group">
-                                <span class="input-group-text" style="background:#1a2035; border-color:rgba(255,255,255,0.1); color:#666;">
-                                    <i class="fas fa-heartbeat"></i>
-                                </span>
-                                <input type="number" name="trestbps" class="form-control" placeholder="e.g. 120" required>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">Cholesterol <small style="color:#555">(mg/dl)</small></label>
-                            <div class="input-group">
-                                <span class="input-group-text" style="background:#1a2035; border-color:rgba(255,255,255,0.1); color:#666;">
-                                    <i class="fas fa-flask"></i>
-                                </span>
-                                <input type="number" name="chol" class="form-control" placeholder="e.g. 200" required>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Sex <span style="color:#dc3545">*</span></label>
+                                <select name="sex" class="form-select" required>
+                                    <option value="">Select your sex</option>
+                                    <option value="1">Male</option>
+                                    <option value="0">Female</option>
+                                </select>
+                                <small style="color:#555;">Your biological sex</small>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Row 2 -->
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">Max Heart Rate <small style="color:#555">(thalach)</small></label>
-                            <div class="input-group">
-                                <span class="input-group-text" style="background:#1a2035; border-color:rgba(255,255,255,0.1); color:#666;">
-                                    <i class="fas fa-pulse"></i>
-                                </span>
-                                <input type="number" name="thalach" class="form-control" placeholder="e.g. 150" required>
+                    <!-- Section 2 - Blood Test Results -->
+                    <div class="mb-4">
+                        <h6 style="color:#dc3545; font-weight:700; border-bottom: 1px solid rgba(220,53,69,0.3); padding-bottom:10px;">
+                            <i class="fas fa-flask me-2"></i>Blood Test Results
+                        </h6>
+                        <div class="row mt-3">
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Cholesterol <span style="color:#dc3545">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text" style="background:#1a2035; border-color:rgba(255,255,255,0.1); color:#666;">
+                                        <i class="fas fa-flask"></i>
+                                    </span>
+                                    <input type="number" name="chol" class="form-control" placeholder="e.g. 200" required>
+                                </div>
+                                <small style="color:#555;">Serum cholesterol in mg/dl</small>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Fasting Blood Sugar <span style="color:#dc3545">*</span></label>
+                                <select name="fbs" class="form-select" required>
+                                    <option value="">Select</option>
+                                    <option value="1">Above 120 mg/dl (Yes)</option>
+                                    <option value="0">Below 120 mg/dl (No)</option>
+                                </select>
+                                <small style="color:#555;">Is fasting blood sugar above 120?</small>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Resting Blood Pressure <span style="color:#dc3545">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text" style="background:#1a2035; border-color:rgba(255,255,255,0.1); color:#666;">
+                                        <i class="fas fa-heartbeat"></i>
+                                    </span>
+                                    <input type="number" name="trestbps" class="form-control" placeholder="e.g. 120" required>
+                                </div>
+                                <small style="color:#555;">Blood pressure in mmHg</small>
                             </div>
                         </div>
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">Oldpeak <small style="color:#555">(ST depression)</small></label>
-                            <div class="input-group">
-                                <span class="input-group-text" style="background:#1a2035; border-color:rgba(255,255,255,0.1); color:#666;">
-                                    <i class="fas fa-chart-line"></i>
-                                </span>
-                                <input type="number" step="0.1" name="oldpeak" class="form-control" placeholder="e.g. 1.0" required>
+                    </div>
+
+                    <!-- Section 3 - Heart Symptoms -->
+                    <div class="mb-4">
+                        <h6 style="color:#dc3545; font-weight:700; border-bottom: 1px solid rgba(220,53,69,0.3); padding-bottom:10px;">
+                            <i class="fas fa-heart me-2"></i>Heart Symptoms
+                        </h6>
+                        <div class="row mt-3">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Chest Pain Type <span style="color:#dc3545">*</span></label>
+                                <select name="cp" class="form-select" required>
+                                    <option value="">Select chest pain type</option>
+                                    <option value="1">Typical Angina — Chest pain triggered by activity</option>
+                                    <option value="2">Atypical Angina — Unusual chest discomfort</option>
+                                    <option value="3">Non-Anginal — Chest pain unrelated to heart</option>
+                                    <option value="0">Asymptomatic — No chest pain</option>
+                                </select>
+                                <small style="color:#555;">Type of chest pain experienced</small>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Maximum Heart Rate <span style="color:#dc3545">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text" style="background:#1a2035; border-color:rgba(255,255,255,0.1); color:#666;">
+                                        <i class="fas fa-heart"></i>
+                                    </span>
+                                    <input type="number" name="thalach" class="form-control" placeholder="e.g. 150" min="60" max="220" required>
+                                </div>
+                                <small style="color:#555;">Highest heart rate achieved (bpm)</small>
                             </div>
                         </div>
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">CA <small style="color:#555">(Major Vessels 0-3)</small></label>
-                            <div class="input-group">
-                                <span class="input-group-text" style="background:#1a2035; border-color:rgba(255,255,255,0.1); color:#666;">
-                                    <i class="fas fa-project-diagram"></i>
-                                </span>
-                                <input type="number" name="ca" class="form-control" placeholder="0-3" min="0" max="3" required>
-                            </div>
-                        </div>
                     </div>
 
-                    <!-- Row 3 - Dropdowns -->
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">Sex</label>
-                            <select name="sex" class="form-select" required>
-                                <option value="">Select Sex</option>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                            </select>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">Chest Pain Type</label>
-                            <select name="cp" class="form-select" required>
-                                <option value="">Select Type</option>
-                                <option value="typical angina">Typical Angina</option>
-                                <option value="atypical angina">Atypical Angina</option>
-                                <option value="non-anginal">Non-Anginal</option>
-                                <option value="asymptomatic">Asymptomatic</option>
-                            </select>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">Fasting Blood Sugar &gt; 120</label>
-                            <select name="fbs" class="form-select" required>
-                                <option value="">Select</option>
-                                <option value="True">Yes</option>
-                                <option value="False">No</option>
-                            </select>
-                        </div>
+                    <!-- Info Box -->
+                    <div class="p-3 mb-4" style="background:rgba(13,202,240,0.05); border-radius:10px; border: 1px solid rgba(13,202,240,0.2);">
+                        <h6 style="color:#7edfee; font-weight:700;">
+                            <i class="fas fa-info-circle me-2"></i>How to get these values?
+                        </h6>
+                        <ul style="color:#666; margin:0; font-size:0.85rem;">
+                            <li><strong style="color:#888;">Cholesterol & Blood Sugar</strong> — From a routine blood test report</li>
+                            <li><strong style="color:#888;">Blood Pressure</strong> — Measured at home with a BP monitor or at a pharmacy</li>
+                            <li><strong style="color:#888;">Heart Rate</strong> — Measured using a smartwatch, fitness band or pulse oximeter</li>
+                            <li><strong style="color:#888;">Chest Pain</strong> — Based on symptoms you experience during daily activities</li>
+                        </ul>
                     </div>
 
-                    <!-- Row 4 -->
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">Resting ECG</label>
-                            <select name="restecg" class="form-select" required>
-                                <option value="">Select</option>
-                                <option value="normal">Normal</option>
-                                <option value="lv hypertrophy">LV Hypertrophy</option>
-                                <option value="st-t abnormality">ST-T Abnormality</option>
-                            </select>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">Exercise Induced Angina</label>
-                            <select name="exang" class="form-select" required>
-                                <option value="">Select</option>
-                                <option value="True">Yes</option>
-                                <option value="False">No</option>
-                            </select>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">Slope</label>
-                            <select name="slope" class="form-select" required>
-                                <option value="">Select</option>
-                                <option value="upsloping">Upsloping</option>
-                                <option value="flat">Flat</option>
-                                <option value="downsloping">Downsloping</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Row 5 -->
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">Thal</label>
-                            <select name="thal" class="form-select" required>
-                                <option value="">Select</option>
-                                <option value="normal">Normal</option>
-                                <option value="fixed defect">Fixed Defect</option>
-                                <option value="reversable defect">Reversable Defect</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="alert alert-info mt-2">
-                        <i class="fas fa-info-circle me-2"></i>
-                        This tool provides an educational risk estimate only. Always consult a qualified medical professional for clinical decisions.
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>Disclaimer:</strong> This tool is for educational purposes only and does not replace professional medical advice. Always consult a qualified doctor.
                     </div>
 
                     <div class="d-grid gap-2 d-md-flex mt-3">
                         <button type="submit" class="btn btn-danger btn-lg flex-fill fw-bold">
-                            <i class="fas fa-heartbeat me-2"></i>Predict Risk
+                            <i class="fas fa-heartbeat me-2"></i>Predict My Risk
                         </button>
                         <button type="reset" class="btn btn-outline-danger btn-lg flex-fill">
                             <i class="fas fa-redo me-2"></i>Reset
