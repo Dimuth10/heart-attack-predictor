@@ -10,8 +10,13 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import cm
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, HRFlowable
 from reportlab.lib.enums import TA_CENTER, TA_LEFT
+from sklearn.metrics import confusion_matrix, roc_curve, auc, accuracy_score, precision_score, recall_score, f1_score
+from sklearn.model_selection import train_test_split
+from sklearn.impute import SimpleImputer
 import joblib
 import pandas as pd
+import numpy as np
+import json
 import io
 
 # ── App Setup ────────────────────────────────────────────────────────────────
@@ -69,6 +74,22 @@ CP_LABELS = {
     '2': 'Atypical Angina',
     '3': 'Non-Anginal',
 }
+
+# ── Helper: Standardize data for evaluation ──────────────────────────────────
+def standardize_cp(val):
+    mapping = {
+        'typical angina': 1, 'typical': 1, '1': 1,
+        'atypical angina': 2, 'atypical': 2, '2': 2,
+        'non-anginal': 3, 'non-anginal pain': 3, '3': 3,
+        'asymptomatic': 0, '0': 0, '4': 0,
+    }
+    return mapping.get(str(val).strip().lower(), 0)
+
+def std_sex(val):
+    return 1 if str(val).strip().lower() in ['1', 'male', 'm'] else 0
+
+def std_fbs(val):
+    return 1 if str(val).strip().lower() in ['1', 'true', 'yes'] else 0
 
 # ── Routes ───────────────────────────────────────────────────────────────────
 @app.route('/')
@@ -236,10 +257,10 @@ def predict():
 
             # Chest Pain
             cp_analysis = {
-                0: ('Asymptomatic', 'danger',  'No chest pain felt — often associated with higher cardiac risk'),
-                1: ('Typical Angina',   'warning', 'Chest pain triggered by activity — may indicate reduced blood flow'),
-                2: ('Atypical Angina',  'warning', 'Unusual chest discomfort — worth monitoring'),
-                3: ('Non-Anginal',      'success', 'Chest pain unrelated to heart — lower cardiac concern'),
+                0: ('Asymptomatic',  'danger',  'No chest pain felt — often associated with higher cardiac risk'),
+                1: ('Typical Angina',  'warning', 'Chest pain triggered by activity — may indicate reduced blood flow'),
+                2: ('Atypical Angina', 'warning', 'Unusual chest discomfort — worth monitoring'),
+                3: ('Non-Anginal',     'success', 'Chest pain unrelated to heart — lower cardiac concern'),
             }
             cp_info = cp_analysis.get(user_input['cp'], ('Unknown', 'warning', ''))
             factors.append({'name': 'Chest Pain Type', 'value': cp_info[0], 'status': cp_info[1], 'msg': cp_info[2]})
@@ -306,9 +327,9 @@ def download_report():
     # Patient Info
     elements.append(Paragraph('Patient Information', heading_style))
     patient_data = [
-        ['Full Name', current_user.full_name],
-        ['Email',     current_user.email],
-        ['Report Date', data['date']],
+        ['Full Name',    current_user.full_name],
+        ['Email',        current_user.email],
+        ['Report Date',  data['date']],
     ]
     patient_table = Table(patient_data, colWidths=[5*cm, 12*cm])
     patient_table.setStyle(TableStyle([
@@ -328,14 +349,14 @@ def download_report():
     # Clinical Input
     elements.append(Paragraph('Clinical Input Parameters', heading_style))
     input_data = [
-        ['Parameter',               'Value',          'Unit'],
-        ['Age',                     str(data['age']),     'Years'],
-        ['Sex',                     data['sex'],          '—'],
-        ['Chest Pain Type',         data['cp'],           '—'],
-        ['Resting Blood Pressure',  str(data['trestbps']), 'mmHg'],
-        ['Serum Cholesterol',       str(data['chol']),    'mg/dl'],
-        ['Fasting Blood Sugar > 120', data['fbs'],        '—'],
-        ['Maximum Heart Rate',      str(data['thalach']), 'bpm'],
+        ['Parameter',                 'Value',              'Unit'],
+        ['Age',                       str(data['age']),     'Years'],
+        ['Sex',                       data['sex'],          '—'],
+        ['Chest Pain Type',           data['cp'],           '—'],
+        ['Resting Blood Pressure',    str(data['trestbps']), 'mmHg'],
+        ['Serum Cholesterol',         str(data['chol']),    'mg/dl'],
+        ['Fasting Blood Sugar > 120', data['fbs'],          '—'],
+        ['Maximum Heart Rate',        str(data['thalach']), 'bpm'],
     ]
     input_table = Table(input_data, colWidths=[7*cm, 5*cm, 5*cm])
     input_table.setStyle(TableStyle([
@@ -357,11 +378,11 @@ def download_report():
     elements.append(Paragraph('Prediction Result', heading_style))
     risk_color = '#dc3545' if data['risk_level'] == 'High Risk' else '#198754'
     result_data = [
-        ['Risk Level',           data['risk_level']],
+        ['Risk Level',            data['risk_level']],
         ['Predicted Probability', f"{data['probability']}%"],
-        ['Model Used',           'Random Forest Classifier'],
-        ['Dataset',              'UCI Heart Disease + Statlog Cleveland Hungary'],
-        ['Model Accuracy',       '89.14%'],
+        ['Model Used',            'Random Forest Classifier'],
+        ['Dataset',               'UCI Heart Disease + Statlog Cleveland Hungary'],
+        ['Model Accuracy',        '89.14%'],
     ]
     result_table = Table(result_data, colWidths=[7*cm, 10*cm])
     result_table.setStyle(TableStyle([
@@ -423,6 +444,82 @@ def download_report():
     return response
 
 
+# ── Model Evaluation Route ───────────────────────────────────────────────────
+@app.route('/evaluation')
+@login_required
+def evaluation():
+    DATA_DIR = BASE_DIR / "data"
+
+    # Load UCI
+    df1 = pd.read_csv(DATA_DIR / "heart_disease_uci.csv")
+    if 'num' in df1.columns:
+        df1['target'] = (df1['num'] > 0).astype(int)
+        df1.drop(columns=['num'], inplace=True)
+    df1.drop(columns=[c for c in ['id', 'dataset'] if c in df1.columns], inplace=True)
+    df1.rename(columns={'thalch': 'thalach'}, inplace=True)
+    df1 = df1[['age','sex','cp','trestbps','chol','fbs','thalach','target']].copy()
+    df1['sex'] = df1['sex'].map(std_sex)
+    df1['fbs'] = df1['fbs'].map(std_fbs)
+    df1['cp']  = df1['cp'].map(standardize_cp)
+    df1.dropna(inplace=True)
+
+    # Load Statlog
+    df2 = pd.read_csv(DATA_DIR / "heart_statlog_cleveland_hungary_final.csv")
+    df2.rename(columns={
+        'chest pain type': 'cp', 'resting bp s': 'trestbps',
+        'cholesterol': 'chol', 'fasting blood sugar': 'fbs',
+        'max heart rate': 'thalach'
+    }, inplace=True)
+    df2 = df2[['age','sex','cp','trestbps','chol','fbs','thalach','target']].copy()
+    df2['sex'] = df2['sex'].map(std_sex)
+    df2['fbs'] = df2['fbs'].map(std_fbs)
+    df2['cp']  = df2['cp'].map(standardize_cp)
+    df2.dropna(inplace=True)
+
+    df = pd.concat([df1, df2], ignore_index=True)
+    df.dropna(subset=['target'], inplace=True)
+    df = df.astype({'cp': int, 'sex': int, 'fbs': int, 'target': int})
+
+    X = df.drop('target', axis=1)
+    y = df['target']
+
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, random_state=42, stratify=y
+    )
+
+    imputer    = SimpleImputer(strategy='median')
+    X_test_imp = imputer.fit(X_train).transform(X_test)
+
+    y_pred      = model.predict(X_test_imp)
+    y_pred_prob = model.predict_proba(X_test_imp)[:, 1]
+
+    acc       = round(accuracy_score(y_test, y_pred) * 100, 2)
+    precision = round(precision_score(y_test, y_pred) * 100, 2)
+    recall    = round(recall_score(y_test, y_pred) * 100, 2)
+    f1        = round(f1_score(y_test, y_pred) * 100, 2)
+
+    cm_vals = confusion_matrix(y_test, y_pred)
+    tn, fp, fn, tp = cm_vals.ravel()
+
+    fpr, tpr, _ = roc_curve(y_test, y_pred_prob)
+    roc_auc     = round(auc(fpr, tpr), 4)
+    roc_data    = {
+        'fpr': [round(x, 4) for x in fpr.tolist()],
+        'tpr': [round(x, 4) for x in tpr.tolist()],
+        'auc': roc_auc
+    }
+
+    return render_template('evaluation.html',
+                           acc=acc, precision=precision,
+                           recall=recall, f1=f1,
+                           tn=int(tn), fp=int(fp),
+                           fn=int(fn), tp=int(tp),
+                           roc_data=json.dumps(roc_data),
+                           total_records=len(df),
+                           test_records=len(X_test))
+
+
+# ── History Route ────────────────────────────────────────────────────────────
 @app.route('/history')
 @login_required
 def history():

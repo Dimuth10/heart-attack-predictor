@@ -1,0 +1,237 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12 text-center">
+        <h3 class="section-title">Model <span>Evaluation</span></h3>
+        <p style="color:#666;">Performance metrics of the CardioPredict AI machine learning model</p>
+    </div>
+</div>
+<div class="row mb-5">
+    <div class="col-md-3 mb-3">
+        <div class="stat-card">
+            <i class="fas fa-bullseye fa-2x mb-2" style="color:#dc3545"></i>
+            <div class="stat-number">{{ acc }}%</div>
+            <div class="stat-label">Accuracy</div>
+            <small style="color:#555; font-size:0.75rem;">Overall correct predictions</small>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="stat-card">
+            <i class="fas fa-crosshairs fa-2x mb-2" style="color:#dc3545"></i>
+            <div class="stat-number">{{ precision }}%</div>
+            <div class="stat-label">Precision</div>
+            <small style="color:#555; font-size:0.75rem;">Correct positive predictions</small>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="stat-card">
+            <i class="fas fa-search fa-2x mb-2" style="color:#dc3545"></i>
+            <div class="stat-number">{{ recall }}%</div>
+            <div class="stat-label">Recall</div>
+            <small style="color:#555; font-size:0.75rem;">Actual positives detected</small>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="stat-card">
+            <i class="fas fa-balance-scale fa-2x mb-2" style="color:#dc3545"></i>
+            <div class="stat-number">{{ f1 }}%</div>
+            <div class="stat-label">F1 Score</div>
+            <small style="color:#555; font-size:0.75rem;">Balance of precision & recall</small>
+        </div>
+    </div>
+</div>
+<div class="row mb-5">
+    <div class="col-md-6 mb-4">
+        <div class="card p-4 h-100">
+            <h5 style="color:white; font-weight:700; margin-bottom:20px;">
+                <i class="fas fa-table me-2" style="color:#dc3545"></i>Confusion Matrix
+            </h5>
+            <div class="text-center mb-3">
+                <small style="color:#666;">Rows = Actual | Columns = Predicted</small>
+            </div>
+            <table class="table text-center mb-3">
+                <thead>
+                    <tr>
+                        <th style="background:transparent; color:#666; border:none;"></th>
+                        <th style="color:#6edba8;">Predicted: No Disease</th>
+                        <th style="color:#ff6b7a;">Predicted: Disease</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="color:#6edba8; font-weight:700;">Actual: No Disease</td>
+                        <td style="background:rgba(25,135,84,0.2); color:#6edba8; font-size:1.5rem; font-weight:800;">{{ tn }}</td>
+                        <td style="background:rgba(220,53,69,0.1); color:#ff6b7a; font-size:1.5rem; font-weight:800;">{{ fp }}</td>
+                    </tr>
+                    <tr>
+                        <td style="color:#ff6b7a; font-weight:700;">Actual: Disease</td>
+                        <td style="background:rgba(220,53,69,0.1); color:#ff6b7a; font-size:1.5rem; font-weight:800;">{{ fn }}</td>
+                        <td style="background:rgba(25,135,84,0.2); color:#6edba8; font-size:1.5rem; font-weight:800;">{{ tp }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="row text-center mt-2">
+                <div class="col-6">
+                    <div style="background:rgba(25,135,84,0.1); border-radius:8px; padding:10px;">
+                        <div style="color:#6edba8; font-weight:700;">TN: {{ tn }}</div>
+                        <small style="color:#666;">True Negative</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div style="background:rgba(220,53,69,0.1); border-radius:8px; padding:10px;">
+                        <div style="color:#ff6b7a; font-weight:700;">FP: {{ fp }}</div>
+                        <small style="color:#666;">False Positive</small>
+                    </div>
+                </div>
+                <div class="col-6 mt-2">
+                    <div style="background:rgba(220,53,69,0.1); border-radius:8px; padding:10px;">
+                        <div style="color:#ff6b7a; font-weight:700;">FN: {{ fn }}</div>
+                        <small style="color:#666;">False Negative</small>
+                    </div>
+                </div>
+                <div class="col-6 mt-2">
+                    <div style="background:rgba(25,135,84,0.1); border-radius:8px; padding:10px;">
+                        <div style="color:#6edba8; font-weight:700;">TP: {{ tp }}</div>
+                        <small style="color:#666;">True Positive</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="card p-4 h-100">
+            <h5 style="color:white; font-weight:700; margin-bottom:5px;">
+                <i class="fas fa-chart-line me-2" style="color:#dc3545"></i>ROC Curve
+            </h5>
+            <p style="color:#666; font-size:0.85rem; margin-bottom:15px;">
+                AUC Score: <span style="color:#dc3545; font-weight:700;" id="aucScore"></span>
+                — Higher is better (max 1.0)
+            </p>
+            <canvas id="rocChart" height="250"></canvas>
+        </div>
+    </div>
+</div>
+<div class="row mb-5">
+    <div class="col-12">
+        <div class="card p-4">
+            <h5 style="color:white; font-weight:700; margin-bottom:20px;">
+                <i class="fas fa-database me-2" style="color:#dc3545"></i>Training Details
+            </h5>
+            <div class="row">
+                <div class="col-md-3 mb-3 text-center">
+                    <div style="color:#dc3545; font-size:1.8rem; font-weight:800;">{{ total_records }}</div>
+                    <div style="color:#666; font-size:0.85rem;">Total Records</div>
+                </div>
+                <div class="col-md-3 mb-3 text-center">
+                    <div style="color:#dc3545; font-size:1.8rem; font-weight:800;">{{ test_records }}</div>
+                    <div style="color:#666; font-size:0.85rem;">Test Records (20%)</div>
+                </div>
+                <div class="col-md-3 mb-3 text-center">
+                    <div style="color:#dc3545; font-size:1.8rem; font-weight:800;">7</div>
+                    <div style="color:#666; font-size:0.85rem;">Input Features</div>
+                </div>
+                <div class="col-md-3 mb-3 text-center">
+                    <div style="color:#dc3545; font-size:1.8rem; font-weight:800;">200</div>
+                    <div style="color:#666; font-size:0.85rem;">Decision Trees</div>
+                </div>
+            </div>
+            <hr style="border-color:rgba(255,255,255,0.05);">
+            <div class="row">
+                <div class="col-md-6">
+                    <p style="color:#666; font-size:0.9rem; margin:0;">
+                        <i class="fas fa-check-circle me-2" style="color:#6edba8"></i>
+                        <strong style="color:#888;">Dataset 1:</strong> UCI Heart Disease Dataset
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <p style="color:#666; font-size:0.9rem; margin:0;">
+                        <i class="fas fa-check-circle me-2" style="color:#6edba8"></i>
+                        <strong style="color:#888;">Dataset 2:</strong> Statlog Cleveland Hungary Final Dataset
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card p-4" style="border: 1px solid rgba(255,193,7,0.2); background:rgba(255,193,7,0.03);">
+            <h6 style="color:#ffd85e; font-weight:700;">
+                <i class="fas fa-info-circle me-2"></i>How to Interpret These Results
+            </h6>
+            <div class="row mt-2">
+                <div class="col-md-3">
+                    <p style="color:#888; font-size:0.85rem; margin:0;">
+                        <strong style="color:#aaa;">Accuracy</strong> — The percentage of all predictions that were correct.
+                    </p>
+                </div>
+                <div class="col-md-3">
+                    <p style="color:#888; font-size:0.85rem; margin:0;">
+                        <strong style="color:#aaa;">Precision</strong> — Of all patients predicted as high risk, how many actually had heart disease.
+                    </p>
+                </div>
+                <div class="col-md-3">
+                    <p style="color:#888; font-size:0.85rem; margin:0;">
+                        <strong style="color:#aaa;">Recall</strong> — Of all patients who had heart disease, how many did the model correctly identify.
+                    </p>
+                </div>
+                <div class="col-md-3">
+                    <p style="color:#888; font-size:0.85rem; margin:0;">
+                        <strong style="color:#aaa;">AUC Score</strong> — Area Under ROC Curve. Above 0.9 indicates excellent model performance.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const rocData = {{ roc_data | safe }};
+document.getElementById('aucScore').textContent = rocData.auc;
+const ctx = document.getElementById('rocChart').getContext('2d');
+new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: rocData.fpr,
+        datasets: [
+            {
+                label: 'ROC Curve (AUC = ' + rocData.auc + ')',
+                data: rocData.tpr,
+                borderColor: '#dc3545',
+                backgroundColor: 'rgba(220,53,69,0.1)',
+                borderWidth: 2,
+                fill: true,
+                pointRadius: 0,
+                tension: 0.3
+            },
+            {
+                label: 'Random Classifier',
+                data: rocData.fpr,
+                borderColor: '#444',
+                borderWidth: 1,
+                borderDash: [5, 5],
+                pointRadius: 0,
+                fill: false
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: { legend: { labels: { color: '#aaa', font: { size: 11 } } } },
+        scales: {
+            x: {
+                title: { display: true, text: 'False Positive Rate', color: '#666' },
+                ticks: { color: '#666', maxTicksLimit: 6 },
+                grid: { color: 'rgba(255,255,255,0.05)' }
+            },
+            y: {
+                title: { display: true, text: 'True Positive Rate', color: '#666' },
+                ticks: { color: '#666' },
+                grid: { color: 'rgba(255,255,255,0.05)' }
+            }
+        }
+    }
+});
+</script>
+{% endblock %}
