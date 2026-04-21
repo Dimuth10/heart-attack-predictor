@@ -191,7 +191,6 @@ def predict():
             probability_pct = round(probability * 100, 2)
             risk_level      = "High Risk" if probability_pct >= 50 else "Low Risk"
 
-            # Save to database
             pred = Prediction(
                 user_id     = current_user.id,
                 probability = probability_pct,
@@ -207,7 +206,6 @@ def predict():
             db.session.add(pred)
             db.session.commit()
 
-            # Store result in session for PDF download
             session['last_prediction'] = {
                 'probability': probability_pct,
                 'risk_level':  risk_level,
@@ -221,10 +219,8 @@ def predict():
                 'date':        datetime.now().strftime('%Y-%m-%d %H:%M'),
             }
 
-            # ── Build Factor Analysis ─────────────────────────────────────
             factors = []
 
-            # Cholesterol
             if user_input['chol'] >= 240:
                 factors.append({'name': 'Cholesterol', 'value': f"{int(user_input['chol'])} mg/dl", 'status': 'danger', 'msg': 'High — above 240 mg/dl is considered high risk'})
             elif user_input['chol'] >= 200:
@@ -232,7 +228,6 @@ def predict():
             else:
                 factors.append({'name': 'Cholesterol', 'value': f"{int(user_input['chol'])} mg/dl", 'status': 'success', 'msg': 'Normal — within healthy range'})
 
-            # Blood Pressure
             if user_input['trestbps'] >= 140:
                 factors.append({'name': 'Blood Pressure', 'value': f"{int(user_input['trestbps'])} mmHg", 'status': 'danger', 'msg': 'High — above 140 mmHg indicates hypertension'})
             elif user_input['trestbps'] >= 120:
@@ -240,7 +235,6 @@ def predict():
             else:
                 factors.append({'name': 'Blood Pressure', 'value': f"{int(user_input['trestbps'])} mmHg", 'status': 'success', 'msg': 'Normal — within healthy range'})
 
-            # Max Heart Rate
             expected_max = 220 - user_input['age']
             if user_input['thalach'] < expected_max * 0.5:
                 factors.append({'name': 'Maximum Heart Rate', 'value': f"{int(user_input['thalach'])} bpm", 'status': 'danger', 'msg': f"Very low — expected around {int(expected_max * 0.85)} bpm for your age"})
@@ -249,13 +243,11 @@ def predict():
             else:
                 factors.append({'name': 'Maximum Heart Rate', 'value': f"{int(user_input['thalach'])} bpm", 'status': 'success', 'msg': 'Normal — within expected range for your age'})
 
-            # Fasting Blood Sugar
             if user_input['fbs'] == 1:
                 factors.append({'name': 'Fasting Blood Sugar', 'value': 'Above 120 mg/dl', 'status': 'warning', 'msg': 'Elevated — may indicate diabetes risk which affects heart health'})
             else:
                 factors.append({'name': 'Fasting Blood Sugar', 'value': 'Below 120 mg/dl', 'status': 'success', 'msg': 'Normal — within healthy range'})
 
-            # Chest Pain
             cp_analysis = {
                 0: ('Asymptomatic',  'danger',  'No chest pain felt — often associated with higher cardiac risk'),
                 1: ('Typical Angina',  'warning', 'Chest pain triggered by activity — may indicate reduced blood flow'),
@@ -290,30 +282,24 @@ def download_report():
     doc = SimpleDocTemplate(buffer, pagesize=A4,
                             rightMargin=2*cm, leftMargin=2*cm,
                             topMargin=2*cm, bottomMargin=2*cm)
-
-    styles = getSampleStyleSheet()
     elements = []
 
     title_style = ParagraphStyle('title',
         fontSize=24, fontName='Helvetica-Bold',
         textColor=colors.HexColor('#dc3545'),
         alignment=TA_CENTER, spaceAfter=5)
-
     subtitle_style = ParagraphStyle('subtitle',
         fontSize=11, fontName='Helvetica',
         textColor=colors.HexColor('#888888'),
         alignment=TA_CENTER, spaceAfter=20)
-
     heading_style = ParagraphStyle('heading',
         fontSize=13, fontName='Helvetica-Bold',
         textColor=colors.HexColor('#222222'),
         spaceBefore=15, spaceAfter=8)
-
     body_style = ParagraphStyle('body',
         fontSize=10, fontName='Helvetica',
         textColor=colors.HexColor('#444444'),
         spaceAfter=5, leading=16)
-
     small_style = ParagraphStyle('small',
         fontSize=8, fontName='Helvetica',
         textColor=colors.HexColor('#888888'),
@@ -324,7 +310,6 @@ def download_report():
     elements.append(HRFlowable(width="100%", thickness=1,
                                color=colors.HexColor('#dc3545'), spaceAfter=20))
 
-    # Patient Info
     elements.append(Paragraph('Patient Information', heading_style))
     patient_data = [
         ['Full Name',    current_user.full_name],
@@ -346,7 +331,6 @@ def download_report():
     elements.append(patient_table)
     elements.append(Spacer(1, 0.5*cm))
 
-    # Clinical Input
     elements.append(Paragraph('Clinical Input Parameters', heading_style))
     input_data = [
         ['Parameter',                 'Value',              'Unit'],
@@ -374,7 +358,6 @@ def download_report():
     elements.append(input_table)
     elements.append(Spacer(1, 0.5*cm))
 
-    # Result
     elements.append(Paragraph('Prediction Result', heading_style))
     risk_color = '#dc3545' if data['risk_level'] == 'High Risk' else '#198754'
     result_data = [
@@ -401,7 +384,6 @@ def download_report():
     elements.append(result_table)
     elements.append(Spacer(1, 0.5*cm))
 
-    # Recommendations
     elements.append(Paragraph('Recommended Next Steps', heading_style))
     if data['risk_level'] == 'High Risk':
         recommendations = [
@@ -424,7 +406,6 @@ def download_report():
     elements.append(Spacer(1, 0.5*cm))
     elements.append(HRFlowable(width="100%", thickness=0.5,
                                color=colors.HexColor('#dddddd'), spaceAfter=10))
-
     disclaimer = (
         'DISCLAIMER: This report is generated by a machine learning model for educational '
         'and research purposes only. It does not replace professional medical diagnosis or '
@@ -450,7 +431,6 @@ def download_report():
 def evaluation():
     DATA_DIR = BASE_DIR / "data"
 
-    # Load UCI
     df1 = pd.read_csv(DATA_DIR / "heart_disease_uci.csv")
     if 'num' in df1.columns:
         df1['target'] = (df1['num'] > 0).astype(int)
@@ -463,7 +443,6 @@ def evaluation():
     df1['cp']  = df1['cp'].map(standardize_cp)
     df1.dropna(inplace=True)
 
-    # Load Statlog
     df2 = pd.read_csv(DATA_DIR / "heart_statlog_cleveland_hungary_final.csv")
     df2.rename(columns={
         'chest pain type': 'cp', 'resting bp s': 'trestbps',
@@ -519,12 +498,60 @@ def evaluation():
                            test_records=len(X_test))
 
 
+# ── Profile Route ────────────────────────────────────────────────────────────
+@app.route('/profile', methods=['GET', 'POST'])
+@login_required
+def profile():
+    predictions = Prediction.query.filter_by(user_id=current_user.id).all()
+    total     = len(predictions)
+    high_risk = sum(1 for p in predictions if p.risk_level == 'High Risk')
+    low_risk  = sum(1 for p in predictions if p.risk_level == 'Low Risk')
+
+    if request.method == 'POST':
+        action = request.form.get('action')
+
+        if action == 'update_profile':
+            current_user.full_name = request.form['full_name']
+            current_user.age       = request.form['age']
+            db.session.commit()
+            flash('Profile updated successfully!', 'success')
+            return redirect(url_for('profile'))
+
+        elif action == 'change_password':
+            current_pw  = request.form['current_password']
+            new_pw      = request.form['new_password']
+            confirm_pw  = request.form['confirm_password']
+
+            if not bcrypt.check_password_hash(current_user.password, current_pw):
+                flash('Current password is incorrect!', 'danger')
+                return redirect(url_for('profile'))
+
+            if new_pw != confirm_pw:
+                flash('New passwords do not match!', 'danger')
+                return redirect(url_for('profile'))
+
+            if len(new_pw) < 6:
+                flash('Password must be at least 6 characters!', 'danger')
+                return redirect(url_for('profile'))
+
+            current_user.password = bcrypt.generate_password_hash(new_pw).decode('utf-8')
+            db.session.commit()
+            flash('Password changed successfully!', 'success')
+            return redirect(url_for('profile'))
+
+    return render_template('profile.html',
+                           total=total,
+                           high_risk=high_risk,
+                           low_risk=low_risk)
+
+
 # ── History Route ────────────────────────────────────────────────────────────
 @app.route('/history')
 @login_required
 def history():
     predictions = Prediction.query.filter_by(user_id=current_user.id).order_by(Prediction.created_at.asc()).all()
     return render_template('history.html', predictions=predictions)
+
 
 # ── Init DB & Run ────────────────────────────────────────────────────────────
 with app.app_context():
