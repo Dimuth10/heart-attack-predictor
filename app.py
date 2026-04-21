@@ -46,6 +46,7 @@ class User(db.Model, UserMixin):
     email       = db.Column(db.String(120), unique=True, nullable=False)
     age         = db.Column(db.Integer, nullable=False)
     password    = db.Column(db.String(200), nullable=False)
+    is_admin    = db.Column(db.Boolean, default=False)
     created_at  = db.Column(db.DateTime, default=datetime.utcnow)
     predictions = db.relationship('Prediction', backref='user', lazy=True)
 
@@ -91,6 +92,17 @@ def std_sex(val):
 def std_fbs(val):
     return 1 if str(val).strip().lower() in ['1', 'true', 'yes'] else 0
 
+# ── Admin required decorator ─────────────────────────────────────────────────
+from functools import wraps
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not current_user.is_authenticated or not current_user.is_admin:
+            flash('Admin access required!', 'danger')
+            return redirect(url_for('dashboard'))
+        return f(*args, **kwargs)
+    return decorated_function
+
 # ── Routes ───────────────────────────────────────────────────────────────────
 @app.route('/')
 def home():
@@ -119,8 +131,11 @@ def register():
             flash('Email already registered!', 'danger')
             return redirect(url_for('register'))
 
+        # First registered user becomes admin
+        is_admin  = User.query.count() == 0
         hashed_pw = bcrypt.generate_password_hash(password).decode('utf-8')
-        user = User(full_name=full_name, email=email, age=age, password=hashed_pw)
+        user = User(full_name=full_name, email=email, age=age,
+                    password=hashed_pw, is_admin=is_admin)
         db.session.add(user)
         db.session.commit()
         flash('Account created successfully! Please login.', 'success')
@@ -543,6 +558,28 @@ def profile():
                            total=total,
                            high_risk=high_risk,
                            low_risk=low_risk)
+
+
+# ── Admin Dashboard Route ────────────────────────────────────────────────────
+@app.route('/admin')
+@login_required
+@admin_required
+def admin():
+    all_users       = User.query.order_by(User.created_at.desc()).all()
+    all_predictions = Prediction.query.order_by(Prediction.created_at.desc()).all()
+
+    total_users       = len(all_users)
+    total_predictions = len(all_predictions)
+    total_high_risk   = sum(1 for p in all_predictions if p.risk_level == 'High Risk')
+    total_low_risk    = sum(1 for p in all_predictions if p.risk_level == 'Low Risk')
+
+    return render_template('admin.html',
+                           all_users=all_users,
+                           all_predictions=all_predictions,
+                           total_users=total_users,
+                           total_predictions=total_predictions,
+                           total_high_risk=total_high_risk,
+                           total_low_risk=total_low_risk)
 
 
 # ── History Route ────────────────────────────────────────────────────────────

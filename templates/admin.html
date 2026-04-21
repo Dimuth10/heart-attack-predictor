@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card p-4" style="background: linear-gradient(135deg, rgba(220,53,69,0.15), rgba(220,53,69,0.05)); border: 1px solid rgba(220,53,69,0.3);">
+            <h3 style="color:white; font-weight:800; margin:0;">
+                <i class="fas fa-shield-alt me-2" style="color:#dc3545"></i>Admin Dashboard
+            </h3>
+            <p style="color:#888; margin:0;">System overview and user management</p>
+        </div>
+    </div>
+</div>
+
+<!-- Stats -->
+<div class="row mb-5">
+    <div class="col-md-3 mb-3">
+        <div class="stat-card">
+            <i class="fas fa-users fa-2x mb-2" style="color:#dc3545"></i>
+            <div class="stat-number">{{ total_users }}</div>
+            <div class="stat-label">Total Users</div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="stat-card">
+            <i class="fas fa-chart-bar fa-2x mb-2" style="color:#dc3545"></i>
+            <div class="stat-number">{{ total_predictions }}</div>
+            <div class="stat-label">Total Predictions</div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="stat-card">
+            <i class="fas fa-exclamation-triangle fa-2x mb-2" style="color:#ff6b7a"></i>
+            <div class="stat-number" style="color:#ff6b7a">{{ total_high_risk }}</div>
+            <div class="stat-label">High Risk Results</div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="stat-card">
+            <i class="fas fa-check-circle fa-2x mb-2" style="color:#6edba8"></i>
+            <div class="stat-number" style="color:#6edba8">{{ total_low_risk }}</div>
+            <div class="stat-label">Low Risk Results</div>
+        </div>
+    </div>
+</div>
+
+<!-- Users Table -->
+<div class="row mb-5">
+    <div class="col-12">
+        <div class="card p-4">
+            <h5 style="color:white; font-weight:700; margin-bottom:20px;">
+                <i class="fas fa-users me-2" style="color:#dc3545"></i>Registered Users
+            </h5>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Full Name</th>
+                            <th>Email</th>
+                            <th>Age</th>
+                            <th>Role</th>
+                            <th>Joined</th>
+                            <th>Predictions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in all_users %}
+                        <tr>
+                            <td style="color:#666;">{{ user.id }}</td>
+                            <td style="color:white; font-weight:600;">{{ user.full_name }}</td>
+                            <td style="color:#888;">{{ user.email }}</td>
+                            <td style="color:#e0e0e0;">{{ user.age }}</td>
+                            <td>
+                                {% if user.is_admin %}
+                                <span class="badge bg-danger">Admin</span>
+                                {% else %}
+                                <span class="badge bg-secondary">User</span>
+                                {% endif %}
+                            </td>
+                            <td style="color:#666; font-size:0.85rem;">{{ user.created_at.strftime('%d %b %Y') }}</td>
+                            <td style="color:#dc3545; font-weight:700;">{{ user.predictions | length }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Predictions -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card p-4">
+            <h5 style="color:white; font-weight:700; margin-bottom:20px;">
+                <i class="fas fa-list me-2" style="color:#dc3545"></i>All Recent Predictions
+            </h5>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>User</th>
+                            <th>Age</th>
+                            <th>Sex</th>
+                            <th>Cholesterol</th>
+                            <th>Blood Pressure</th>
+                            <th>Heart Rate</th>
+                            <th>Probability</th>
+                            <th>Risk Level</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for p in all_predictions[:20] %}
+                        <tr>
+                            <td style="color:#666; font-size:0.85rem;">{{ p.created_at.strftime('%d %b %Y') }}</td>
+                            <td style="color:white; font-weight:600;">{{ p.user.full_name }}</td>
+                            <td style="color:#e0e0e0;">{{ p.age }}</td>
+                            <td style="color:#e0e0e0;">{{ p.sex }}</td>
+                            <td style="color:#e0e0e0;">{{ p.chol }}</td>
+                            <td style="color:#e0e0e0;">{{ p.trestbps }}</td>
+                            <td style="color:#e0e0e0;">{{ p.thalach }}</td>
+                            <td style="color:#e0e0e0; font-weight:600;">{{ p.probability }}%</td>
+                            <td>
+                                <span class="{% if p.risk_level == 'High Risk' %}badge-high{% else %}badge-low{% endif %}">
+                                    {{ p.risk_level }}
+                                </span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
