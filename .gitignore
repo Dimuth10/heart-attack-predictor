@@ -1,1 +1,7 @@
 venv/
+__pycache__/
+*.pyc
+instance/
+.DS_Store
+data/archive.zip
+data/archive\ \(1\).zip
