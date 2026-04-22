@@ -13,11 +13,18 @@ from reportlab.lib.enums import TA_CENTER, TA_LEFT
 from sklearn.metrics import confusion_matrix, roc_curve, auc, accuracy_score, precision_score, recall_score, f1_score
 from sklearn.model_selection import train_test_split
 from sklearn.impute import SimpleImputer
+import shap
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+import base64
+from io import BytesIO
 import joblib
 import pandas as pd
 import numpy as np
 import json
 import io
+from functools import wraps
 
 # ── App Setup ────────────────────────────────────────────────────────────────
 app = Flask(__name__)
@@ -76,7 +83,7 @@ CP_LABELS = {
     '3': 'Non-Anginal',
 }
 
-# ── Helper: Standardize data for evaluation ──────────────────────────────────
+# ── Helper: Standardize data ─────────────────────────────────────────────────
 def standardize_cp(val):
     mapping = {
         'typical angina': 1, 'typical': 1, '1': 1,
@@ -93,7 +100,6 @@ def std_fbs(val):
     return 1 if str(val).strip().lower() in ['1', 'true', 'yes'] else 0
 
 # ── Admin required decorator ─────────────────────────────────────────────────
-from functools import wraps
 def admin_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -131,7 +137,6 @@ def register():
             flash('Email already registered!', 'danger')
             return redirect(url_for('register'))
 
-        # First registered user becomes admin
         is_admin  = User.query.count() == 0
         hashed_pw = bcrypt.generate_password_hash(password).decode('utf-8')
         user = User(full_name=full_name, email=email, age=age,
@@ -234,6 +239,7 @@ def predict():
                 'date':        datetime.now().strftime('%Y-%m-%d %H:%M'),
             }
 
+            # ── Health Factors ────────────────────────────────────────────
             factors = []
 
             if user_input['chol'] >= 240:
@@ -272,10 +278,53 @@ def predict():
             cp_info = cp_analysis.get(user_input['cp'], ('Unknown', 'warning', ''))
             factors.append({'name': 'Chest Pain Type', 'value': cp_info[0], 'status': cp_info[1], 'msg': cp_info[2]})
 
+            # ── SHAP Explainability ───────────────────────────────────────
+            shap_data = []
+            try:
+                rf_model      = model.named_steps['model']
+                imputer       = model.named_steps['imputer']
+                input_imputed = imputer.transform(input_df)
+
+                explainer   = shap.TreeExplainer(rf_model)
+                shap_values = explainer.shap_values(input_imputed)
+
+                sv = np.array(shap_values)
+                if len(sv.shape) == 3:
+                    sv = sv[0, :, 1]
+                elif len(sv.shape) == 2:
+                    sv = sv[0]
+                else:
+                    sv = sv
+
+                feature_labels = {
+                    'age': 'Age', 'sex': 'Sex',
+                    'cp': 'Chest Pain Type',
+                    'trestbps': 'Blood Pressure',
+                    'chol': 'Cholesterol',
+                    'fbs': 'Blood Sugar',
+                    'thalach': 'Heart Rate'
+                }
+
+                for fname, fval in zip(features, sv):
+                    label = feature_labels.get(fname, fname)
+                    shap_data.append({
+                        'feature':  label,
+                        'value':    round(float(fval), 4),
+                        'positive': float(fval) > 0
+                    })
+
+                shap_data.sort(key=lambda x: abs(x['value']), reverse=True)
+                shap_data = shap_data[:7]
+
+            except Exception as shap_err:
+                print(f"SHAP Error: {shap_err}")
+                shap_data = []
+
             return render_template('result.html',
                                    probability=probability_pct,
                                    risk_level=risk_level,
-                                   factors=factors)
+                                   factors=factors,
+                                   shap_data=shap_data)
 
         except Exception as e:
             flash(f'Error: {str(e)}', 'danger')
