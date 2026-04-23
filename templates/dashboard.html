@@ -2,136 +2,401 @@
 
 {% block content %}
 
+
+
 <!-- ── Welcome Header ── -->
 <div class="row mb-4">
     <div class="col-12">
-        <div class="card p-4" style="background: linear-gradient(135deg, rgba(220,53,69,0.15), rgba(220,53,69,0.05)); border: 1px solid rgba(220,53,69,0.3);">
-            <div class="row align-items-center">
-                <div class="col-md-8">
-                    <h3 style="color:white; font-weight:800;">
-                        <i class="fas fa-th-large me-2" style="color:#dc3545"></i>
-                        Welcome back, {{ current_user.full_name }}!
-                    </h3>
-                    <p style="color:#888; margin-bottom:0;">Here's an overview of your heart health predictions.</p>
+        <div class="welcome-card card p-4">
+            <div class="welcome-bg-heart"></div>
+            <div class="row align-items-center position-relative">
+                <div class="col-md-7">
+                    <div class="welcome-badge mb-2">
+                        <i class="fas fa-circle-check me-1"></i> System Active
+                    </div>
+                    <h2 class="welcome-title">
+                        Welcome back, <span>{{ current_user.full_name }}</span>! 👋
+                    </h2>
+                    <p class="welcome-sub">
+                        Your heart health dashboard is ready. Monitor your predictions,
+                        track your risk history, and stay informed.
+                    </p>
+                    <div class="d-flex gap-3 mt-3 flex-wrap">
+                        <a href="/predict" class="btn-pop btn-pop-red">
+                            <i class="fas fa-plus me-2"></i>New Prediction
+                        </a>
+                        <a href="/history" class="btn-pop btn-pop-outline">
+                            <i class="fas fa-history me-2"></i>View History
+                        </a>
+                    </div>
                 </div>
-                <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                    <a href="/predict" class="btn btn-danger px-4">
-                        <i class="fas fa-plus me-2"></i>New Prediction
-                    </a>
+                <div class="col-md-5 text-center mt-4 mt-md-0">
+                    <div id="heartSvgWrap" style="height:200px; display:flex; align-items:center; justify-content:center; position:relative;">
+
+                        <!-- Glow behind heart -->
+                        <div style="position:absolute; width:160px; height:160px; border-radius:50%;
+                                    background:radial-gradient(circle, rgba(220,53,69,0.18) 0%, transparent 70%);
+                                    animation:glowPulse 1.2s ease-in-out infinite; pointer-events:none;"></div>
+
+                        <svg id="realisticHeart" viewBox="0 0 340 360" width="190" height="190"
+                             xmlns="http://www.w3.org/2000/svg"
+                             style="filter: drop-shadow(0 0 18px rgba(220,53,69,0.5)) drop-shadow(0 4px 24px rgba(0,0,0,0.6));">
+                          <defs>
+                            <!-- Main body gradient -->
+                            <radialGradient id="hg1" cx="38%" cy="32%" r="65%">
+                              <stop offset="0%"   stop-color="#ff5566"/>
+                              <stop offset="35%"  stop-color="#cc2233"/>
+                              <stop offset="70%"  stop-color="#991122"/>
+                              <stop offset="100%" stop-color="#660011"/>
+                            </radialGradient>
+                            <!-- Right side darker -->
+                            <radialGradient id="hg2" cx="70%" cy="40%" r="55%">
+                              <stop offset="0%"   stop-color="#bb1122"/>
+                              <stop offset="100%" stop-color="#550008"/>
+                            </radialGradient>
+                            <!-- Aorta gradient -->
+                            <radialGradient id="aortaG" cx="50%" cy="0%" r="100%">
+                              <stop offset="0%"   stop-color="#ff4455"/>
+                              <stop offset="100%" stop-color="#880011"/>
+                            </radialGradient>
+                            <!-- Blue vessels (veins) -->
+                            <linearGradient id="veinG" x1="0%" y1="0%" x2="100%" y2="100%">
+                              <stop offset="0%"   stop-color="#4466cc"/>
+                              <stop offset="100%" stop-color="#223388"/>
+                            </linearGradient>
+                            <!-- Highlight -->
+                            <radialGradient id="hlG" cx="30%" cy="20%" r="50%">
+                              <stop offset="0%"   stop-color="rgba(255,255,255,0.35)"/>
+                              <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+                            </radialGradient>
+                            <filter id="hBlur">
+                              <feGaussianBlur stdDeviation="2.5"/>
+                            </filter>
+                            <filter id="softBlur">
+                              <feGaussianBlur stdDeviation="1.2"/>
+                            </filter>
+                          </defs>
+
+                          <!-- ── Shadow ── -->
+                          <ellipse cx="170" cy="348" rx="75" ry="10"
+                                   fill="rgba(0,0,0,0.35)" filter="url(#hBlur)"/>
+
+                          <!-- ── Main Heart Body (left ventricle dominant) ── -->
+                          <path d="
+                            M170 310
+                            C138 290, 95 262, 72 235
+                            C48 208, 38 182, 38 158
+                            C38 118, 58 92, 88 85
+                            C102 81, 116 85, 128 94
+                            C138 102, 148 114, 155 128
+                            C160 118, 168 105, 178 96
+                            C190 86, 206 80, 222 82
+                            C254 87, 275 114, 275 152
+                            C275 180, 262 208, 240 233
+                            C218 258, 195 280, 170 310Z"
+                               fill="url(#hg1)" class="heart-body"/>
+
+                          <!-- Right side shading -->
+                          <path d="
+                            M222 82 C254 87, 275 114, 275 152
+                            C275 180, 262 208, 240 233
+                            C220 256, 196 278, 170 310
+                            C185 290, 210 265, 228 240
+                            C248 212, 262 185, 262 155
+                            C262 120, 248 95, 222 82Z"
+                               fill="url(#hg2)" opacity="0.7"/>
+
+                          <!-- ── Left Atrium (top left bump) ── -->
+                          <ellipse cx="118" cy="88" rx="42" ry="32"
+                                   fill="#cc2233" transform="rotate(-15,118,88)"/>
+                          <ellipse cx="118" cy="88" rx="38" ry="28"
+                                   fill="#dd3344" transform="rotate(-15,118,88)"/>
+
+                          <!-- ── Right Atrium (top right bump) ── -->
+                          <ellipse cx="218" cy="90" rx="38" ry="28"
+                                   fill="#aa1122" transform="rotate(10,218,90)"/>
+                          <ellipse cx="220" cy="88" rx="34" ry="24"
+                                   fill="#bb2233" transform="rotate(10,220,88)"/>
+
+                          <!-- ── Aorta arch (large red vessel top-center) ── -->
+                          <path d="M155 78 C150 52, 140 30, 120 22 C100 14, 80 20, 74 36
+                                   C68 52, 78 68, 92 72"
+                                fill="none" stroke="url(#aortaG)" stroke-width="22"
+                                stroke-linecap="round"/>
+                          <path d="M155 78 C150 52, 140 30, 120 22 C100 14, 80 20, 74 36
+                                   C68 52, 78 68, 92 72"
+                                fill="none" stroke="#ff6677" stroke-width="10"
+                                stroke-linecap="round" opacity="0.45"/>
+                          <!-- Aorta highlight -->
+                          <path d="M152 72 C148 50, 140 32, 122 24"
+                                fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="4"
+                                stroke-linecap="round"/>
+
+                          <!-- ── Pulmonary Artery (blue-ish, top right) ── -->
+                          <path d="M182 75 C188 52, 202 36, 218 30 C232 24, 248 28, 252 40"
+                                fill="none" stroke="url(#veinG)" stroke-width="18"
+                                stroke-linecap="round"/>
+                          <path d="M182 75 C188 52, 202 36, 218 30 C232 24, 248 28, 252 40"
+                                fill="none" stroke="#7799ee" stroke-width="8"
+                                stroke-linecap="round" opacity="0.4"/>
+
+                          <!-- ── Superior Vena Cava (right, blue) ── -->
+                          <path d="M245 68 C252 50, 254 30, 248 14"
+                                fill="none" stroke="#334db3" stroke-width="14"
+                                stroke-linecap="round"/>
+                          <path d="M245 68 C252 50, 254 30, 248 14"
+                                fill="none" stroke="#6688dd" stroke-width="6"
+                                stroke-linecap="round" opacity="0.4"/>
+
+                          <!-- ── Inferior Vena Cava stub ── -->
+                          <path d="M252 160 C268 158, 280 152, 285 144"
+                                fill="none" stroke="#334db3" stroke-width="12"
+                                stroke-linecap="round"/>
+
+                          <!-- ── Coronary arteries (surface vessels) ── -->
+                          <!-- Left coronary -->
+                          <path d="M148 125 C135 138, 115 155, 105 178 C95 200, 95 225, 105 248"
+                                fill="none" stroke="#cc1122" stroke-width="5"
+                                stroke-linecap="round" opacity="0.85"/>
+                          <path d="M148 125 C140 140, 125 155, 118 175"
+                                fill="none" stroke="#cc1122" stroke-width="3.5"
+                                stroke-linecap="round" opacity="0.6"/>
+                          <!-- Branch -->
+                          <path d="M130 162 C118 168, 108 178, 104 192"
+                                fill="none" stroke="#cc1122" stroke-width="2.5"
+                                stroke-linecap="round" opacity="0.55"/>
+
+                          <!-- Right coronary -->
+                          <path d="M192 118 C205 132, 218 152, 220 175 C222 198, 212 222, 200 242"
+                                fill="none" stroke="#aa0011" stroke-width="4.5"
+                                stroke-linecap="round" opacity="0.8"/>
+                          <path d="M205 148 C215 158, 222 172, 220 188"
+                                fill="none" stroke="#aa0011" stroke-width="3"
+                                stroke-linecap="round" opacity="0.55"/>
+
+                          <!-- ── Interventricular groove (septum line) ── -->
+                          <path d="M168 118 C166 160, 165 205, 170 268"
+                                fill="none" stroke="rgba(80,0,0,0.5)" stroke-width="4"/>
+
+                          <!-- ── Muscular texture lines ── -->
+                          <path d="M95 165 C105 172, 118 180, 128 192"
+                                fill="none" stroke="rgba(180,20,30,0.3)" stroke-width="2"/>
+                          <path d="M88 195 C98 200, 110 208, 118 220"
+                                fill="none" stroke="rgba(180,20,30,0.25)" stroke-width="2"/>
+                          <path d="M220 168 C210 175, 200 185, 192 198"
+                                fill="none" stroke="rgba(120,10,20,0.3)" stroke-width="2"/>
+                          <path d="M228 198 C218 205, 208 215, 200 228"
+                                fill="none" stroke="rgba(120,10,20,0.25)" stroke-width="2"/>
+
+                          <!-- ── Specular highlights ── -->
+                          <path d="M95 100 C108 88, 128 84, 142 92 C130 86, 110 90, 95 100Z"
+                                fill="rgba(255,255,255,0.22)"/>
+                          <ellipse cx="108" cy="108" rx="18" ry="10"
+                                   fill="rgba(255,255,255,0.12)" transform="rotate(-25,108,108)"/>
+                          <ellipse cx="92" cy="130" rx="10" ry="6"
+                                   fill="rgba(255,255,255,0.08)" transform="rotate(-20,92,130)"/>
+
+                          <!-- ── Animated blood flow dots ── -->
+                          <!-- Left coronary flow -->
+                          <circle r="4" fill="#ff8899" opacity="0.9">
+                            <animateMotion dur="2.2s" repeatCount="indefinite"
+                              path="M148,125 C135,138 115,155 105,178 C95,200 95,225 105,248"/>
+                          </circle>
+                          <!-- Right coronary flow -->
+                          <circle r="3.5" fill="#ff7788" opacity="0.85">
+                            <animateMotion dur="2.6s" repeatCount="indefinite" begin="0.4s"
+                              path="M192,118 C205,132 218,152 220,175 C222,198 212,222 200,242"/>
+                          </circle>
+                          <!-- Aorta flow -->
+                          <circle r="4.5" fill="#ffaabb" opacity="0.8">
+                            <animateMotion dur="1.6s" repeatCount="indefinite" begin="0.2s"
+                              path="M155,78 C150,52 140,30 120,22 C100,14 80,20 74,36"/>
+                          </circle>
+                          <!-- Pulmonary flow (blue) -->
+                          <circle r="3.5" fill="#88aaff" opacity="0.75">
+                            <animateMotion dur="2s" repeatCount="indefinite" begin="0.8s"
+                              path="M182,75 C188,52 202,36 218,30 C232,24 248,28 252,40"/>
+                          </circle>
+
+                          <!-- ── Highlight overlay ── -->
+                          <path d="M95 100 C108 85, 145 82, 158 100
+                                   C148 88, 115 86, 95 100Z"
+                                fill="url(#hlG)" opacity="0.8"/>
+                        </svg>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- ── Stats Row ── -->
-<div class="row mb-4">
-    <div class="col-md-3 mb-3">
-        <div class="stat-card">
-            <i class="fas fa-chart-bar fa-2x mb-2" style="color:#dc3545"></i>
-            <div class="stat-number">{{ total }}</div>
-            <div class="stat-label">Total Predictions</div>
+<!-- ── Animated Stats ── -->
+<div class="row mb-4 g-3">
+    <div class="col-6 col-md-3">
+        <div class="stat-card-pro animate-in" style="--delay:0.1s">
+            <div class="stat-icon-wrap" style="background:rgba(220,53,69,0.12);">
+                <i class="fas fa-chart-bar" style="color:#dc3545"></i>
+            </div>
+            <div class="stat-num counter" data-target="{{ total }}">0</div>
+            <div class="stat-lbl">Total Predictions</div>
+            <div class="stat-bar" style="--pct:100%; --clr:#dc3545"></div>
         </div>
     </div>
-    <div class="col-md-3 mb-3">
-        <div class="stat-card">
-            <i class="fas fa-exclamation-triangle fa-2x mb-2" style="color:#ff6b7a"></i>
-            <div class="stat-number" style="color:#ff6b7a">{{ high_risk }}</div>
-            <div class="stat-label">High Risk Results</div>
+    <div class="col-6 col-md-3">
+        <div class="stat-card-pro animate-in" style="--delay:0.2s">
+            <div class="stat-icon-wrap" style="background:rgba(255,107,122,0.12);">
+                <i class="fas fa-exclamation-triangle" style="color:#ff6b7a"></i>
+            </div>
+            <div class="stat-num counter" data-target="{{ high_risk }}" style="color:#ff6b7a">0</div>
+            <div class="stat-lbl">High Risk</div>
+            <div class="stat-bar" style="--pct:{% if total > 0 %}{{ (high_risk/total*100)|int }}%{% else %}0%{% endif %}; --clr:#ff6b7a"></div>
         </div>
     </div>
-    <div class="col-md-3 mb-3">
-        <div class="stat-card">
-            <i class="fas fa-check-circle fa-2x mb-2" style="color:#6edba8"></i>
-            <div class="stat-number" style="color:#6edba8">{{ low_risk }}</div>
-            <div class="stat-label">Low Risk Results</div>
+    <div class="col-6 col-md-3">
+        <div class="stat-card-pro animate-in" style="--delay:0.3s">
+            <div class="stat-icon-wrap" style="background:rgba(110,219,168,0.12);">
+                <i class="fas fa-check-circle" style="color:#6edba8"></i>
+            </div>
+            <div class="stat-num counter" data-target="{{ low_risk }}" style="color:#6edba8">0</div>
+            <div class="stat-lbl">Low Risk</div>
+            <div class="stat-bar" style="--pct:{% if total > 0 %}{{ (low_risk/total*100)|int }}%{% else %}0%{% endif %}; --clr:#6edba8"></div>
         </div>
     </div>
-    <div class="col-md-3 mb-3">
-        <div class="stat-card">
-            <i class="fas fa-user fa-2x mb-2" style="color:#7edfee"></i>
-            <div class="stat-number" style="color:#7edfee">{{ current_user.age }}</div>
-            <div class="stat-label">Your Age</div>
+    <div class="col-6 col-md-3">
+        <div class="stat-card-pro animate-in" style="--delay:0.4s">
+            <div class="stat-icon-wrap" style="background:rgba(126,223,238,0.12);">
+                <i class="fas fa-user" style="color:#7edfee"></i>
+            </div>
+            <div class="stat-num counter" data-target="{{ current_user.age }}" style="color:#7edfee">0</div>
+            <div class="stat-lbl">Your Age</div>
+            <div class="stat-bar" style="--pct:{{ [current_user.age, 100]|min }}%; --clr:#7edfee"></div>
         </div>
     </div>
 </div>
 
-<!-- ── Latest Result + Recent Predictions ── -->
-<div class="row mb-4">
+<!-- ── Latest Result + Chart ── -->
+<div class="row mb-4 g-3">
 
-    <!-- Latest Result -->
-    <div class="col-md-4 mb-4">
-        <div class="card p-4 h-100">
-            <h5 style="color:white; font-weight:700; margin-bottom:20px;">
+    <!-- Latest Result with Gauge -->
+    <div class="col-md-4">
+        <div class="card p-4 h-100 text-center">
+            <h5 class="card-heading mb-3">
                 <i class="fas fa-clock me-2" style="color:#dc3545"></i>Latest Result
             </h5>
             {% if latest %}
-            <div class="text-center">
-                <div class="mb-3">
-                    {% if latest.risk_level == 'High Risk' %}
-                    <i class="fas fa-exclamation-triangle fa-4x" style="color:#ff6b7a"></i>
-                    {% else %}
-                    <i class="fas fa-check-circle fa-4x" style="color:#6edba8"></i>
-                    {% endif %}
+            <div class="gauge-wrap mb-3">
+                <canvas id="gaugeCanvas" width="200" height="120"></canvas>
+                <div class="gauge-center-text">
+                    <div class="gauge-pct" id="gaugePct">0%</div>
+                    <div class="gauge-risk {% if latest.risk_level == 'High Risk' %}gauge-high{% else %}gauge-low{% endif %}">
+                        {{ latest.risk_level }}
+                    </div>
                 </div>
-                <h2 style="font-weight:800;
-                    {% if latest.risk_level == 'High Risk' %}color:#ff6b7a{% else %}color:#6edba8{% endif %}">
-                    {{ latest.probability }}%
-                </h2>
-                <span class="{% if latest.risk_level == 'High Risk' %}badge-high{% else %}badge-low{% endif %}">
-                    {{ latest.risk_level }}
-                </span>
-                <p class="mt-3" style="color:#666; font-size:0.85rem;">
-                    <i class="fas fa-calendar me-1"></i>
-                    {{ latest.created_at.strftime('%B %d, %Y') }}
-                </p>
-                <div class="progress mt-2" style="height:10px; border-radius:5px; background:#1a2035;">
-                    <div class="progress-bar {% if latest.risk_level == 'High Risk' %}bg-danger{% else %}bg-success{% endif %}"
-                        style="width:{{ latest.probability }}%"></div>
+            </div>
+            <div class="latest-details mt-2">
+                <div class="latest-row">
+                    <span class="latest-key"><i class="fas fa-calendar me-1"></i>Date</span>
+                    <span class="latest-val">{{ latest.created_at.strftime('%d %b %Y') }}</span>
+                </div>
+                <div class="latest-row">
+                    <span class="latest-key"><i class="fas fa-user me-1"></i>Age</span>
+                    <span class="latest-val">{{ latest.age }}</span>
+                </div>
+                <div class="latest-row">
+                    <span class="latest-key"><i class="fas fa-heartbeat me-1"></i>Heart Rate</span>
+                    <span class="latest-val">{{ latest.thalach }} bpm</span>
                 </div>
             </div>
             {% else %}
-            <div class="text-center" style="color:#555; padding:30px 0;">
-                <i class="fas fa-heartbeat fa-3x mb-3" style="color:#333"></i>
-                <p>No predictions yet.</p>
-                <a href="/predict" class="btn btn-danger btn-sm">Make First Prediction</a>
+            <div style="color:#555; padding:40px 0;">
+                <div class="empty-heart-anim mb-3">
+                    <i class="fas fa-heartbeat fa-3x" style="color:#333"></i>
+                </div>
+                <p style="color:#666;">No predictions yet.</p>
+                <a href="/predict" class="btn-pop btn-pop-red btn-sm-pop mt-2">
+                    <i class="fas fa-plus me-1"></i>First Prediction
+                </a>
             </div>
             {% endif %}
         </div>
     </div>
 
-    <!-- Recent Predictions -->
-    <div class="col-md-8 mb-4">
+    <!-- Risk Trend Chart -->
+    <div class="col-md-8">
         <div class="card p-4 h-100">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5 style="color:white; font-weight:700; margin-bottom:0;">
+                <h5 class="card-heading mb-0">
+                    <i class="fas fa-chart-line me-2" style="color:#dc3545"></i>Risk Trend
+                </h5>
+                <a href="/history" class="view-all-link">
+                    View All <i class="fas fa-arrow-right ms-1"></i>
+                </a>
+            </div>
+            {% if predictions %}
+            <div style="position:relative; height:220px;">
+                <canvas id="trendCanvas"></canvas>
+            </div>
+            {% else %}
+            <div class="text-center" style="color:#555; padding:60px 0;">
+                <p>No data yet. <a href="/predict" style="color:#dc3545;">Make a prediction!</a></p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- ── Recent Predictions Table ── -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card p-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="card-heading mb-0">
                     <i class="fas fa-list me-2" style="color:#dc3545"></i>Recent Predictions
                 </h5>
-                <a href="/history" style="color:#dc3545; font-size:0.85rem; text-decoration:none;">
+                <a href="/history" class="view-all-link">
                     View All <i class="fas fa-arrow-right ms-1"></i>
                 </a>
             </div>
             {% if predictions %}
             <div class="table-responsive">
-                <table class="table table-hover mb-0">
+                <table class="table table-hover pro-table mb-0">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>Date</th>
                             <th>Age</th>
                             <th>Cholesterol</th>
+                            <th>Heart Rate</th>
                             <th>Probability</th>
                             <th>Risk Level</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for p in predictions[:5] %}
-                        <tr>
+                        <tr class="table-row-animate" style="--row-delay:{{ loop.index * 0.05 }}s">
+                            <td style="color:#555; font-size:0.8rem;">{{ loop.index }}</td>
                             <td style="color:#888; font-size:0.85rem;">{{ p.created_at.strftime('%d %b %Y') }}</td>
                             <td style="color:#e0e0e0;">{{ p.age }}</td>
                             <td style="color:#e0e0e0;">{{ p.chol }}</td>
-                            <td style="color:#e0e0e0; font-weight:600;">{{ p.probability }}%</td>
+                            <td style="color:#e0e0e0;">{{ p.thalach }} bpm</td>
+                            <td>
+                                <div class="prob-wrap">
+                                    <span class="prob-num {% if p.probability >= 50 %}prob-high{% else %}prob-low{% endif %}">
+                                        {{ p.probability }}%
+                                    </span>
+                                    <div class="prob-bar-bg">
+                                        <div class="prob-bar-fill {% if p.probability >= 50 %}prob-bar-high{% else %}prob-bar-low{% endif %}"
+                                             style="width:{{ p.probability }}%"></div>
+                                    </div>
+                                </div>
+                            </td>
                             <td>
                                 <span class="{% if p.risk_level == 'High Risk' %}badge-high{% else %}badge-low{% endif %}">
+                                    {% if p.risk_level == 'High Risk' %}
+                                    <i class="fas fa-exclamation-triangle me-1"></i>
+                                    {% else %}
+                                    <i class="fas fa-check me-1"></i>
+                                    {% endif %}
                                     {{ p.risk_level }}
                                 </span>
                             </td>
@@ -150,40 +415,509 @@
 </div>
 
 <!-- ── Quick Actions ── -->
-<div class="row mb-4">
+<div class="row mb-5">
     <div class="col-12">
         <div class="card p-4">
-            <h5 style="color:white; font-weight:700; margin-bottom:20px;">
+            <h5 class="card-heading mb-4">
                 <i class="fas fa-bolt me-2" style="color:#dc3545"></i>Quick Actions
             </h5>
-            <div class="row">
-                <div class="col-md-3 mb-3">
-                    <a href="/predict" class="card p-3 text-center text-decoration-none d-block" style="border: 1px solid rgba(220,53,69,0.3); transition: all 0.3s;" onmouseover="this.style.borderColor='#dc3545'" onmouseout="this.style.borderColor='rgba(220,53,69,0.3)'">
-                        <i class="fas fa-stethoscope fa-2x mb-2" style="color:#dc3545"></i>
-                        <p style="color:white; margin:0; font-weight:600;">New Prediction</p>
+            <div class="row g-3">
+                <div class="col-6 col-md-3">
+                    <a href="/predict" class="quick-action-card animate-in" style="--delay:0.1s">
+                        <div class="qa-icon-wrap" style="background:rgba(220,53,69,0.12);">
+                            <i class="fas fa-stethoscope" style="color:#dc3545"></i>
+                        </div>
+                        <div class="qa-glow" style="--glow:#dc3545"></div>
+                        <p class="qa-label">New Prediction</p>
+                        <span class="qa-arrow"><i class="fas fa-arrow-right"></i></span>
                     </a>
                 </div>
-                <div class="col-md-3 mb-3">
-                    <a href="/history" class="card p-3 text-center text-decoration-none d-block" style="border: 1px solid rgba(220,53,69,0.3); transition: all 0.3s;" onmouseover="this.style.borderColor='#dc3545'" onmouseout="this.style.borderColor='rgba(220,53,69,0.3)'">
-                        <i class="fas fa-history fa-2x mb-2" style="color:#dc3545"></i>
-                        <p style="color:white; margin:0; font-weight:600;">View History</p>
+                <div class="col-6 col-md-3">
+                    <a href="/history" class="quick-action-card animate-in" style="--delay:0.2s">
+                        <div class="qa-icon-wrap" style="background:rgba(126,223,238,0.12);">
+                            <i class="fas fa-history" style="color:#7edfee"></i>
+                        </div>
+                        <div class="qa-glow" style="--glow:#7edfee"></div>
+                        <p class="qa-label">View History</p>
+                        <span class="qa-arrow"><i class="fas fa-arrow-right"></i></span>
                     </a>
                 </div>
-                <div class="col-md-3 mb-3">
-                    <a href="/about" class="card p-3 text-center text-decoration-none d-block" style="border: 1px solid rgba(220,53,69,0.3); transition: all 0.3s;" onmouseover="this.style.borderColor='#dc3545'" onmouseout="this.style.borderColor='rgba(220,53,69,0.3)'">
-                        <i class="fas fa-info-circle fa-2x mb-2" style="color:#dc3545"></i>
-                        <p style="color:white; margin:0; font-weight:600;">About System</p>
+                <div class="col-6 col-md-3">
+                    <a href="/feature-importance" class="quick-action-card animate-in" style="--delay:0.3s">
+                        <div class="qa-icon-wrap" style="background:rgba(110,219,168,0.12);">
+                            <i class="fas fa-brain" style="color:#6edba8"></i>
+                        </div>
+                        <div class="qa-glow" style="--glow:#6edba8"></div>
+                        <p class="qa-label">AI Insights</p>
+                        <span class="qa-arrow"><i class="fas fa-arrow-right"></i></span>
                     </a>
                 </div>
-                <div class="col-md-3 mb-3">
-                    <a href="/logout" class="card p-3 text-center text-decoration-none d-block" style="border: 1px solid rgba(220,53,69,0.3); transition: all 0.3s;" onmouseover="this.style.borderColor='#dc3545'" onmouseout="this.style.borderColor='rgba(220,53,69,0.3)'">
-                        <i class="fas fa-sign-out-alt fa-2x mb-2" style="color:#dc3545"></i>
-                        <p style="color:white; margin:0; font-weight:600;">Logout</p>
+                <div class="col-6 col-md-3">
+                    <a href="/evaluation" class="quick-action-card animate-in" style="--delay:0.4s">
+                        <div class="qa-icon-wrap" style="background:rgba(255,193,7,0.12);">
+                            <i class="fas fa-chart-line" style="color:#ffc107"></i>
+                        </div>
+                        <div class="qa-glow" style="--glow:#ffc107"></div>
+                        <p class="qa-label">Model Eval</p>
+                        <span class="qa-arrow"><i class="fas fa-arrow-right"></i></span>
                     </a>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- ── Health Tips Ticker ── -->
+<div class="health-ticker mb-5">
+    <div class="ticker-label"><i class="fas fa-heartbeat me-2"></i>Health Tips</div>
+    <div class="ticker-track">
+        <div class="ticker-content">
+            💊 Keep cholesterol below 200 mg/dl for a healthy heart &nbsp;&nbsp;•&nbsp;&nbsp;
+            🏃 30 minutes of exercise daily reduces heart disease risk by 35% &nbsp;&nbsp;•&nbsp;&nbsp;
+            🧂 Reduce sodium intake to keep blood pressure in check &nbsp;&nbsp;•&nbsp;&nbsp;
+            🚭 Quitting smoking halves your heart attack risk within a year &nbsp;&nbsp;•&nbsp;&nbsp;
+            😴 7–9 hours of sleep supports healthy cardiovascular function &nbsp;&nbsp;•&nbsp;&nbsp;
+            🥗 A Mediterranean diet is linked to 30% lower cardiac risk &nbsp;&nbsp;•&nbsp;&nbsp;
+            💧 Staying hydrated keeps blood viscosity healthy &nbsp;&nbsp;•&nbsp;&nbsp;
+            🧘 Stress management lowers cortisol and reduces BP &nbsp;&nbsp;•&nbsp;&nbsp;
+        </div>
+    </div>
+</div>
+
+<!-- ── Styles ── -->
+<style>
+.heart-body {
+    transform-origin: 100px 103px;
+    animation: heartBeat 1.2s ease-in-out infinite;
+}
+.heart-glow-ring {
+    transform-origin: 100px 108px;
+    animation: glowPulse 1.2s ease-in-out infinite;
+}
+@keyframes heartBeat {
+    0%   { transform: scale(1);    }
+    14%  { transform: scale(1.06); }
+    28%  { transform: scale(1);    }
+    42%  { transform: scale(1.04); }
+    70%  { transform: scale(1);    }
+    100% { transform: scale(1);    }
+}
+@keyframes glowPulse {
+    0%,100% { opacity:0.4; transform: scale(1);    }
+    14%     { opacity:0.9; transform: scale(1.12); }
+    28%     { opacity:0.4; transform: scale(1);    }
+    42%     { opacity:0.7; transform: scale(1.08); }
+}
+
+/* Welcome Card */
+.welcome-card {
+    background: linear-gradient(135deg, rgba(220,53,69,0.12), rgba(139,0,0,0.06)) !important;
+    border: 1px solid rgba(220,53,69,0.25) !important;
+    overflow: hidden;
+    position: relative;
+}
+.welcome-bg-heart {
+    position: absolute;
+    right: -40px; top: -40px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(220,53,69,0.06) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+.welcome-badge {
+    display: inline-flex; align-items: center;
+    background: rgba(110,219,168,0.1);
+    border: 1px solid rgba(110,219,168,0.3);
+    color: #6edba8;
+    padding: 4px 12px; border-radius: 20px;
+    font-size: 0.75rem; font-weight: 600;
+}
+.welcome-title {
+    color: white; font-weight: 800; font-size: 1.7rem; margin-bottom: 8px;
+}
+.welcome-title span { color: #dc3545; }
+.welcome-sub { color: #888; font-size: 0.95rem; line-height: 1.6; margin-bottom: 0; }
+
+/* Pop Buttons */
+.btn-pop {
+    display: inline-flex; align-items: center;
+    padding: 10px 24px; border-radius: 50px;
+    font-weight: 700; font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative; overflow: hidden;
+}
+.btn-pop::after {
+    content: ''; position: absolute;
+    top: 0; left: -100%; width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    transition: left 0.4s;
+}
+.btn-pop:hover::after { left: 100%; }
+.btn-pop:hover { transform: translateY(-3px) scale(1.04); }
+.btn-pop-red {
+    background: linear-gradient(135deg, #dc3545, #b02a37);
+    color: white !important;
+    box-shadow: 0 4px 20px rgba(220,53,69,0.4);
+}
+.btn-pop-red:hover { box-shadow: 0 8px 30px rgba(220,53,69,0.6); }
+.btn-pop-outline {
+    background: transparent;
+    border: 1px solid rgba(220,53,69,0.4);
+    color: #dc3545 !important;
+}
+.btn-pop-outline:hover {
+    background: rgba(220,53,69,0.1);
+    border-color: #dc3545;
+    box-shadow: 0 4px 20px rgba(220,53,69,0.2);
+}
+.btn-sm-pop { padding: 7px 18px; font-size: 0.82rem; }
+
+/* Stat Cards Pro */
+.stat-card-pro {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 18px;
+    padding: 20px 16px 14px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.5s ease forwards;
+    animation-delay: var(--delay);
+    transition: all 0.3s;
+}
+.stat-card-pro:hover {
+    border-color: rgba(220,53,69,0.25);
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.3);
+}
+.stat-icon-wrap {
+    width: 44px; height: 44px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 10px; font-size: 1.1rem;
+}
+.stat-num { font-size: 2rem; font-weight: 900; color: #dc3545; line-height: 1; }
+.stat-lbl { color: #666; font-size: 0.78rem; margin-top: 4px; }
+.stat-bar {
+    position: absolute; bottom: 0; left: 0;
+    height: 3px; width: var(--pct);
+    background: var(--clr);
+    border-radius: 0 3px 3px 0;
+    transition: width 1.5s ease;
+    opacity: 0.6;
+}
+
+/* Animate In */
+.animate-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.5s ease forwards;
+    animation-delay: var(--delay);
+}
+@keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Card Heading */
+.card-heading { color: white; font-weight: 700; }
+
+/* Gauge */
+.gauge-wrap { position: relative; display: inline-block; }
+.gauge-center-text {
+    position: absolute;
+    bottom: 10px; left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    pointer-events: none;
+}
+.gauge-pct { color: white; font-size: 1.4rem; font-weight: 900; line-height: 1; }
+.gauge-risk {
+    font-size: 0.72rem; font-weight: 700;
+    padding: 2px 8px; border-radius: 10px; margin-top: 3px;
+    display: inline-block;
+}
+.gauge-high { background: rgba(220,53,69,0.2); color: #ff6b7a; }
+.gauge-low  { background: rgba(25,135,84,0.2); color: #6edba8; }
+
+/* Latest Details */
+.latest-details { text-align: left; }
+.latest-row {
+    display: flex; justify-content: space-between;
+    padding: 7px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 0.85rem;
+}
+.latest-key { color: #666; }
+.latest-val { color: #e0e0e0; font-weight: 600; }
+
+/* View All Link */
+.view-all-link {
+    color: #dc3545; font-size: 0.83rem;
+    text-decoration: none; transition: all 0.2s;
+}
+.view-all-link:hover { color: #ff6b7a; letter-spacing: 0.5px; }
+
+/* Pro Table */
+.pro-table thead th {
+    font-size: 0.78rem; letter-spacing: 0.8px;
+    text-transform: uppercase; padding: 10px 12px;
+}
+.pro-table td { padding: 10px 12px; vertical-align: middle; }
+.table-row-animate {
+    opacity: 0;
+    animation: fadeUp 0.4s ease forwards;
+    animation-delay: var(--row-delay);
+}
+
+/* Probability Bar */
+.prob-wrap { display: flex; flex-direction: column; gap: 3px; }
+.prob-num { font-size: 0.88rem; font-weight: 700; }
+.prob-high { color: #ff6b7a; }
+.prob-low  { color: #6edba8; }
+.prob-bar-bg {
+    height: 4px; border-radius: 2px;
+    background: rgba(255,255,255,0.06); overflow: hidden; width: 80px;
+}
+.prob-bar-fill {
+    height: 100%; border-radius: 2px;
+    transition: width 1s ease;
+}
+.prob-bar-high { background: linear-gradient(90deg, #dc3545, #ff6b7a); }
+.prob-bar-low  { background: linear-gradient(90deg, #198754, #6edba8); }
+
+/* Quick Action Cards */
+.quick-action-card {
+    display: block; text-decoration: none;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 16px; padding: 20px 16px;
+    text-align: center; position: relative;
+    overflow: hidden; cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.quick-action-card:hover {
+    transform: translateY(-6px) scale(1.03);
+    border-color: rgba(220,53,69,0.3);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+}
+.quick-action-card:hover .qa-glow {
+    opacity: 1;
+}
+.qa-icon-wrap {
+    width: 50px; height: 50px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 12px; font-size: 1.3rem;
+    transition: transform 0.3s;
+}
+.quick-action-card:hover .qa-icon-wrap { transform: scale(1.15) rotate(-5deg); }
+.qa-glow {
+    position: absolute; bottom: -20px; left: 50%;
+    transform: translateX(-50%);
+    width: 80px; height: 40px;
+    background: radial-gradient(circle, var(--glow) 0%, transparent 70%);
+    opacity: 0; transition: opacity 0.3s;
+    pointer-events: none;
+}
+.qa-label {
+    color: white; font-weight: 700; font-size: 0.88rem;
+    margin: 0 0 8px;
+}
+.qa-arrow {
+    color: #555; font-size: 0.75rem;
+    transition: all 0.3s;
+}
+.quick-action-card:hover .qa-arrow {
+    color: #dc3545; transform: translateX(4px);
+    display: inline-block;
+}
+
+/* Health Ticker */
+.health-ticker {
+    display: flex; align-items: center;
+    background: rgba(220,53,69,0.04);
+    border: 1px solid rgba(220,53,69,0.12);
+    border-radius: 12px; overflow: hidden;
+    height: 44px;
+}
+.ticker-label {
+    flex-shrink: 0;
+    background: rgba(220,53,69,0.15);
+    color: #dc3545; font-size: 0.78rem; font-weight: 700;
+    padding: 0 16px; height: 100%;
+    display: flex; align-items: center;
+    letter-spacing: 0.5px; white-space: nowrap;
+    border-right: 1px solid rgba(220,53,69,0.2);
+}
+.ticker-track { flex: 1; overflow: hidden; }
+.ticker-content {
+    display: inline-block; white-space: nowrap;
+    color: #888; font-size: 0.82rem;
+    animation: ticker 40s linear infinite;
+    padding-left: 100%;
+}
+@keyframes ticker {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-100%); }
+}
+</style>
+
+<!-- ── Scripts ── -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+
+<script>
+// ── Animated Counters
+
+// ── Animated Counters ────────────────────────────────────────────────────────
+document.querySelectorAll('.counter').forEach(el => {
+    const target = parseInt(el.getAttribute('data-target')) || 0;
+    let current = 0;
+    const step = Math.max(1, Math.ceil(target / 40));
+    const timer = setInterval(() => {
+        current = Math.min(current + step, target);
+        el.textContent = current;
+        if (current >= target) clearInterval(timer);
+    }, 40);
+});
+
+
+// ── Gauge Chart
+
+// ── Gauge Chart ──────────────────────────────────────────────────────────────
+(function() {
+    const canvas = document.getElementById('gaugeCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const probability = {{ latest.probability if latest else 0 }};
+    let current = 0;
+    const isHigh = probability >= 50;
+
+    function drawGauge(val) {
+        ctx.clearRect(0, 0, 200, 120);
+        const cx = 100, cy = 105, r = 80;
+        const startAngle = Math.PI;
+        const endAngle = 2 * Math.PI;
+        const valueAngle = startAngle + (val / 100) * Math.PI;
+
+        // Background arc
+        ctx.beginPath();
+        ctx.arc(cx, cy, r, startAngle, endAngle);
+        ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+        ctx.lineWidth = 16;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+
+        // Color gradient arc
+        const grad = ctx.createLinearGradient(cx - r, cy, cx + r, cy);
+        grad.addColorStop(0, '#6edba8');
+        grad.addColorStop(0.5, '#ffc107');
+        grad.addColorStop(1, '#dc3545');
+        ctx.beginPath();
+        ctx.arc(cx, cy, r, startAngle, valueAngle);
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = 16;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+
+        // Needle
+        const needleAngle = valueAngle;
+        const nx = cx + (r - 10) * Math.cos(needleAngle);
+        const ny = cy + (r - 10) * Math.sin(needleAngle);
+        ctx.beginPath();
+        ctx.arc(nx, ny, 5, 0, Math.PI * 2);
+        ctx.fillStyle = isHigh ? '#ff6b7a' : '#6edba8';
+        ctx.fill();
+    }
+
+    // Animate gauge
+    const timer = setInterval(() => {
+        current = Math.min(current + 2, probability);
+        drawGauge(current);
+        const el = document.getElementById('gaugePct');
+        if (el) el.textContent = current + '%';
+        if (current >= probability) clearInterval(timer);
+    }, 20);
+})();
+
+// ── Risk Trend Chart ─────────────────────────────────────────────────────────
+(function() {
+    const canvas = document.getElementById('trendCanvas');
+    if (!canvas) return;
+
+    const predictions = [
+        {% for p in predictions[:8]|reverse %}
+        { date: "{{ p.created_at.strftime('%d %b') }}", prob: {{ p.probability }} }{% if not loop.last %},{% endif %}
+        {% endfor %}
+    ];
+
+    if (!predictions.length) return;
+
+    const labels = predictions.map(p => p.date);
+    const data   = predictions.map(p => p.prob);
+    const pointColors = data.map(v => v >= 50 ? '#ff6b7a' : '#6edba8');
+
+    new Chart(canvas.getContext('2d'), {
+        type: 'line',
+        data: {
+            labels,
+            datasets: [{
+                label: 'Risk %',
+                data,
+                borderColor: '#dc3545',
+                borderWidth: 2.5,
+                pointBackgroundColor: pointColors,
+                pointBorderColor: pointColors,
+                pointRadius: 5,
+                pointHoverRadius: 8,
+                fill: true,
+                backgroundColor: (ctx) => {
+                    const g = ctx.chart.ctx.createLinearGradient(0, 0, 0, 220);
+                    g.addColorStop(0, 'rgba(220,53,69,0.25)');
+                    g.addColorStop(1, 'rgba(220,53,69,0.0)');
+                    return g;
+                },
+                tension: 0.4,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: { duration: 1200, easing: 'easeOutQuart' },
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: 'rgba(2,8,24,0.95)',
+                    borderColor: 'rgba(220,53,69,0.3)',
+                    borderWidth: 1,
+                    titleColor: '#fff',
+                    bodyColor: '#aaa',
+                    padding: 12,
+                    callbacks: {
+                        label: ctx => ' Risk: ' + ctx.parsed.y + '%'
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    grid: { color: 'rgba(255,255,255,0.03)' },
+                    ticks: { color: '#555', font: { size: 11 } },
+                    border: { color: 'rgba(255,255,255,0.04)' }
+                },
+                y: {
+                    min: 0, max: 100,
+                    grid: { color: 'rgba(255,255,255,0.03)' },
+                    ticks: {
+                        color: '#555', font: { size: 11 },
+                        callback: v => v + '%'
+                    },
+                    border: { color: 'rgba(255,255,255,0.04)' }
+                }
+            }
+        }
+    });
+})();
+</script>
 
 {% endblock %}
