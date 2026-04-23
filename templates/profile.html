@@ -2,132 +2,423 @@
 
 {% block content %}
 <div class="row justify-content-center">
-    <div class="col-lg-8">
+    <div class="col-lg-9">
 
-        <!-- Profile Header -->
-        <div class="card p-4 mb-4" style="background: linear-gradient(135deg, rgba(220,53,69,0.15), rgba(220,53,69,0.05)); border: 1px solid rgba(220,53,69,0.3);">
-            <div class="d-flex align-items-center">
-                <div style="width:80px; height:80px; background:rgba(220,53,69,0.15); border-radius:50%; display:flex; align-items:center; justify-content:center; margin-right:20px; flex-shrink:0;">
-                    <i class="fas fa-user fa-2x" style="color:#dc3545"></i>
-                </div>
-                <div>
-                    <h3 style="color:white; font-weight:800; margin:0;">{{ current_user.full_name }}</h3>
-                    <p style="color:#888; margin:0;">{{ current_user.email }}</p>
-                    <small style="color:#555;">Member since {{ current_user.created_at.strftime('%B %Y') }}</small>
-                </div>
+        <!-- Profile Hero -->
+        <div class="profile-hero mb-4 animate-in" style="--delay:0.1s">
+            <div class="profile-hero-bg"></div>
+            <div class="profile-avatar">
+                <i class="fas fa-user fa-2x" style="color:#dc3545"></i>
+                <div class="profile-avatar-ring"></div>
+            </div>
+            <div class="profile-hero-info">
+                <h3 class="profile-name">{{ current_user.full_name }}</h3>
+                <p class="profile-email"><i class="fas fa-envelope me-2" style="color:#dc3545; font-size:0.8rem;"></i>{{ current_user.email }}</p>
+                <small class="profile-since"><i class="fas fa-calendar me-1"></i>Member since {{ current_user.created_at.strftime('%B %Y') }}</small>
+            </div>
+            <div class="profile-hero-badge">
+                <i class="fas fa-shield-alt me-1"></i>
+                {% if current_user.is_admin %}Admin{% else %}Member{% endif %}
             </div>
         </div>
 
         <!-- Stats -->
-        <div class="row mb-4">
-            <div class="col-md-4 mb-3">
-                <div class="stat-card">
-                    <i class="fas fa-chart-bar fa-2x mb-2" style="color:#dc3545"></i>
-                    <div class="stat-number">{{ total }}</div>
-                    <div class="stat-label">Total Predictions</div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-3">
-                <div class="stat-card">
-                    <i class="fas fa-exclamation-triangle fa-2x mb-2" style="color:#ff6b7a"></i>
-                    <div class="stat-number" style="color:#ff6b7a">{{ high_risk }}</div>
-                    <div class="stat-label">High Risk Results</div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-3">
-                <div class="stat-card">
-                    <i class="fas fa-check-circle fa-2x mb-2" style="color:#6edba8"></i>
-                    <div class="stat-number" style="color:#6edba8">{{ low_risk }}</div>
-                    <div class="stat-label">Low Risk Results</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Update Profile -->
-        <div class="card p-4 mb-4">
-            <h5 style="color:white; font-weight:700; margin-bottom:20px;">
-                <i class="fas fa-user-edit me-2" style="color:#dc3545"></i>Update Profile
-            </h5>
-            <form method="POST" action="/profile">
-                <input type="hidden" name="action" value="update_profile">
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">Full Name</label>
-                        <input type="text" name="full_name" class="form-control"
-                               value="{{ current_user.full_name }}" required>
+        <div class="row g-3 mb-4">
+            <div class="col-md-4">
+                <div class="profile-stat animate-in" style="--delay:0.2s">
+                    <div class="profile-stat-icon" style="background:rgba(220,53,69,0.1)">
+                        <i class="fas fa-chart-bar" style="color:#dc3545"></i>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">Age</label>
-                        <input type="number" name="age" class="form-control"
-                               value="{{ current_user.age }}" min="1" max="120" required>
+                    <div class="profile-stat-num counter" data-target="{{ total }}">0</div>
+                    <div class="profile-stat-lbl">Total Predictions</div>
+                    <div class="profile-stat-bar" style="--clr:#dc3545; --pct:100%"></div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="profile-stat animate-in" style="--delay:0.3s">
+                    <div class="profile-stat-icon" style="background:rgba(255,107,122,0.1)">
+                        <i class="fas fa-exclamation-triangle" style="color:#ff6b7a"></i>
                     </div>
-                    <div class="col-md-12 mb-3">
-                        <label class="form-label">Email</label>
-                        <input type="email" class="form-control"
-                               value="{{ current_user.email }}" disabled
-                               style="opacity:0.5; cursor:not-allowed;">
-                        <small style="color:#555;">Email cannot be changed</small>
+                    <div class="profile-stat-num counter" data-target="{{ high_risk }}" style="color:#ff6b7a">0</div>
+                    <div class="profile-stat-lbl">High Risk Results</div>
+                    <div class="profile-stat-bar" style="--clr:#ff6b7a; --pct:{% if total > 0 %}{{ (high_risk/total*100)|int }}%{% else %}0%{% endif %}"></div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="profile-stat animate-in" style="--delay:0.4s">
+                    <div class="profile-stat-icon" style="background:rgba(110,219,168,0.1)">
+                        <i class="fas fa-check-circle" style="color:#6edba8"></i>
                     </div>
-                </div>
-                <button type="submit" class="btn btn-danger px-4">
-                    <i class="fas fa-save me-2"></i>Save Changes
-                </button>
-            </form>
-        </div>
-
-        <!-- Change Password -->
-        <div class="card p-4 mb-4">
-            <h5 style="color:white; font-weight:700; margin-bottom:20px;">
-                <i class="fas fa-lock me-2" style="color:#dc3545"></i>Change Password
-            </h5>
-            <form method="POST" action="/profile">
-                <input type="hidden" name="action" value="change_password">
-                <div class="mb-3">
-                    <label class="form-label">Current Password</label>
-                    <input type="password" name="current_password" class="form-control"
-                           placeholder="Enter current password" required>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">New Password</label>
-                    <input type="password" name="new_password" class="form-control"
-                           placeholder="Enter new password (min 6 characters)" required>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Confirm New Password</label>
-                    <input type="password" name="confirm_password" class="form-control"
-                           placeholder="Confirm new password" required>
-                </div>
-                <button type="submit" class="btn btn-outline-danger px-4">
-                    <i class="fas fa-key me-2"></i>Change Password
-                </button>
-            </form>
-        </div>
-
-        <!-- Account Info -->
-        <div class="card p-4 mb-4">
-            <h5 style="color:white; font-weight:700; margin-bottom:20px;">
-                <i class="fas fa-info-circle me-2" style="color:#dc3545"></i>Account Information
-            </h5>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <p style="color:#666; font-size:0.85rem; margin:0;">Full Name</p>
-                    <p style="color:white; font-weight:600; margin:0;">{{ current_user.full_name }}</p>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <p style="color:#666; font-size:0.85rem; margin:0;">Email</p>
-                    <p style="color:white; font-weight:600; margin:0;">{{ current_user.email }}</p>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <p style="color:#666; font-size:0.85rem; margin:0;">Age</p>
-                    <p style="color:white; font-weight:600; margin:0;">{{ current_user.age }} years</p>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <p style="color:#666; font-size:0.85rem; margin:0;">Member Since</p>
-                    <p style="color:white; font-weight:600; margin:0;">{{ current_user.created_at.strftime('%B %d, %Y') }}</p>
+                    <div class="profile-stat-num counter" data-target="{{ low_risk }}" style="color:#6edba8">0</div>
+                    <div class="profile-stat-lbl">Low Risk Results</div>
+                    <div class="profile-stat-bar" style="--clr:#6edba8; --pct:{% if total > 0 %}{{ (low_risk/total*100)|int }}%{% else %}0%{% endif %}"></div>
                 </div>
             </div>
         </div>
 
+        <div class="row g-4">
+            <!-- Left: Update Profile + Password -->
+            <div class="col-lg-7">
+
+                <!-- Update Profile -->
+                <div class="profile-card mb-4 animate-in" style="--delay:0.3s">
+                    <div class="profile-card-header">
+                        <div class="profile-card-icon">
+                            <i class="fas fa-user-edit" style="color:#dc3545"></i>
+                        </div>
+                        <h5 class="profile-card-title">Update Profile</h5>
+                    </div>
+                    <form method="POST" action="/profile">
+                        <input type="hidden" name="action" value="update_profile">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="profile-label">Full Name</label>
+                                <div class="profile-input-wrap">
+                                    <i class="fas fa-user profile-input-icon"></i>
+                                    <input type="text" name="full_name" class="profile-input"
+                                           value="{{ current_user.full_name }}" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="profile-label">Age</label>
+                                <div class="profile-input-wrap">
+                                    <i class="fas fa-birthday-cake profile-input-icon"></i>
+                                    <input type="number" name="age" class="profile-input"
+                                           value="{{ current_user.age }}" min="1" max="120" required>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <label class="profile-label">Email</label>
+                                <div class="profile-input-wrap">
+                                    <i class="fas fa-envelope profile-input-icon"></i>
+                                    <input type="email" class="profile-input" value="{{ current_user.email }}"
+                                           disabled style="opacity:0.4; cursor:not-allowed;">
+                                </div>
+                                <small style="color:#555; font-size:0.78rem;">Email cannot be changed</small>
+                            </div>
+                        </div>
+                        <button type="submit" class="profile-save-btn mt-3">
+                            <i class="fas fa-save me-2"></i>Save Changes
+                            <span class="profile-btn-shine"></span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Change Password -->
+                <div class="profile-card animate-in" style="--delay:0.4s">
+                    <div class="profile-card-header">
+                        <div class="profile-card-icon">
+                            <i class="fas fa-lock" style="color:#dc3545"></i>
+                        </div>
+                        <h5 class="profile-card-title">Change Password</h5>
+                    </div>
+                    <form method="POST" action="/profile">
+                        <input type="hidden" name="action" value="change_password">
+                        <div class="mb-3">
+                            <label class="profile-label">Current Password</label>
+                            <div class="profile-input-wrap">
+                                <i class="fas fa-key profile-input-icon"></i>
+                                <input type="password" name="current_password" class="profile-input"
+                                       placeholder="Enter current password" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="profile-label">New Password</label>
+                            <div class="profile-input-wrap">
+                                <i class="fas fa-lock profile-input-icon"></i>
+                                <input type="password" name="new_password" class="profile-input"
+                                       placeholder="Minimum 6 characters" required id="newPw">
+                            </div>
+                            <div class="pw-strength mt-2" id="pwStrength" style="display:none">
+                                <div class="pw-strength-bar">
+                                    <div class="pw-strength-fill" id="pwFill"></div>
+                                </div>
+                                <small class="pw-strength-label" id="pwLabel"></small>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="profile-label">Confirm New Password</label>
+                            <div class="profile-input-wrap">
+                                <i class="fas fa-lock profile-input-icon"></i>
+                                <input type="password" name="confirm_password" class="profile-input"
+                                       placeholder="Confirm new password" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="profile-outline-btn">
+                            <i class="fas fa-key me-2"></i>Change Password
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Right: Account Info -->
+            <div class="col-lg-5">
+                <div class="profile-card animate-in" style="--delay:0.5s">
+                    <div class="profile-card-header">
+                        <div class="profile-card-icon">
+                            <i class="fas fa-id-card" style="color:#dc3545"></i>
+                        </div>
+                        <h5 class="profile-card-title">Account Info</h5>
+                    </div>
+                    <div class="account-info-list">
+                        <div class="account-info-row">
+                            <div class="account-info-icon"><i class="fas fa-user" style="color:#dc3545"></i></div>
+                            <div>
+                                <div class="account-info-key">Full Name</div>
+                                <div class="account-info-val">{{ current_user.full_name }}</div>
+                            </div>
+                        </div>
+                        <div class="account-info-row">
+                            <div class="account-info-icon"><i class="fas fa-envelope" style="color:#dc3545"></i></div>
+                            <div>
+                                <div class="account-info-key">Email</div>
+                                <div class="account-info-val">{{ current_user.email }}</div>
+                            </div>
+                        </div>
+                        <div class="account-info-row">
+                            <div class="account-info-icon"><i class="fas fa-birthday-cake" style="color:#dc3545"></i></div>
+                            <div>
+                                <div class="account-info-key">Age</div>
+                                <div class="account-info-val">{{ current_user.age }} years</div>
+                            </div>
+                        </div>
+                        <div class="account-info-row">
+                            <div class="account-info-icon"><i class="fas fa-calendar" style="color:#dc3545"></i></div>
+                            <div>
+                                <div class="account-info-key">Member Since</div>
+                                <div class="account-info-val">{{ current_user.created_at.strftime('%B %d, %Y') }}</div>
+                            </div>
+                        </div>
+                        <div class="account-info-row" style="border:none">
+                            <div class="account-info-icon"><i class="fas fa-shield-alt" style="color:#dc3545"></i></div>
+                            <div>
+                                <div class="account-info-key">Account Type</div>
+                                <div class="account-info-val">
+                                    {% if current_user.is_admin %}
+                                    <span style="color:#ffd85e; font-weight:700;"><i class="fas fa-star me-1"></i>Administrator</span>
+                                    {% else %}
+                                    <span style="color:#6edba8;">Standard Member</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="profile-card mt-4 animate-in" style="--delay:0.6s">
+                    <div class="profile-card-header mb-3">
+                        <div class="profile-card-icon"><i class="fas fa-bolt" style="color:#dc3545"></i></div>
+                        <h5 class="profile-card-title">Quick Links</h5>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <a href="/predict" class="profile-quick-link">
+                            <i class="fas fa-stethoscope me-2" style="color:#dc3545"></i>New Prediction
+                            <i class="fas fa-arrow-right ms-auto" style="color:#555; font-size:0.75rem;"></i>
+                        </a>
+                        <a href="/history" class="profile-quick-link">
+                            <i class="fas fa-history me-2" style="color:#7edfee"></i>View History
+                            <i class="fas fa-arrow-right ms-auto" style="color:#555; font-size:0.75rem;"></i>
+                        </a>
+                        <a href="/feature-importance" class="profile-quick-link">
+                            <i class="fas fa-brain me-2" style="color:#6edba8"></i>AI Insights
+                            <i class="fas fa-arrow-right ms-auto" style="color:#555; font-size:0.75rem;"></i>
+                        </a>
+                        <a href="/evaluation" class="profile-quick-link">
+                            <i class="fas fa-chart-line me-2" style="color:#ffc107"></i>Model Evaluation
+                            <i class="fas fa-arrow-right ms-auto" style="color:#555; font-size:0.75rem;"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+<style>
+.animate-in { opacity:0; transform:translateY(18px); animation:fadeUp 0.5s ease forwards; animation-delay:var(--delay); }
+@keyframes fadeUp { to { opacity:1; transform:translateY(0); } }
+
+/* Profile Hero */
+.profile-hero {
+    background:linear-gradient(135deg,rgba(220,53,69,0.12),rgba(220,53,69,0.04));
+    border:1px solid rgba(220,53,69,0.25); border-radius:24px;
+    padding:28px 32px; display:flex; align-items:center; gap:20px;
+    position:relative; overflow:hidden;
+}
+.profile-hero-bg {
+    position:absolute; top:-40px; right:-40px;
+    width:200px; height:200px; border-radius:50%;
+    background:radial-gradient(circle,rgba(220,53,69,0.08),transparent);
+    pointer-events:none;
+}
+.profile-avatar {
+    width:80px; height:80px; border-radius:50%;
+    background:rgba(220,53,69,0.12); border:2px solid rgba(220,53,69,0.3);
+    display:flex; align-items:center; justify-content:center;
+    position:relative; flex-shrink:0;
+}
+.profile-avatar-ring {
+    position:absolute; width:94px; height:94px; border-radius:50%;
+    border:1px solid rgba(220,53,69,0.2);
+    animation:avatarRing 2s ease-in-out infinite;
+}
+@keyframes avatarRing {
+    0%,100% { transform:scale(1); opacity:0.5; }
+    50%      { transform:scale(1.08); opacity:1; }
+}
+.profile-name  { color:white; font-weight:800; font-size:1.4rem; margin:0; }
+.profile-email { color:#888; font-size:0.88rem; margin:4px 0; }
+.profile-since { color:#555; font-size:0.8rem; }
+.profile-hero-info { flex:1; }
+.profile-hero-badge {
+    background:rgba(220,53,69,0.1); border:1px solid rgba(220,53,69,0.25);
+    color:#dc3545; padding:6px 14px; border-radius:20px;
+    font-size:0.78rem; font-weight:700; flex-shrink:0;
+}
+
+/* Profile Stats */
+.profile-stat {
+    background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07);
+    border-radius:18px; padding:20px 16px; text-align:center; position:relative; overflow:hidden;
+    transition:all 0.3s;
+}
+.profile-stat:hover { border-color:rgba(220,53,69,0.2); transform:translateY(-3px); }
+.profile-stat-icon {
+    width:42px; height:42px; border-radius:12px;
+    display:flex; align-items:center; justify-content:center;
+    margin:0 auto 10px; font-size:1rem;
+}
+.profile-stat-num { font-size:1.9rem; font-weight:900; color:#dc3545; line-height:1; }
+.profile-stat-lbl { color:#666; font-size:0.78rem; margin-top:4px; }
+.profile-stat-bar {
+    position:absolute; bottom:0; left:0;
+    height:3px; width:var(--pct); background:var(--clr);
+    border-radius:0 3px 3px 0; opacity:0.6;
+    transition:width 1.5s ease;
+}
+
+/* Profile Card */
+.profile-card {
+    background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07);
+    border-radius:20px; padding:24px;
+    transition:border-color 0.3s;
+}
+.profile-card:focus-within { border-color:rgba(220,53,69,0.2); }
+.profile-card-header { display:flex; align-items:center; gap:12px; margin-bottom:20px; }
+.profile-card-icon {
+    width:38px; height:38px; border-radius:10px;
+    background:rgba(220,53,69,0.1);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.profile-card-title { color:white; font-weight:700; margin:0; font-size:1rem; }
+
+/* Inputs */
+.profile-label { color:rgba(255,255,255,0.65); font-weight:500; font-size:0.86rem; margin-bottom:6px; display:block; }
+.profile-input-wrap { position:relative; }
+.profile-input-icon {
+    position:absolute; left:13px; top:50%; transform:translateY(-50%);
+    color:#dc3545; font-size:0.8rem; pointer-events:none;
+}
+.profile-input {
+    width:100%; padding:11px 14px 11px 38px;
+    background:rgba(255,255,255,0.05) !important;
+    border:1px solid rgba(255,255,255,0.1) !important;
+    color:#e0e0e0 !important; border-radius:12px;
+    font-size:0.9rem; transition:all 0.3s;
+}
+.profile-input:focus {
+    border-color:rgba(220,53,69,0.5) !important;
+    box-shadow:0 0 0 3px rgba(220,53,69,0.1) !important;
+    outline:none;
+}
+
+/* Password Strength */
+.pw-strength-bar { height:4px; background:rgba(255,255,255,0.05); border-radius:2px; overflow:hidden; }
+.pw-strength-fill { height:100%; border-radius:2px; transition:all 0.3s; }
+.pw-strength-label { font-size:0.75rem; }
+
+/* Buttons */
+.profile-save-btn {
+    padding:11px 28px; background:linear-gradient(135deg,#dc3545,#b02a37);
+    border:none; border-radius:12px; color:white; font-weight:700;
+    cursor:pointer; position:relative; overflow:hidden;
+    box-shadow:0 4px 18px rgba(220,53,69,0.35);
+    transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+.profile-save-btn:hover { transform:translateY(-2px) scale(1.03); box-shadow:0 8px 25px rgba(220,53,69,0.5); }
+.profile-btn-shine {
+    position:absolute; top:0; left:-100%; width:100%; height:100%;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,0.15),transparent);
+    animation:shine 2.5s infinite;
+}
+@keyframes shine { 0%{left:-100%} 50%,100%{left:100%} }
+.profile-outline-btn {
+    padding:11px 28px; background:transparent;
+    border:1px solid rgba(220,53,69,0.35); border-radius:12px;
+    color:#dc3545; font-weight:700; cursor:pointer; transition:all 0.3s;
+}
+.profile-outline-btn:hover { background:rgba(220,53,69,0.1); border-color:#dc3545; }
+
+/* Account Info */
+.account-info-list { display:flex; flex-direction:column; gap:0; }
+.account-info-row {
+    display:flex; align-items:center; gap:14px;
+    padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.04);
+}
+.account-info-icon {
+    width:32px; height:32px; border-radius:8px;
+    background:rgba(220,53,69,0.08);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+    font-size:0.8rem;
+}
+.account-info-key { color:#555; font-size:0.75rem; }
+.account-info-val { color:white; font-weight:600; font-size:0.9rem; }
+
+/* Quick Links */
+.profile-quick-link {
+    display:flex; align-items:center; gap:8px;
+    padding:11px 14px; border-radius:12px;
+    background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06);
+    color:white !important; text-decoration:none; font-size:0.88rem; font-weight:500;
+    transition:all 0.3s;
+}
+.profile-quick-link:hover {
+    background:rgba(220,53,69,0.06); border-color:rgba(220,53,69,0.2);
+    transform:translateX(4px);
+}
+</style>
+
+<script>
+// Counters
+document.querySelectorAll('.counter').forEach(el => {
+    const target = parseInt(el.getAttribute('data-target')) || 0;
+    let cur = 0; const step = Math.max(1, Math.ceil(target/40));
+    const t = setInterval(() => {
+        cur = Math.min(cur+step, target); el.textContent = cur;
+        if(cur >= target) clearInterval(t);
+    }, 40);
+});
+
+// Password strength
+document.getElementById('newPw').addEventListener('input', function(){
+    const v = this.value;
+    const bar = document.getElementById('pwStrength');
+    const fill = document.getElementById('pwFill');
+    const label = document.getElementById('pwLabel');
+    if(!v){ bar.style.display='none'; return; }
+    bar.style.display='block';
+    let strength = 0;
+    if(v.length >= 6) strength++;
+    if(v.length >= 10) strength++;
+    if(/[A-Z]/.test(v)) strength++;
+    if(/[0-9]/.test(v)) strength++;
+    if(/[^A-Za-z0-9]/.test(v)) strength++;
+    const pct = (strength/5)*100;
+    fill.style.width = pct + '%';
+    if(strength <= 2){ fill.style.background='#dc3545'; label.textContent='Weak'; label.style.color='#ff6b7a'; }
+    else if(strength <= 3){ fill.style.background='#ffc107'; label.textContent='Fair'; label.style.color='#ffd85e'; }
+    else { fill.style.background='#198754'; label.textContent='Strong'; label.style.color='#6edba8'; }
+});
+</script>
 {% endblock %}

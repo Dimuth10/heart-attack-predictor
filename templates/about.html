@@ -2,156 +2,367 @@
 
 {% block content %}
 
-<!-- ── Hero ── -->
-<div class="row mb-5">
-    <div class="col-12">
-        <div class="card p-5 text-center" style="background: linear-gradient(135deg, rgba(220,53,69,0.15), rgba(220,53,69,0.05)); border: 1px solid rgba(220,53,69,0.3);">
-            <i class="fas fa-heartbeat fa-4x mb-3" style="color:#dc3545"></i>
-            <h2 style="color:white; font-weight:800;">About CardioPredict AI</h2>
-            <p style="color:#888; max-width:600px; margin:0 auto;">A final year project for BSc (Hons) Software Engineering at NSBM Green University in partnership with the University of Plymouth.</p>
+<!-- Hero -->
+<div class="about-hero mb-5 animate-in" style="--delay:0.1s">
+    <div class="about-hero-bg"></div>
+    <div class="about-hero-rings">
+        <div class="about-ring about-ring-1"></div>
+        <div class="about-ring about-ring-2"></div>
+    </div>
+    <div style="position:relative; z-index:2; text-align:center;">
+        <div class="mb-3">
+            <span class="about-badge"><i class="fas fa-graduation-cap me-2"></i>Final Year Project</span>
         </div>
+        <div style="margin-bottom:16px;">
+            <svg viewBox="0 0 200 180" width="90" height="90" xmlns="http://www.w3.org/2000/svg"
+                 style="filter:drop-shadow(0 0 20px rgba(220,53,69,0.5))">
+              <defs>
+                <radialGradient id="abHg" cx="38%" cy="32%" r="65%">
+                  <stop offset="0%" stop-color="#ff5566"/><stop offset="100%" stop-color="#660011"/>
+                </radialGradient>
+              </defs>
+              <path d="M100 168 C76 154,50 136,36 116 C22 96,20 76,20 62 C20 40,34 26,52 26
+                       C63 26,74 32,82 40 C88 34,96 26,107 26 C127 26,140 42,140 62
+                       C140 78,134 98,120 116 C106 134,100 168,100 168Z"
+                    fill="url(#abHg)" class="about-heart-beat"/>
+              <ellipse cx="68" cy="34" rx="22" ry="14" fill="#dd3344" transform="rotate(-15,68,34)"/>
+              <ellipse cx="122" cy="36" rx="20" ry="12" fill="#bb2233" transform="rotate(10,122,36)"/>
+              <path d="M88 42 C84 26,76 14,62 8 C48 2,36 8,32 20" fill="none" stroke="#e03040" stroke-width="10" stroke-linecap="round"/>
+              <path d="M112 40 C116 24,126 12,138 8" fill="none" stroke="#4466cc" stroke-width="9" stroke-linecap="round"/>
+              <circle r="3" fill="#ff8899" opacity="0.9">
+                <animateMotion dur="2s" repeatCount="indefinite" path="M80,65 C72,80 65,100 68,122"/>
+              </circle>
+              <circle r="2.5" fill="#88aaff" opacity="0.8">
+                <animateMotion dur="1.8s" repeatCount="indefinite" begin="0.4s" path="M88,42 C84,26 76,14 62,8"/>
+              </circle>
+            </svg>
+        </div>
+        <h2 style="color:white; font-weight:900; font-size:2.2rem; margin-bottom:8px;">
+            About <span style="color:#dc3545;">CardioPredict AI</span>
+        </h2>
+        <p style="color:#888; max-width:600px; margin:0 auto; line-height:1.7;">
+            A web-based heart attack prediction system for BSc (Hons) Software Engineering
+            at NSBM Green University in partnership with the University of Plymouth.
+        </p>
     </div>
 </div>
 
-<!-- ── Project Overview ── -->
-<div class="row mb-5">
-    <div class="col-md-6 mb-4">
-        <div class="card p-4 h-100">
-            <h5 style="color:white; font-weight:700; margin-bottom:20px;">
-                <i class="fas fa-info-circle me-2" style="color:#dc3545"></i>Project Overview
-            </h5>
-            <p style="color:#888; line-height:1.8;">CardioPredict AI is a web-based heart attack prediction system that integrates a trained machine learning model within a Flask web application. Users can input clinical parameters and receive real-time risk estimation.</p>
-            <p style="color:#888; line-height:1.8;">The system is designed for educational and research purposes and demonstrates the practical integration of machine learning and web technologies in healthcare applications.</p>
+<!-- Overview + Objectives -->
+<div class="row g-4 mb-5">
+    <div class="col-md-6">
+        <div class="about-card scroll-reveal h-100">
+            <div class="about-card-icon"><i class="fas fa-info-circle" style="color:#dc3545"></i></div>
+            <h5 class="about-card-title">Project Overview</h5>
+            <p style="color:#888; line-height:1.85; font-size:0.92rem;">
+                CardioPredict AI is a web-based heart attack prediction system that integrates a trained
+                Random Forest machine learning model within a Flask web application. Users can input
+                clinical parameters and receive real-time risk estimation with SHAP explainability.
+            </p>
+            <p style="color:#888; line-height:1.85; font-size:0.92rem; margin:0;">
+                The system is designed for educational and research purposes and demonstrates the
+                practical integration of machine learning and web technologies in healthcare applications.
+            </p>
         </div>
     </div>
-    <div class="col-md-6 mb-4">
-        <div class="card p-4 h-100">
-            <h5 style="color:white; font-weight:700; margin-bottom:20px;">
-                <i class="fas fa-bullseye me-2" style="color:#dc3545"></i>Project Objectives
-            </h5>
-            <ul style="color:#888; line-height:2;">
-                <li>Review literature on cardiovascular disease prediction using ML</li>
-                <li>Analyze and preprocess the UCI Heart Disease dataset</li>
-                <li>Train and evaluate supervised ML classification models</li>
-                <li>Develop a Flask-based web application</li>
-                <li>Create an intuitive user interface for clinical data input</li>
-                <li>Ensure system reliability through systematic testing</li>
+    <div class="col-md-6">
+        <div class="about-card scroll-reveal h-100" style="--sr-delay:0.1s">
+            <div class="about-card-icon"><i class="fas fa-bullseye" style="color:#dc3545"></i></div>
+            <h5 class="about-card-title">Project Objectives</h5>
+            <ul class="about-list">
+                <li><i class="fas fa-check-circle me-2" style="color:#6edba8"></i>Review literature on cardiovascular disease prediction using ML</li>
+                <li><i class="fas fa-check-circle me-2" style="color:#6edba8"></i>Analyze and preprocess the UCI Heart Disease datasets</li>
+                <li><i class="fas fa-check-circle me-2" style="color:#6edba8"></i>Train and evaluate supervised ML classification models</li>
+                <li><i class="fas fa-check-circle me-2" style="color:#6edba8"></i>Develop a Flask-based web application</li>
+                <li><i class="fas fa-check-circle me-2" style="color:#6edba8"></i>Create an intuitive UI for clinical data input</li>
+                <li><i class="fas fa-check-circle me-2" style="color:#6edba8"></i>Ensure reliability through systematic unit testing</li>
             </ul>
         </div>
     </div>
 </div>
 
-<!-- ── Model Performance ── -->
-<div class="row mb-5">
-    <div class="col-12 mb-4">
-        <h4 class="section-title text-center">Model <span>Performance</span></h4>
+<!-- Model Performance -->
+<div class="mb-5">
+    <div class="text-center mb-4">
+        <div class="about-section-tag">Machine Learning</div>
+        <h3 class="section-title mt-2">Model <span>Performance</span></h3>
     </div>
-    <div class="col-md-3 mb-3">
-        <div class="stat-card">
-            <i class="fas fa-bullseye fa-2x mb-2" style="color:#dc3545"></i>
-            <div class="stat-number">84.78%</div>
-            <div class="stat-label">Model Accuracy</div>
-        </div>
-    </div>
-    <div class="col-md-3 mb-3">
-        <div class="stat-card">
-            <i class="fas fa-database fa-2x mb-2" style="color:#dc3545"></i>
-            <div class="stat-number">920+</div>
-            <div class="stat-label">Training Records</div>
-        </div>
-    </div>
-    <div class="col-md-3 mb-3">
-        <div class="stat-card">
-            <i class="fas fa-sliders-h fa-2x mb-2" style="color:#dc3545"></i>
-            <div class="stat-number">13</div>
-            <div class="stat-label">Clinical Features</div>
-        </div>
-    </div>
-    <div class="col-md-3 mb-3">
-        <div class="stat-card">
-            <i class="fas fa-tree fa-2x mb-2" style="color:#dc3545"></i>
-            <div class="stat-number">100</div>
-            <div class="stat-label">Decision Trees</div>
-        </div>
-    </div>
-</div>
-
-<!-- ── Tech Stack ── -->
-<div class="row mb-5">
-    <div class="col-12 mb-4">
-        <h4 class="section-title text-center">Technology <span>Stack</span></h4>
-    </div>
-    <div class="col-md-2 col-4 mb-3 text-center">
-        <div class="card p-3">
-            <i class="fab fa-python fa-2x mb-2" style="color:#dc3545"></i>
-            <small style="color:#888;">Python</small>
-        </div>
-    </div>
-    <div class="col-md-2 col-4 mb-3 text-center">
-        <div class="card p-3">
-            <i class="fas fa-flask fa-2x mb-2" style="color:#dc3545"></i>
-            <small style="color:#888;">Flask</small>
-        </div>
-    </div>
-    <div class="col-md-2 col-4 mb-3 text-center">
-        <div class="card p-3">
-            <i class="fas fa-brain fa-2x mb-2" style="color:#dc3545"></i>
-            <small style="color:#888;">Scikit-learn</small>
-        </div>
-    </div>
-    <div class="col-md-2 col-4 mb-3 text-center">
-        <div class="card p-3">
-            <i class="fas fa-database fa-2x mb-2" style="color:#dc3545"></i>
-            <small style="color:#888;">SQLite</small>
-        </div>
-    </div>
-    <div class="col-md-2 col-4 mb-3 text-center">
-        <div class="card p-3">
-            <i class="fab fa-bootstrap fa-2x mb-2" style="color:#dc3545"></i>
-            <small style="color:#888;">Bootstrap 5</small>
-        </div>
-    </div>
-    <div class="col-md-2 col-4 mb-3 text-center">
-        <div class="card p-3">
-            <i class="fab fa-github fa-2x mb-2" style="color:#dc3545"></i>
-            <small style="color:#888;">GitHub</small>
-        </div>
-    </div>
-</div>
-
-<!-- ── Developer ── -->
-<div class="row mb-5">
-    <div class="col-12 mb-4">
-        <h4 class="section-title text-center">Meet The <span>Developer</span></h4>
-    </div>
-    <div class="col-md-6 offset-md-3">
-        <div class="card p-4 text-center">
-            <div style="width:80px; height:80px; background:rgba(220,53,69,0.15); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 20px;">
-                <i class="fas fa-user fa-2x" style="color:#dc3545"></i>
+    <div class="row g-3">
+        <div class="col-6 col-md-3">
+            <div class="about-metric scroll-reveal">
+                <div class="about-metric-ring" style="--clr:#dc3545">
+                    <canvas class="metric-canvas" data-value="89" data-color="#dc3545" width="90" height="90"></canvas>
+                    <div class="about-metric-num">89.14%</div>
+                </div>
+                <div class="about-metric-lbl">Accuracy</div>
             </div>
-            <h5 style="color:white; font-weight:700;">Hewa Fonseka</h5>
-            <p style="color:#dc3545; font-size:0.9rem;">BSc (Hons) Software Engineering</p>
-            <p style="color:#666; font-size:0.9rem;">NSBM Green University | University of Plymouth</p>
-            <p style="color:#666; font-size:0.9rem;">Plymouth Index: 10952571</p>
-            <hr style="border-color:rgba(255,255,255,0.05);">
-            <p style="color:#666; font-size:0.85rem; margin:0;">
-                <i class="fas fa-user-tie me-2" style="color:#dc3545"></i>
-                Supervisor: Ms. Dharani Rajasinghe
-            </p>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="about-metric scroll-reveal" style="--sr-delay:0.1s">
+                <div class="about-metric-ring" style="--clr:#7edfee">
+                    <canvas class="metric-canvas" data-value="96" data-color="#7edfee" width="90" height="90"></canvas>
+                    <div class="about-metric-num">96.52%</div>
+                </div>
+                <div class="about-metric-lbl">AUC Score</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="about-metric scroll-reveal" style="--sr-delay:0.2s">
+                <div class="about-metric-ring" style="--clr:#6edba8">
+                    <canvas class="metric-canvas" data-value="92" data-color="#6edba8" width="90" height="90"></canvas>
+                    <div class="about-metric-num">92.66%</div>
+                </div>
+                <div class="about-metric-lbl">Recall</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="about-metric scroll-reveal" style="--sr-delay:0.3s">
+                <div class="about-metric-ring" style="--clr:#ffc107">
+                    <canvas class="metric-canvas" data-value="90" data-color="#ffc107" width="90" height="90"></canvas>
+                    <div class="about-metric-num">90.18%</div>
+                </div>
+                <div class="about-metric-lbl">F1 Score</div>
+            </div>
         </div>
     </div>
 </div>
 
-<!-- ── Disclaimer ── -->
-<div class="row mb-4">
-    <div class="col-12">
-        <div class="card p-4" style="border: 1px solid rgba(255,193,7,0.3); background:rgba(255,193,7,0.05);">
-            <h6 style="color:#ffd85e; font-weight:700;">
-                <i class="fas fa-exclamation-triangle me-2"></i>Important Disclaimer
-            </h6>
-            <p style="color:#888; margin:0;">This system is intended for educational and research purposes only. It does not replace professional medical diagnosis or clinical advice. Always consult a qualified healthcare professional for medical decisions. The predictions generated by this system are based on a machine learning model trained on publicly available datasets and may not be accurate for all individuals.</p>
+<!-- Tech Stack -->
+<div class="mb-5">
+    <div class="text-center mb-4">
+        <div class="about-section-tag">Built With</div>
+        <h3 class="section-title mt-2">Technology <span>Stack</span></h3>
+    </div>
+    <div class="row g-3">
+        <div class="col-6 col-md-2">
+            <div class="tech-card scroll-reveal text-center">
+                <i class="fab fa-python fa-2x mb-2" style="color:#dc3545"></i>
+                <div class="tech-name">Python 3.9</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-2">
+            <div class="tech-card scroll-reveal text-center" style="--sr-delay:0.05s">
+                <i class="fas fa-flask fa-2x mb-2" style="color:#dc3545"></i>
+                <div class="tech-name">Flask</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-2">
+            <div class="tech-card scroll-reveal text-center" style="--sr-delay:0.1s">
+                <i class="fas fa-brain fa-2x mb-2" style="color:#dc3545"></i>
+                <div class="tech-name">Scikit-learn</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-2">
+            <div class="tech-card scroll-reveal text-center" style="--sr-delay:0.15s">
+                <i class="fas fa-database fa-2x mb-2" style="color:#dc3545"></i>
+                <div class="tech-name">SQLite</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-2">
+            <div class="tech-card scroll-reveal text-center" style="--sr-delay:0.2s">
+                <i class="fab fa-bootstrap fa-2x mb-2" style="color:#dc3545"></i>
+                <div class="tech-name">Bootstrap 5</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-2">
+            <div class="tech-card scroll-reveal text-center" style="--sr-delay:0.25s">
+                <i class="fab fa-github fa-2x mb-2" style="color:#dc3545"></i>
+                <div class="tech-name">GitHub</div>
+            </div>
         </div>
     </div>
 </div>
+
+<!-- Developer -->
+<div class="mb-5">
+    <div class="text-center mb-4">
+        <div class="about-section-tag">Team</div>
+        <h3 class="section-title mt-2">Meet The <span>Developer</span></h3>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="developer-card scroll-reveal text-center">
+                <div class="dev-avatar">
+                    <i class="fas fa-user fa-2x" style="color:#dc3545"></i>
+                    <div class="dev-avatar-ring"></div>
+                </div>
+                <h5 class="dev-name">Hewa Fonseka</h5>
+                <p class="dev-role"><i class="fas fa-code me-2" style="color:#dc3545"></i>BSc (Hons) Software Engineering</p>
+                <p class="dev-uni"><i class="fas fa-university me-2" style="color:#dc3545"></i>NSBM Green University | University of Plymouth</p>
+                <p class="dev-id"><i class="fas fa-id-badge me-2" style="color:#666"></i>Plymouth Index: 10952571</p>
+                <div class="dev-divider"></div>
+                <p class="dev-supervisor">
+                    <i class="fas fa-user-tie me-2" style="color:#dc3545"></i>
+                    <strong style="color:#888;">Supervisor:</strong>
+                    <span style="color:#ccc;"> Ms. Dharani Rajasinghe</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Disclaimer -->
+<div class="about-disclaimer mb-5 scroll-reveal">
+    <div class="about-disclaimer-icon">
+        <i class="fas fa-exclamation-triangle" style="color:#ffc107; font-size:1.4rem;"></i>
+    </div>
+    <div>
+        <h6 style="color:#ffd85e; font-weight:700; margin-bottom:6px;">Important Disclaimer</h6>
+        <p style="color:#888; margin:0; font-size:0.9rem; line-height:1.7;">
+            This system is intended for educational and research purposes only. It does not replace
+            professional medical diagnosis or clinical advice. Always consult a qualified healthcare
+            professional for medical decisions. Predictions are based on a machine learning model
+            trained on publicly available datasets and may not be accurate for all individuals.
+        </p>
+    </div>
+</div>
+
+<style>
+.animate-in { opacity:0; transform:translateY(18px); animation:fadeUp 0.5s ease forwards; animation-delay:var(--delay); }
+@keyframes fadeUp { to { opacity:1; transform:translateY(0); } }
+.scroll-reveal { opacity:0; transform:translateY(25px); transition:opacity 0.6s ease var(--sr-delay,0s), transform 0.6s ease var(--sr-delay,0s); }
+.scroll-reveal.visible { opacity:1; transform:translateY(0); }
+
+/* Hero */
+.about-hero {
+    background:linear-gradient(135deg,rgba(220,53,69,0.12),rgba(139,0,0,0.06));
+    border:1px solid rgba(220,53,69,0.25); border-radius:28px;
+    padding:60px 40px; position:relative; overflow:hidden;
+}
+.about-hero-bg {
+    position:absolute; top:0; left:0; width:100%; height:100%;
+    background:radial-gradient(ellipse at 20% 50%,rgba(220,53,69,0.06),transparent 60%);
+    pointer-events:none;
+}
+.about-hero-rings { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); pointer-events:none; }
+.about-ring {
+    position:absolute; border-radius:50%;
+    border:1px solid rgba(220,53,69,0.08);
+    transform:translate(-50%,-50%);
+    animation:aboutRing 4s ease-in-out infinite;
+}
+.about-ring-1 { width:500px; height:500px; }
+.about-ring-2 { width:700px; height:700px; animation-delay:1s; opacity:0.5; }
+@keyframes aboutRing {
+    0%,100% { opacity:0.3; transform:translate(-50%,-50%) scale(1); }
+    50%      { opacity:0.7; transform:translate(-50%,-50%) scale(1.02); }
+}
+.about-badge {
+    display:inline-flex; align-items:center;
+    background:rgba(220,53,69,0.1); color:#dc3545;
+    padding:7px 18px; border-radius:25px; font-size:0.8rem;
+    border:1px solid rgba(220,53,69,0.25); font-weight:600;
+}
+.about-heart-beat { transform-origin:100px 100px; animation:heartBeat 1.2s ease-in-out infinite; }
+@keyframes heartBeat {
+    0%,100%{transform:scale(1)} 14%{transform:scale(1.07)} 28%{transform:scale(1)} 42%{transform:scale(1.04)} 70%{transform:scale(1)}
+}
+.about-section-tag { display:inline-block; color:#dc3545; font-size:0.78rem; letter-spacing:3px; text-transform:uppercase; font-weight:600; }
+
+/* About Cards */
+.about-card {
+    background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07);
+    border-radius:20px; padding:28px;
+    transition:all 0.3s;
+}
+.about-card:hover { border-color:rgba(220,53,69,0.2); transform:translateY(-3px); }
+.about-card-icon {
+    width:44px; height:44px; border-radius:12px;
+    background:rgba(220,53,69,0.1);
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.1rem; margin-bottom:16px;
+}
+.about-card-title { color:white; font-weight:700; margin-bottom:14px; }
+.about-list { list-style:none; padding:0; margin:0; }
+.about-list li { color:#888; font-size:0.88rem; padding:5px 0; display:flex; align-items:flex-start; line-height:1.5; }
+
+/* Metrics */
+.about-metric { text-align:center; padding:16px 8px; }
+.about-metric-ring { position:relative; display:inline-block; margin-bottom:10px; }
+.about-metric-num {
+    position:absolute; top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    font-weight:800; font-size:0.78rem; color:white; text-align:center; line-height:1.2;
+}
+.about-metric-lbl { color:#666; font-size:0.82rem; font-weight:600; }
+
+/* Tech Cards */
+.tech-card {
+    background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07);
+    border-radius:16px; padding:20px 10px;
+    transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+.tech-card:hover { border-color:rgba(220,53,69,0.3); transform:translateY(-5px) scale(1.04); }
+.tech-name { color:#888; font-size:0.8rem; font-weight:600; margin-top:4px; }
+
+/* Developer Card */
+.developer-card {
+    background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07);
+    border-radius:24px; padding:36px 32px;
+    transition:all 0.3s;
+}
+.developer-card:hover { border-color:rgba(220,53,69,0.2); }
+.dev-avatar {
+    width:88px; height:88px; border-radius:50%;
+    background:rgba(220,53,69,0.12); border:2px solid rgba(220,53,69,0.3);
+    display:flex; align-items:center; justify-content:center;
+    margin:0 auto 20px; position:relative;
+}
+.dev-avatar-ring {
+    position:absolute; width:104px; height:104px; border-radius:50%;
+    border:1px solid rgba(220,53,69,0.18);
+    animation:devRing 2s ease-in-out infinite;
+}
+@keyframes devRing {
+    0%,100%{transform:scale(1);opacity:0.4} 50%{transform:scale(1.06);opacity:0.9}
+}
+.dev-name  { color:white; font-weight:800; font-size:1.3rem; margin-bottom:6px; }
+.dev-role  { color:#dc3545; font-size:0.9rem; margin-bottom:4px; }
+.dev-uni   { color:#888; font-size:0.88rem; margin-bottom:4px; }
+.dev-id    { color:#666; font-size:0.85rem; margin-bottom:0; }
+.dev-divider { height:1px; background:rgba(255,255,255,0.05); margin:16px 0; }
+.dev-supervisor { color:#888; font-size:0.88rem; margin:0; }
+
+/* Disclaimer */
+.about-disclaimer {
+    background:rgba(255,193,7,0.05); border:1px solid rgba(255,193,7,0.2);
+    border-radius:16px; padding:24px; display:flex; gap:18px; align-items:flex-start;
+}
+.about-disclaimer-icon {
+    width:44px; height:44px; border-radius:12px;
+    background:rgba(255,193,7,0.1);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+</style>
+
+<script>
+// Scroll reveal
+const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.scroll-reveal').forEach(el => obs.observe(el));
+
+// Circular metric charts
+document.querySelectorAll('.metric-canvas').forEach(canvas => {
+    const ctx = canvas.getContext('2d');
+    const val = parseInt(canvas.getAttribute('data-value'));
+    const color = canvas.getAttribute('data-color');
+    let cur = 0;
+    const obs2 = new IntersectionObserver(entries => {
+        if(entries[0].isIntersecting){
+            const t = setInterval(() => {
+                cur = Math.min(cur + 1.5, val);
+                ctx.clearRect(0,0,90,90);
+                ctx.beginPath(); ctx.arc(45,45,36,0,Math.PI*2);
+                ctx.strokeStyle='rgba(255,255,255,0.05)'; ctx.lineWidth=7; ctx.stroke();
+                ctx.beginPath(); ctx.arc(45,45,36,-Math.PI/2,(-Math.PI/2)+(cur/100)*Math.PI*2);
+                ctx.strokeStyle=color; ctx.lineWidth=7; ctx.lineCap='round'; ctx.stroke();
+                if(cur >= val) clearInterval(t);
+            }, 20);
+            obs2.disconnect();
+        }
+    });
+    obs2.observe(canvas);
+});
+</script>
 
 {% endblock %}

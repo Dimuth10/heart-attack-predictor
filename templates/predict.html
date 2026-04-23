@@ -2,142 +2,407 @@
 
 {% block content %}
 <div class="row justify-content-center">
-    <div class="col-lg-8">
-        <div class="card shadow-lg">
-            <div class="card-body p-4">
-                <div class="text-center mb-4">
-                    <i class="fas fa-stethoscope fa-3x mb-3" style="color:#dc3545"></i>
-                    <h3 style="color:white; font-weight:800;">Heart Attack Risk Prediction</h3>
-                    <p style="color:#666;">Fill in your basic health information below</p>
-                </div>
+    <div class="col-lg-9">
 
-                <form method="POST" action="/predict">
+        <!-- Header -->
+        <div class="text-center mb-5 animate-in" style="--delay:0.1s">
+            <div class="mb-3">
+                <span class="predict-badge">
+                    <i class="fas fa-stethoscope me-2"></i>Clinical Assessment
+                </span>
+            </div>
+            <h2 style="color:white; font-weight:800; font-size:2rem;">Heart Attack <span style="color:#dc3545;">Risk Prediction</span></h2>
+            <p style="color:#666; margin:8px auto 0; max-width:500px;">Fill in your clinical parameters below for an AI-powered risk assessment</p>
+        </div>
 
-                    <!-- Section 1 - Basic Info -->
-                    <div class="mb-4">
-                        <h6 style="color:#dc3545; font-weight:700; border-bottom: 1px solid rgba(220,53,69,0.3); padding-bottom:10px;">
-                            <i class="fas fa-user me-2"></i>Basic Information
-                        </h6>
-                        <div class="row mt-3">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Age <span style="color:#dc3545">*</span></label>
-                                <div class="input-group">
-                                    <span class="input-group-text" style="background:#1a2035; border-color:rgba(255,255,255,0.1); color:#666;">
-                                        <i class="fas fa-user"></i>
-                                    </span>
-                                    <input type="number" name="age" class="form-control" placeholder="e.g. 45" min="1" max="120" required>
-                                </div>
-                                <small style="color:#555;">Your current age in years</small>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Sex <span style="color:#dc3545">*</span></label>
-                                <select name="sex" class="form-select" required>
-                                    <option value="">Select your sex</option>
-                                    <option value="1">Male</option>
-                                    <option value="0">Female</option>
-                                </select>
-                                <small style="color:#555;">Your biological sex</small>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Section 2 - Blood Test Results -->
-                    <div class="mb-4">
-                        <h6 style="color:#dc3545; font-weight:700; border-bottom: 1px solid rgba(220,53,69,0.3); padding-bottom:10px;">
-                            <i class="fas fa-flask me-2"></i>Blood Test Results
-                        </h6>
-                        <div class="row mt-3">
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label">Cholesterol <span style="color:#dc3545">*</span></label>
-                                <div class="input-group">
-                                    <span class="input-group-text" style="background:#1a2035; border-color:rgba(255,255,255,0.1); color:#666;">
-                                        <i class="fas fa-flask"></i>
-                                    </span>
-                                    <input type="number" name="chol" class="form-control" placeholder="e.g. 200" required>
-                                </div>
-                                <small style="color:#555;">Serum cholesterol in mg/dl</small>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label">Fasting Blood Sugar <span style="color:#dc3545">*</span></label>
-                                <select name="fbs" class="form-select" required>
-                                    <option value="">Select</option>
-                                    <option value="1">Above 120 mg/dl (Yes)</option>
-                                    <option value="0">Below 120 mg/dl (No)</option>
-                                </select>
-                                <small style="color:#555;">Is fasting blood sugar above 120?</small>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label">Resting Blood Pressure <span style="color:#dc3545">*</span></label>
-                                <div class="input-group">
-                                    <span class="input-group-text" style="background:#1a2035; border-color:rgba(255,255,255,0.1); color:#666;">
-                                        <i class="fas fa-heartbeat"></i>
-                                    </span>
-                                    <input type="number" name="trestbps" class="form-control" placeholder="e.g. 120" required>
-                                </div>
-                                <small style="color:#555;">Blood pressure in mmHg</small>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Section 3 - Heart Symptoms -->
-                    <div class="mb-4">
-                        <h6 style="color:#dc3545; font-weight:700; border-bottom: 1px solid rgba(220,53,69,0.3); padding-bottom:10px;">
-                            <i class="fas fa-heart me-2"></i>Heart Symptoms
-                        </h6>
-                        <div class="row mt-3">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Chest Pain Type <span style="color:#dc3545">*</span></label>
-                                <select name="cp" class="form-select" required>
-                                    <option value="">Select chest pain type</option>
-                                    <option value="1">Typical Angina — Chest pain triggered by activity</option>
-                                    <option value="2">Atypical Angina — Unusual chest discomfort</option>
-                                    <option value="3">Non-Anginal — Chest pain unrelated to heart</option>
-                                    <option value="0">Asymptomatic — No chest pain</option>
-                                </select>
-                                <small style="color:#555;">Type of chest pain experienced</small>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Maximum Heart Rate <span style="color:#dc3545">*</span></label>
-                                <div class="input-group">
-                                    <span class="input-group-text" style="background:#1a2035; border-color:rgba(255,255,255,0.1); color:#666;">
-                                        <i class="fas fa-heart"></i>
-                                    </span>
-                                    <input type="number" name="thalach" class="form-control" placeholder="e.g. 150" min="60" max="220" required>
-                                </div>
-                                <small style="color:#555;">Highest heart rate achieved (bpm)</small>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Info Box -->
-                    <div class="p-3 mb-4" style="background:rgba(13,202,240,0.05); border-radius:10px; border: 1px solid rgba(13,202,240,0.2);">
-                        <h6 style="color:#7edfee; font-weight:700;">
-                            <i class="fas fa-info-circle me-2"></i>How to get these values?
-                        </h6>
-                        <ul style="color:#666; margin:0; font-size:0.85rem;">
-                            <li><strong style="color:#888;">Cholesterol & Blood Sugar</strong> — From a routine blood test report</li>
-                            <li><strong style="color:#888;">Blood Pressure</strong> — Measured at home with a BP monitor or at a pharmacy</li>
-                            <li><strong style="color:#888;">Heart Rate</strong> — Measured using a smartwatch, fitness band or pulse oximeter</li>
-                            <li><strong style="color:#888;">Chest Pain</strong> — Based on symptoms you experience during daily activities</li>
-                        </ul>
-                    </div>
-
-                    <div class="alert alert-warning">
-                        <i class="fas fa-exclamation-triangle me-2"></i>
-                        <strong>Disclaimer:</strong> This tool is for educational purposes only and does not replace professional medical advice. Always consult a qualified doctor.
-                    </div>
-
-                    <div class="d-grid gap-2 d-md-flex mt-3">
-                        <button type="submit" class="btn btn-danger btn-lg flex-fill fw-bold">
-                            <i class="fas fa-heartbeat me-2"></i>Predict My Risk
-                        </button>
-                        <button type="reset" class="btn btn-outline-danger btn-lg flex-fill">
-                            <i class="fas fa-redo me-2"></i>Reset
-                        </button>
-                    </div>
-                </form>
+        <!-- Progress Steps -->
+        <div class="predict-steps mb-4 animate-in" style="--delay:0.2s">
+            <div class="step active" id="step1ind">
+                <div class="step-circle">1</div>
+                <div class="step-label">Basic Info</div>
+            </div>
+            <div class="step-line"></div>
+            <div class="step" id="step2ind">
+                <div class="step-circle">2</div>
+                <div class="step-label">Blood Tests</div>
+            </div>
+            <div class="step-line"></div>
+            <div class="step" id="step3ind">
+                <div class="step-circle">3</div>
+                <div class="step-label">Heart Symptoms</div>
             </div>
         </div>
+
+        <form method="POST" action="/predict" id="predictForm">
+
+            <!-- ── Section 1: Basic Info ── -->
+            <div class="predict-section animate-in" style="--delay:0.3s">
+                <div class="predict-section-header">
+                    <div class="predict-section-icon">
+                        <i class="fas fa-user" style="color:#dc3545"></i>
+                    </div>
+                    <div>
+                        <h6 class="predict-section-title">Basic Information</h6>
+                        <small class="predict-section-sub">Personal demographic details</small>
+                    </div>
+                </div>
+                <div class="row g-3 mt-1">
+                    <div class="col-md-6">
+                        <label class="predict-label">Age <span class="req">*</span></label>
+                        <div class="predict-input-wrap">
+                            <i class="fas fa-user predict-input-icon"></i>
+                            <input type="number" name="age" class="predict-input" placeholder="e.g. 45" min="1" max="120" required
+                                   oninput="updateCard('age',this.value,'years')">
+                        </div>
+                        <small class="predict-hint">Your current age in years</small>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="predict-label">Sex <span class="req">*</span></label>
+                        <div class="predict-input-wrap">
+                            <i class="fas fa-venus-mars predict-input-icon"></i>
+                            <select name="sex" class="predict-input predict-select" required
+                                    onchange="updateCard('sex',this.options[this.selectedIndex].text,'')">
+                                <option value="">Select your sex</option>
+                                <option value="1">Male</option>
+                                <option value="0">Female</option>
+                            </select>
+                        </div>
+                        <small class="predict-hint">Your biological sex</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Section 2: Blood Tests ── -->
+            <div class="predict-section animate-in" style="--delay:0.4s">
+                <div class="predict-section-header">
+                    <div class="predict-section-icon">
+                        <i class="fas fa-flask" style="color:#dc3545"></i>
+                    </div>
+                    <div>
+                        <h6 class="predict-section-title">Blood Test Results</h6>
+                        <small class="predict-section-sub">From your latest blood work report</small>
+                    </div>
+                </div>
+                <div class="row g-3 mt-1">
+                    <div class="col-md-4">
+                        <label class="predict-label">Cholesterol <span class="req">*</span></label>
+                        <div class="predict-input-wrap">
+                            <i class="fas fa-flask predict-input-icon"></i>
+                            <input type="number" name="chol" class="predict-input" placeholder="e.g. 200" required
+                                   oninput="updateCard('chol',this.value,'mg/dl'); updateCholStatus(this.value)">
+                        </div>
+                        <div class="predict-status-bar" id="cholBar">
+                            <div class="predict-status-fill" id="cholFill"></div>
+                        </div>
+                        <small class="predict-hint" id="cholHint">Serum cholesterol in mg/dl</small>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="predict-label">Fasting Blood Sugar <span class="req">*</span></label>
+                        <div class="predict-input-wrap">
+                            <i class="fas fa-tint predict-input-icon"></i>
+                            <select name="fbs" class="predict-input predict-select" required
+                                    onchange="updateCard('fbs',this.options[this.selectedIndex].text,'')">
+                                <option value="">Select</option>
+                                <option value="1">Above 120 mg/dl (Yes)</option>
+                                <option value="0">Below 120 mg/dl (No)</option>
+                            </select>
+                        </div>
+                        <small class="predict-hint">Is fasting blood sugar above 120?</small>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="predict-label">Resting Blood Pressure <span class="req">*</span></label>
+                        <div class="predict-input-wrap">
+                            <i class="fas fa-heartbeat predict-input-icon"></i>
+                            <input type="number" name="trestbps" class="predict-input" placeholder="e.g. 120" required
+                                   oninput="updateCard('bp',this.value,'mmHg'); updateBpStatus(this.value)">
+                        </div>
+                        <div class="predict-status-bar" id="bpBar">
+                            <div class="predict-status-fill" id="bpFill"></div>
+                        </div>
+                        <small class="predict-hint" id="bpHint">Blood pressure in mmHg</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Section 3: Heart Symptoms ── -->
+            <div class="predict-section animate-in" style="--delay:0.5s">
+                <div class="predict-section-header">
+                    <div class="predict-section-icon">
+                        <i class="fas fa-heart" style="color:#dc3545"></i>
+                    </div>
+                    <div>
+                        <h6 class="predict-section-title">Heart Symptoms</h6>
+                        <small class="predict-section-sub">Symptoms experienced during daily activities</small>
+                    </div>
+                </div>
+                <div class="row g-3 mt-1">
+                    <div class="col-md-6">
+                        <label class="predict-label">Chest Pain Type <span class="req">*</span></label>
+                        <div class="predict-input-wrap">
+                            <i class="fas fa-lungs predict-input-icon"></i>
+                            <select name="cp" class="predict-input predict-select" required
+                                    onchange="updateCard('cp',this.options[this.selectedIndex].text,'')">
+                                <option value="">Select chest pain type</option>
+                                <option value="1">Typical Angina — Activity-triggered</option>
+                                <option value="2">Atypical Angina — Unusual discomfort</option>
+                                <option value="3">Non-Anginal — Unrelated to heart</option>
+                                <option value="0">Asymptomatic — No chest pain</option>
+                            </select>
+                        </div>
+                        <small class="predict-hint">Type of chest pain experienced</small>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="predict-label">Maximum Heart Rate <span class="req">*</span></label>
+                        <div class="predict-input-wrap">
+                            <i class="fas fa-heart predict-input-icon"></i>
+                            <input type="number" name="thalach" class="predict-input" placeholder="e.g. 150" min="60" max="220" required
+                                   oninput="updateCard('hr',this.value,'bpm')">
+                        </div>
+                        <small class="predict-hint">Highest heart rate achieved in bpm</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Live Preview Card ── -->
+            <div class="predict-preview animate-in" style="--delay:0.6s">
+                <div class="predict-preview-header">
+                    <i class="fas fa-eye me-2" style="color:#dc3545"></i>
+                    <span>Live Input Preview</span>
+                </div>
+                <div class="row g-2 mt-1" id="previewGrid">
+                    <div class="col-4 col-md-2"><div class="prev-item"><div class="prev-val" id="prev-age">—</div><div class="prev-lbl">Age</div></div></div>
+                    <div class="col-4 col-md-2"><div class="prev-item"><div class="prev-val" id="prev-sex">—</div><div class="prev-lbl">Sex</div></div></div>
+                    <div class="col-4 col-md-2"><div class="prev-item"><div class="prev-val" id="prev-chol">—</div><div class="prev-lbl">Cholesterol</div></div></div>
+                    <div class="col-4 col-md-2"><div class="prev-item"><div class="prev-val" id="prev-bp">—</div><div class="prev-lbl">Blood Pressure</div></div></div>
+                    <div class="col-4 col-md-2"><div class="prev-item"><div class="prev-val" id="prev-hr">—</div><div class="prev-lbl">Heart Rate</div></div></div>
+                    <div class="col-4 col-md-2"><div class="prev-item"><div class="prev-val" id="prev-fbs">—</div><div class="prev-lbl">Blood Sugar</div></div></div>
+                    <div class="col-12"><div class="prev-item"><div class="prev-val" id="prev-cp" style="font-size:0.8rem;">—</div><div class="prev-lbl">Chest Pain Type</div></div></div>
+                </div>
+            </div>
+
+            <!-- Info Box -->
+            <div class="predict-info animate-in" style="--delay:0.65s">
+                <h6 style="color:#7edfee; font-weight:700; margin-bottom:10px;">
+                    <i class="fas fa-info-circle me-2"></i>How to get these values?
+                </h6>
+                <div class="row g-2">
+                    <div class="col-md-6"><div class="info-item"><i class="fas fa-vial me-2" style="color:#7edfee"></i><span><strong style="color:#aaa;">Cholesterol & Blood Sugar</strong> — From a routine blood test report</span></div></div>
+                    <div class="col-md-6"><div class="info-item"><i class="fas fa-heartbeat me-2" style="color:#7edfee"></i><span><strong style="color:#aaa;">Blood Pressure</strong> — Measured with a BP monitor or at a pharmacy</span></div></div>
+                    <div class="col-md-6"><div class="info-item"><i class="fas fa-watch me-2" style="color:#7edfee"></i><span><strong style="color:#aaa;">Heart Rate</strong> — Smartwatch, fitness band or pulse oximeter</span></div></div>
+                    <div class="col-md-6"><div class="info-item"><i class="fas fa-lungs me-2" style="color:#7edfee"></i><span><strong style="color:#aaa;">Chest Pain</strong> — Based on symptoms during daily activities</span></div></div>
+                </div>
+            </div>
+
+            <!-- Disclaimer -->
+            <div class="predict-disclaimer animate-in" style="--delay:0.7s">
+                <i class="fas fa-exclamation-triangle me-2" style="color:#ffc107"></i>
+                <strong style="color:#ffd85e;">Disclaimer:</strong>
+                <span style="color:#888;"> This tool is for educational purposes only and does not replace professional medical advice. Always consult a qualified doctor.</span>
+            </div>
+
+            <!-- Submit Buttons -->
+            <div class="row g-3 mt-2 animate-in" style="--delay:0.75s">
+                <div class="col-md-8">
+                    <button type="submit" class="predict-submit-btn" id="submitBtn">
+                        <i class="fas fa-heartbeat me-2"></i>
+                        <span id="submitText">Predict My Risk</span>
+                        <span class="predict-btn-shine"></span>
+                    </button>
+                </div>
+                <div class="col-md-4">
+                    <button type="reset" class="predict-reset-btn" onclick="resetPreview()">
+                        <i class="fas fa-redo me-2"></i>Reset All
+                    </button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
+
+<style>
+.predict-badge {
+    display:inline-flex; align-items:center;
+    background:rgba(220,53,69,0.1); color:#dc3545;
+    padding:7px 18px; border-radius:25px; font-size:0.8rem;
+    border:1px solid rgba(220,53,69,0.25); font-weight:600; letter-spacing:0.5px;
+}
+.animate-in { opacity:0; transform:translateY(18px); animation:fadeUp 0.5s ease forwards; animation-delay:var(--delay); }
+@keyframes fadeUp { to { opacity:1; transform:translateY(0); } }
+
+/* Steps */
+.predict-steps {
+    display:flex; align-items:center; justify-content:center; gap:0;
+}
+.step { display:flex; flex-direction:column; align-items:center; gap:5px; }
+.step-circle {
+    width:38px; height:38px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:700; font-size:0.9rem;
+    background:rgba(255,255,255,0.05);
+    border:2px solid rgba(255,255,255,0.1);
+    color:#555; transition:all 0.3s;
+}
+.step.active .step-circle {
+    background:rgba(220,53,69,0.15);
+    border-color:#dc3545; color:#dc3545;
+    box-shadow:0 0 15px rgba(220,53,69,0.3);
+}
+.step.done .step-circle { background:#dc3545; border-color:#dc3545; color:white; }
+.step-label { font-size:0.72rem; color:#555; font-weight:600; }
+.step.active .step-label, .step.done .step-label { color:#dc3545; }
+.step-line { flex:1; height:2px; background:rgba(255,255,255,0.06); min-width:60px; margin:0 8px; margin-bottom:20px; }
+
+/* Sections */
+.predict-section {
+    background:rgba(255,255,255,0.03);
+    border:1px solid rgba(255,255,255,0.07);
+    border-radius:20px; padding:24px;
+    margin-bottom:16px;
+    transition:border-color 0.3s;
+}
+.predict-section:focus-within { border-color:rgba(220,53,69,0.25); }
+.predict-section-header { display:flex; align-items:center; gap:14px; margin-bottom:4px; }
+.predict-section-icon {
+    width:40px; height:40px; border-radius:12px;
+    background:rgba(220,53,69,0.1);
+    display:flex; align-items:center; justify-content:center;
+    font-size:1rem; flex-shrink:0;
+}
+.predict-section-title { color:white; font-weight:700; margin:0; font-size:1rem; }
+.predict-section-sub { color:#555; font-size:0.8rem; }
+
+/* Inputs */
+.predict-label { color:rgba(255,255,255,0.65); font-weight:500; font-size:0.88rem; margin-bottom:7px; display:block; }
+.req { color:#dc3545; }
+.predict-input-wrap { position:relative; }
+.predict-input-icon {
+    position:absolute; left:14px; top:50%; transform:translateY(-50%);
+    color:#dc3545; font-size:0.85rem; pointer-events:none; z-index:2;
+}
+.predict-input {
+    width:100%; padding:12px 14px 12px 40px;
+    background:rgba(255,255,255,0.05) !important;
+    border:1px solid rgba(255,255,255,0.1) !important;
+    color:#e0e0e0 !important; border-radius:12px;
+    font-size:0.92rem; transition:all 0.3s;
+    appearance:none; -webkit-appearance:none;
+}
+.predict-input:focus {
+    border-color:rgba(220,53,69,0.5) !important;
+    box-shadow:0 0 0 3px rgba(220,53,69,0.1) !important;
+    background:rgba(255,255,255,0.07) !important; outline:none;
+}
+.predict-input::placeholder { color:rgba(255,255,255,0.2) !important; }
+.predict-select option { background:#0d1117; color:#e0e0e0; }
+.predict-hint { color:#555; font-size:0.78rem; margin-top:4px; display:block; }
+
+/* Status Bars */
+.predict-status-bar {
+    height:3px; background:rgba(255,255,255,0.05);
+    border-radius:2px; margin-top:5px; overflow:hidden; display:none;
+}
+.predict-status-fill { height:100%; border-radius:2px; transition:width 0.4s ease, background 0.3s; }
+
+/* Preview Card */
+.predict-preview {
+    background:rgba(255,255,255,0.02);
+    border:1px solid rgba(220,53,69,0.12);
+    border-radius:16px; padding:18px 20px; margin-bottom:16px;
+}
+.predict-preview-header { color:#dc3545; font-size:0.85rem; font-weight:600; }
+.prev-item { text-align:center; padding:8px 4px; }
+.prev-val { color:#dc3545; font-weight:700; font-size:0.95rem; }
+.prev-lbl { color:#444; font-size:0.72rem; margin-top:2px; }
+
+/* Info Box */
+.predict-info {
+    background:rgba(13,202,240,0.04);
+    border:1px solid rgba(13,202,240,0.15);
+    border-radius:14px; padding:18px 20px; margin-bottom:16px;
+}
+.info-item { display:flex; align-items:flex-start; gap:4px; color:#666; font-size:0.83rem; line-height:1.5; margin-bottom:4px; }
+
+/* Disclaimer */
+.predict-disclaimer {
+    background:rgba(255,193,7,0.05);
+    border:1px solid rgba(255,193,7,0.15);
+    border-radius:12px; padding:14px 18px; margin-bottom:20px;
+    font-size:0.86rem;
+}
+
+/* Submit */
+.predict-submit-btn {
+    width:100%; padding:16px;
+    background:linear-gradient(135deg,#dc3545,#b02a37);
+    border:none; border-radius:14px; color:white;
+    font-weight:700; font-size:1.05rem; cursor:pointer;
+    position:relative; overflow:hidden;
+    box-shadow:0 6px 25px rgba(220,53,69,0.4);
+    transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+.predict-submit-btn:hover {
+    transform:translateY(-3px) scale(1.02);
+    box-shadow:0 12px 35px rgba(220,53,69,0.55);
+}
+.predict-btn-shine {
+    position:absolute; top:0; left:-100%; width:100%; height:100%;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,0.15),transparent);
+    animation:shine 2.5s infinite;
+}
+@keyframes shine { 0%{left:-100%} 50%,100%{left:100%} }
+.predict-reset-btn {
+    width:100%; padding:16px;
+    background:transparent;
+    border:1px solid rgba(220,53,69,0.35);
+    border-radius:14px; color:#dc3545;
+    font-weight:700; font-size:1rem; cursor:pointer;
+    transition:all 0.3s;
+}
+.predict-reset-btn:hover { background:rgba(220,53,69,0.1); border-color:#dc3545; }
+</style>
+
+<script>
+function updateCard(key, val, unit) {
+    const el = document.getElementById('prev-' + key);
+    if(el && val) el.textContent = val + (unit ? ' ' + unit : '');
+}
+function resetPreview() {
+    ['age','sex','chol','bp','hr','fbs','cp'].forEach(k => {
+        const el = document.getElementById('prev-' + k);
+        if(el) el.textContent = '—';
+    });
+    document.getElementById('cholBar').style.display = 'none';
+    document.getElementById('bpBar').style.display = 'none';
+}
+function updateCholStatus(v) {
+    const bar = document.getElementById('cholBar');
+    const fill = document.getElementById('cholFill');
+    const hint = document.getElementById('cholHint');
+    if(!v) return;
+    bar.style.display = 'block';
+    const pct = Math.min((v/400)*100, 100);
+    fill.style.width = pct + '%';
+    if(v >= 240) { fill.style.background='#dc3545'; hint.textContent = '⚠ High — above 240 mg/dl is risky'; hint.style.color='#ff6b7a'; }
+    else if(v >= 200) { fill.style.background='#ffc107'; hint.textContent = '⚡ Borderline — aim for below 200 mg/dl'; hint.style.color='#ffd85e'; }
+    else { fill.style.background='#198754'; hint.textContent = '✓ Normal — within healthy range'; hint.style.color='#6edba8'; }
+}
+function updateBpStatus(v) {
+    const bar = document.getElementById('bpBar');
+    const fill = document.getElementById('bpFill');
+    const hint = document.getElementById('bpHint');
+    if(!v) return;
+    bar.style.display = 'block';
+    const pct = Math.min((v/200)*100, 100);
+    fill.style.width = pct + '%';
+    if(v >= 140) { fill.style.background='#dc3545'; hint.textContent = '⚠ High — above 140 mmHg is hypertension'; hint.style.color='#ff6b7a'; }
+    else if(v >= 120) { fill.style.background='#ffc107'; hint.textContent = '⚡ Elevated — healthy is below 120 mmHg'; hint.style.color='#ffd85e'; }
+    else { fill.style.background='#198754'; hint.textContent = '✓ Normal — within healthy range'; hint.style.color='#6edba8'; }
+}
+document.getElementById('predictForm').addEventListener('submit', function(){
+    const btn = document.getElementById('submitBtn');
+    const txt = document.getElementById('submitText');
+    btn.style.opacity = '0.8';
+    txt.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Analysing...';
+});
+</script>
 {% endblock %}

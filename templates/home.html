@@ -3,147 +3,717 @@
 {% block content %}
 
 <!-- ── Hero Section ── -->
-<div class="row align-items-center mb-5" style="min-height: 80vh; margin-top: -20px;">
+<div class="row align-items-center mb-5" style="min-height:90vh; padding-top:20px;">
     <div class="col-lg-6 mb-5">
-        <div class="mb-3">
-            <span style="background: rgba(220,53,69,0.15); color: #dc3545; padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; border: 1px solid rgba(220,53,69,0.3);">
-                <i class="fas fa-shield-alt me-2"></i>AI-Powered Heart Health Assessment
+
+        <!-- Badge -->
+        <div class="mb-4 animate-in" style="--delay:0.1s">
+            <span class="hero-badge">
+                <span class="hero-badge-dot"></span>
+                AI-Powered Heart Health Assessment
             </span>
         </div>
-        <h1 class="display-4 fw-800 mb-4" style="color: white; line-height: 1.2;">
-            Predict Your <span style="color: #dc3545;">Heart Attack</span> Risk With AI
+
+        <!-- Title -->
+        <h1 class="hero-title animate-in" style="--delay:0.2s">
+            Predict Your<br>
+            <span class="hero-gradient">Heart Attack Risk</span><br>
+            <span class="hero-sub">With Advanced AI</span>
         </h1>
-        <p class="lead mb-4" style="color: #888; line-height: 1.8;">
-            CardioPredict AI uses advanced machine learning trained on clinical data to estimate your heart attack risk. Get instant results based on your medical parameters.
+
+        <p class="hero-desc animate-in" style="--delay:0.3s">
+            CardioPredict AI uses a Random Forest model trained on
+            <strong style="color:#dc3545;">2,024 clinical records</strong>
+            to estimate your heart attack risk with
+            <strong style="color:#dc3545;">89% accuracy</strong> — instantly.
         </p>
-        <div class="d-flex gap-3 flex-wrap">
+
+        <!-- Buttons -->
+        <div class="d-flex gap-3 flex-wrap animate-in" style="--delay:0.4s">
             {% if current_user.is_authenticated %}
-            <a href="/predict" class="btn btn-danger btn-lg px-4">
+            <a href="/predict" class="btn-hero-primary">
                 <i class="fas fa-heartbeat me-2"></i>Start Prediction
+                <span class="btn-shine"></span>
             </a>
-            <a href="/dashboard" class="btn btn-outline-danger btn-lg px-4">
+            <a href="/dashboard" class="btn-hero-outline">
                 <i class="fas fa-th-large me-2"></i>My Dashboard
             </a>
             {% else %}
-            <a href="/register" class="btn btn-danger btn-lg px-4">
+            <a href="/register" class="btn-hero-primary">
                 <i class="fas fa-user-plus me-2"></i>Get Started Free
+                <span class="btn-shine"></span>
             </a>
-            <a href="/login" class="btn btn-outline-danger btn-lg px-4">
+            <a href="/login" class="btn-hero-outline">
                 <i class="fas fa-sign-in-alt me-2"></i>Login
             </a>
             {% endif %}
         </div>
+
+        <!-- Trust Badges -->
+        <div class="d-flex gap-4 mt-4 flex-wrap animate-in" style="--delay:0.5s">
+            <div class="trust-badge"><i class="fas fa-check-circle" style="color:#6edba8"></i> 89% Accuracy</div>
+            <div class="trust-badge"><i class="fas fa-check-circle" style="color:#6edba8"></i> 2,024 Records</div>
+            <div class="trust-badge"><i class="fas fa-check-circle" style="color:#6edba8"></i> Instant Results</div>
+            <div class="trust-badge"><i class="fas fa-check-circle" style="color:#6edba8"></i> Free to Use</div>
+        </div>
     </div>
-    <div class="col-lg-6 text-center">
-        <div style="background: rgba(220,53,69,0.05); border: 1px solid rgba(220,53,69,0.2); border-radius: 20px; padding: 40px;">
-            <i class="fas fa-heartbeat fa-6x mb-4" style="color: #dc3545; opacity: 0.8;"></i>
-            <div class="row text-center mt-3">
-                <div class="col-4">
-                    <div class="stat-card">
-                        <div class="stat-number">84%</div>
-                        <div class="stat-label">Accuracy</div>
+
+    <!-- Hero Visual -->
+    <div class="col-lg-6 text-center animate-in" style="--delay:0.3s">
+        <div class="hero-card-wrap">
+            <!-- Outer rings -->
+            <div class="hero-ring hero-ring-1"></div>
+            <div class="hero-ring hero-ring-2"></div>
+            <div class="hero-ring hero-ring-3"></div>
+
+            <!-- Main glass card -->
+            <div class="hero-glass-card">
+
+                <!-- Anatomical Heart SVG -->
+                <div style="position:relative; margin-bottom:20px;">
+                    <div class="heart-glow-bg"></div>
+                    <svg id="heroHeart" viewBox="0 0 340 320" width="160" height="160"
+                         xmlns="http://www.w3.org/2000/svg"
+                         style="filter:drop-shadow(0 0 20px rgba(220,53,69,0.6)) drop-shadow(0 4px 16px rgba(0,0,0,0.5));">
+                      <defs>
+                        <radialGradient id="hhg1" cx="38%" cy="32%" r="65%">
+                          <stop offset="0%"   stop-color="#ff5566"/>
+                          <stop offset="40%"  stop-color="#cc2233"/>
+                          <stop offset="100%" stop-color="#660011"/>
+                        </radialGradient>
+                        <radialGradient id="hhg2" cx="70%" cy="40%" r="55%">
+                          <stop offset="0%"   stop-color="#bb1122"/>
+                          <stop offset="100%" stop-color="#550008"/>
+                        </radialGradient>
+                        <linearGradient id="hveinG" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%"   stop-color="#4466cc"/>
+                          <stop offset="100%" stop-color="#223388"/>
+                        </linearGradient>
+                      </defs>
+                      <path d="M170 290 C138 270,95 242,72 215 C48 188,38 162,38 138
+                               C38 98,58 72,88 65 C102 61,116 65,128 74
+                               C138 82,148 94,155 108 C160 98,168 85,178 76
+                               C190 66,206 60,222 62 C254 67,275 94,275 132
+                               C275 160,262 188,240 213 C218 238,195 260,170 290Z"
+                             fill="url(#hhg1)" class="hero-heart-body"/>
+                      <path d="M222 62 C254 67,275 94,275 132 C275 160,262 188,240 213
+                               C220 236,196 258,170 290 C185 270,210 245,228 220
+                               C248 192,262 165,262 135 C262 100,248 75,222 62Z"
+                             fill="url(#hhg2)" opacity="0.7"/>
+                      <ellipse cx="118" cy="72" rx="40" ry="28" fill="#dd3344" transform="rotate(-15,118,72)"/>
+                      <ellipse cx="218" cy="74" rx="36" ry="24" fill="#bb2233" transform="rotate(10,218,74)"/>
+                      <path d="M155 60 C150 38,140 18,120 10 C100 2,80 8,74 24
+                               C68 40,78 54,92 56" fill="none" stroke="#e03040" stroke-width="18" stroke-linecap="round"/>
+                      <path d="M155 60 C150 38,140 18,120 10 C100 2,80 8,74 24"
+                            fill="none" stroke="#ff6677" stroke-width="8" stroke-linecap="round" opacity="0.45"/>
+                      <path d="M182 58 C188 36,202 20,218 14 C232 8,248 12,252 24"
+                            fill="none" stroke="url(#hveinG)" stroke-width="16" stroke-linecap="round"/>
+                      <path d="M148 108 C135 120,115 138,105 162 C95 184,95 208,105 228"
+                            fill="none" stroke="#cc1122" stroke-width="4.5" stroke-linecap="round" opacity="0.85"/>
+                      <path d="M192 100 C205 115,218 135,220 158 C222 182,212 205,200 225"
+                            fill="none" stroke="#aa0011" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
+                      <path d="M168 100 C166 140,165 185,170 248" fill="none" stroke="rgba(80,0,0,0.5)" stroke-width="3.5"/>
+                      <path d="M95 82 C108 70,128 66,142 74 C130 68,110 72,95 82Z" fill="rgba(255,255,255,0.22)"/>
+                      <ellipse cx="108" cy="90" rx="16" ry="9" fill="rgba(255,255,255,0.12)" transform="rotate(-25,108,90)"/>
+                      <circle r="4" fill="#ff8899" opacity="0.9">
+                        <animateMotion dur="2.2s" repeatCount="indefinite"
+                          path="M148,108 C135,120 115,138 105,162 C95,184 95,208 105,228"/>
+                      </circle>
+                      <circle r="3.5" fill="#ff7788" opacity="0.85">
+                        <animateMotion dur="2.6s" repeatCount="indefinite" begin="0.4s"
+                          path="M192,100 C205,115 218,135 220,158 C222,182 212,205 200,225"/>
+                      </circle>
+                      <circle r="4" fill="#ffaabb" opacity="0.8">
+                        <animateMotion dur="1.6s" repeatCount="indefinite" begin="0.2s"
+                          path="M155,60 C150,38 140,18 120,10 C100,2 80,8 74,24"/>
+                      </circle>
+                      <circle r="3.5" fill="#88aaff" opacity="0.75">
+                        <animateMotion dur="2s" repeatCount="indefinite" begin="0.8s"
+                          path="M182,58 C188,36 202,20 218,14 C232,8 248,12 252,24"/>
+                      </circle>
+                    </svg>
+                </div>
+
+                <!-- Mini Stats -->
+                <div class="row g-2 mb-3">
+                    <div class="col-4">
+                        <div class="hero-mini-stat">
+                            <div class="hero-mini-num">89%</div>
+                            <div class="hero-mini-lbl">Accuracy</div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="hero-mini-stat">
+                            <div class="hero-mini-num">2K+</div>
+                            <div class="hero-mini-lbl">Records</div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="hero-mini-stat">
+                            <div class="hero-mini-num">0.96</div>
+                            <div class="hero-mini-lbl">AUC</div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-4">
-                    <div class="stat-card">
-                        <div class="stat-number">920+</div>
-                        <div class="stat-label">Records</div>
-                    </div>
+
+                <!-- Live ECG -->
+                <div class="hero-ecg-box">
+                    <canvas id="heroEcg" height="36" style="width:100%;"></canvas>
+                    <p class="hero-ecg-label">LIVE ECG SIMULATION</p>
                 </div>
-                <div class="col-4">
-                    <div class="stat-card">
-                        <div class="stat-number">13</div>
-                        <div class="stat-label">Features</div>
-                    </div>
-                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ── Stats Bar ── -->
+<div class="stats-bar mb-5">
+    <div class="row text-center g-0">
+        <div class="col-6 col-md-3">
+            <div class="stats-bar-item">
+                <div class="stats-bar-num" data-count="89.14" data-suffix="%">0%</div>
+                <div class="stats-bar-lbl">Model Accuracy</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="stats-bar-item">
+                <div class="stats-bar-num" data-count="2024" data-suffix="">0</div>
+                <div class="stats-bar-lbl">Training Records</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="stats-bar-item">
+                <div class="stats-bar-num" data-count="96.52" data-suffix="%">0%</div>
+                <div class="stats-bar-lbl">AUC Score</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="stats-bar-item">
+                <div class="stats-bar-num" data-count="7" data-suffix="">0</div>
+                <div class="stats-bar-lbl">Clinical Features</div>
             </div>
         </div>
     </div>
 </div>
 
 <!-- ── How It Works ── -->
-<div class="mb-5">
+<div class="section-wrap mb-5">
     <div class="text-center mb-5">
-        <h2 class="section-title">How It <span>Works</span></h2>
-        <p style="color: #666;">Three simple steps to get your heart attack risk assessment</p>
+        <div class="section-tag">Simple Process</div>
+        <h2 class="section-title mt-2">How It <span>Works</span></h2>
+        <p style="color:#555; max-width:500px; margin:10px auto 0;">
+            Three simple steps to get your personalised heart attack risk assessment
+        </p>
     </div>
-    <div class="row">
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 p-4 text-center" style="border-top: 3px solid #dc3545;">
-                <div style="width:60px; height:60px; background:rgba(220,53,69,0.1); border-radius:50%; display:flex; align-items:center; justify-content:center; margin: 0 auto 20px;">
-                    <i class="fas fa-user-plus fa-xl" style="color:#dc3545"></i>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="how-card scroll-reveal">
+                <div class="how-num">01</div>
+                <div class="how-icon-wrap">
+                    <i class="fas fa-user-plus" style="color:#dc3545"></i>
                 </div>
-                <h5 style="color:white; font-weight:700;">1. Create Account</h5>
-                <p style="color:#666;">Register with your basic details to get started with your personal health dashboard.</p>
+                <h5 class="how-title">Create Account</h5>
+                <p class="how-desc">Register with your basic details to get started with your personal heart health dashboard.</p>
+                <div class="how-line"></div>
             </div>
         </div>
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 p-4 text-center" style="border-top: 3px solid #dc3545;">
-                <div style="width:60px; height:60px; background:rgba(220,53,69,0.1); border-radius:50%; display:flex; align-items:center; justify-content:center; margin: 0 auto 20px;">
-                    <i class="fas fa-clipboard-list fa-xl" style="color:#dc3545"></i>
+        <div class="col-md-4">
+            <div class="how-card scroll-reveal" style="--sr-delay:0.15s">
+                <div class="how-num">02</div>
+                <div class="how-icon-wrap">
+                    <i class="fas fa-clipboard-list" style="color:#dc3545"></i>
                 </div>
-                <h5 style="color:white; font-weight:700;">2. Enter Parameters</h5>
-                <p style="color:#666;">Input your clinical data such as age, cholesterol, blood pressure and other indicators.</p>
+                <h5 class="how-title">Enter Parameters</h5>
+                <p class="how-desc">Input your clinical data such as age, cholesterol, blood pressure and heart rate indicators.</p>
+                <div class="how-line"></div>
             </div>
         </div>
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 p-4 text-center" style="border-top: 3px solid #dc3545;">
-                <div style="width:60px; height:60px; background:rgba(220,53,69,0.1); border-radius:50%; display:flex; align-items:center; justify-content:center; margin: 0 auto 20px;">
-                    <i class="fas fa-chart-line fa-xl" style="color:#dc3545"></i>
+        <div class="col-md-4">
+            <div class="how-card scroll-reveal" style="--sr-delay:0.3s">
+                <div class="how-num">03</div>
+                <div class="how-icon-wrap">
+                    <i class="fas fa-chart-line" style="color:#dc3545"></i>
                 </div>
-                <h5 style="color:white; font-weight:700;">3. Get Results</h5>
-                <p style="color:#666;">Receive instant AI-powered risk assessment with probability score and recommendations.</p>
+                <h5 class="how-title">Get Results</h5>
+                <p class="how-desc">Receive instant AI-powered risk assessment with probability score and personalised recommendations.</p>
+                <div class="how-line"></div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- ── Features ── -->
-<div class="mb-5">
+<!-- ── Features Grid ── -->
+<div class="section-wrap mb-5">
     <div class="text-center mb-5">
-        <h2 class="section-title">Why Choose <span>CardioPredict AI</span></h2>
+        <div class="section-tag">Why Choose Us</div>
+        <h2 class="section-title mt-2">Why <span>CardioPredict AI</span></h2>
     </div>
-    <div class="row">
-        <div class="col-md-3 mb-4">
-            <div class="card p-4 text-center h-100">
-                <i class="fas fa-bolt fa-2x mb-3" style="color:#dc3545"></i>
-                <h6 style="color:white; font-weight:700;">Instant Results</h6>
-                <p style="color:#666; font-size:0.9rem;">Get your risk assessment in seconds.</p>
+    <div class="row g-4">
+        <div class="col-md-3 col-6">
+            <div class="feat-card scroll-reveal">
+                <div class="feat-icon-wrap">
+                    <i class="fas fa-bolt" style="color:#dc3545; font-size:1.3rem;"></i>
+                </div>
+                <h6 class="feat-title">Instant Results</h6>
+                <p class="feat-desc">Risk assessment in seconds with detailed breakdown and recommendations.</p>
             </div>
         </div>
-        <div class="col-md-3 mb-4">
-            <div class="card p-4 text-center h-100">
-                <i class="fas fa-brain fa-2x mb-3" style="color:#dc3545"></i>
-                <h6 style="color:white; font-weight:700;">ML Powered</h6>
-                <p style="color:#666; font-size:0.9rem;">Random Forest algorithm with 84% accuracy.</p>
+        <div class="col-md-3 col-6">
+            <div class="feat-card scroll-reveal" style="--sr-delay:0.1s">
+                <div class="feat-icon-wrap">
+                    <i class="fas fa-brain" style="color:#dc3545; font-size:1.3rem;"></i>
+                </div>
+                <h6 class="feat-title">ML Powered</h6>
+                <p class="feat-desc">Random Forest achieving 89% accuracy and 0.96 AUC on clinical data.</p>
             </div>
         </div>
-        <div class="col-md-3 mb-4">
-            <div class="card p-4 text-center h-100">
-                <i class="fas fa-history fa-2x mb-3" style="color:#dc3545"></i>
-                <h6 style="color:white; font-weight:700;">Track History</h6>
-                <p style="color:#666; font-size:0.9rem;">Monitor your risk levels over time.</p>
+        <div class="col-md-3 col-6">
+            <div class="feat-card scroll-reveal" style="--sr-delay:0.2s">
+                <div class="feat-icon-wrap">
+                    <i class="fas fa-file-pdf" style="color:#dc3545; font-size:1.3rem;"></i>
+                </div>
+                <h6 class="feat-title">PDF Reports</h6>
+                <p class="feat-desc">Download professional PDF reports with full clinical analysis.</p>
             </div>
         </div>
-        <div class="col-md-3 mb-4">
-            <div class="card p-4 text-center h-100">
-                <i class="fas fa-lock fa-2x mb-3" style="color:#dc3545"></i>
-                <h6 style="color:white; font-weight:700;">Secure & Private</h6>
-                <p style="color:#666; font-size:0.9rem;">Your data is encrypted and protected.</p>
+        <div class="col-md-3 col-6">
+            <div class="feat-card scroll-reveal" style="--sr-delay:0.3s">
+                <div class="feat-icon-wrap">
+                    <i class="fas fa-lock" style="color:#dc3545; font-size:1.3rem;"></i>
+                </div>
+                <h6 class="feat-title">Secure & Private</h6>
+                <p class="feat-desc">Your health data is encrypted and never shared with third parties.</p>
             </div>
         </div>
+        <div class="col-md-3 col-6">
+            <div class="feat-card scroll-reveal" style="--sr-delay:0.1s">
+                <div class="feat-icon-wrap">
+                    <i class="fas fa-project-diagram" style="color:#dc3545; font-size:1.3rem;"></i>
+                </div>
+                <h6 class="feat-title">SHAP Explainability</h6>
+                <p class="feat-desc">Understand why the model made each prediction with SHAP values.</p>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="feat-card scroll-reveal" style="--sr-delay:0.2s">
+                <div class="feat-icon-wrap">
+                    <i class="fas fa-history" style="color:#dc3545; font-size:1.3rem;"></i>
+                </div>
+                <h6 class="feat-title">Full History</h6>
+                <p class="feat-desc">Track all past predictions and monitor your risk trend over time.</p>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="feat-card scroll-reveal" style="--sr-delay:0.3s">
+                <div class="feat-icon-wrap">
+                    <i class="fas fa-chart-bar" style="color:#dc3545; font-size:1.3rem;"></i>
+                </div>
+                <h6 class="feat-title">Model Evaluation</h6>
+                <p class="feat-desc">Full ROC curve, confusion matrix and performance metrics page.</p>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="feat-card scroll-reveal" style="--sr-delay:0.4s">
+                <div class="feat-icon-wrap">
+                    <i class="fas fa-mobile-alt" style="color:#dc3545; font-size:1.3rem;"></i>
+                </div>
+                <h6 class="feat-title">Mobile Friendly</h6>
+                <p class="feat-desc">Fully responsive design that works on any device or screen size.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ── Tech Stack ── -->
+<div class="section-wrap mb-5">
+    <div class="text-center mb-4">
+        <div class="section-tag">Built With</div>
+        <h2 class="section-title mt-2">Technology <span>Stack</span></h2>
+    </div>
+    <div class="tech-strip">
+        <div class="tech-item"><i class="fab fa-python"></i><span>Python 3.9</span></div>
+        <div class="tech-sep">•</div>
+        <div class="tech-item"><i class="fas fa-flask"></i><span>Flask</span></div>
+        <div class="tech-sep">•</div>
+        <div class="tech-item"><i class="fas fa-brain"></i><span>Scikit-learn</span></div>
+        <div class="tech-sep">•</div>
+        <div class="tech-item"><i class="fas fa-database"></i><span>SQLite</span></div>
+        <div class="tech-sep">•</div>
+        <div class="tech-item"><i class="fab fa-bootstrap"></i><span>Bootstrap 5</span></div>
+        <div class="tech-sep">•</div>
+        <div class="tech-item"><i class="fab fa-github"></i><span>GitHub</span></div>
+        <div class="tech-sep">•</div>
+        <div class="tech-item"><i class="fas fa-chart-line"></i><span>SHAP</span></div>
     </div>
 </div>
 
 <!-- ── CTA ── -->
 {% if not current_user.is_authenticated %}
-<div class="card p-5 text-center mb-5" style="background: linear-gradient(135deg, rgba(220,53,69,0.15), rgba(220,53,69,0.05)); border: 1px solid rgba(220,53,69,0.3);">
-    <h3 style="color:white; font-weight:800;">Ready to Check Your Heart Health?</h3>
-    <p style="color:#888;">Create a free account and get your first heart attack risk assessment today.</p>
-    <a href="/register" class="btn btn-danger btn-lg px-5 mt-2">
-        <i class="fas fa-heartbeat me-2"></i>Get Started Now
-    </a>
+<div class="cta-section mb-5">
+    <div class="cta-bg-heart"></div>
+    <div class="cta-bg-circle-1"></div>
+    <div class="cta-bg-circle-2"></div>
+    <div style="position:relative; z-index:1; text-align:center;">
+        <i class="fas fa-heartbeat fa-3x mb-3 animate-heartbeat" style="color:#dc3545; filter:drop-shadow(0 0 15px rgba(220,53,69,0.4))"></i>
+        <h3 style="color:white; font-weight:800; margin-bottom:12px;">Ready to Check Your Heart Health?</h3>
+        <p style="color:#666; max-width:500px; margin:0 auto 28px; line-height:1.7;">
+            Create a free account and get your first heart attack risk assessment today. No credit card required.
+        </p>
+        <a href="/register" class="btn-hero-primary">
+            <i class="fas fa-heartbeat me-2"></i>Get Started Now — It's Free
+            <span class="btn-shine"></span>
+        </a>
+    </div>
 </div>
 {% endif %}
+
+<!-- ── Styles ── -->
+<style>
+/* Hero */
+.hero-badge {
+    display:inline-flex; align-items:center; gap:8px;
+    background:rgba(220,53,69,0.1); color:#dc3545;
+    padding:8px 20px; border-radius:30px; font-size:0.82rem;
+    border:1px solid rgba(220,53,69,0.25); letter-spacing:1px;
+    text-transform:uppercase; font-weight:600;
+}
+.hero-badge-dot {
+    width:8px; height:8px; border-radius:50%; background:#dc3545;
+    box-shadow:0 0 0 0 rgba(220,53,69,0.4);
+    animation:heroDot 1.5s infinite;
+}
+@keyframes heroDot {
+    0%   { box-shadow:0 0 0 0 rgba(220,53,69,0.4); }
+    70%  { box-shadow:0 0 0 7px rgba(220,53,69,0); }
+    100% { box-shadow:0 0 0 0 rgba(220,53,69,0); }
+}
+.hero-title {
+    color:white; font-size:3.4rem; font-weight:900;
+    line-height:1.15; margin-bottom:20px;
+}
+.hero-gradient {
+    background:linear-gradient(135deg,#dc3545,#ff6b7a,#ff9999);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    background-clip:text;
+}
+.hero-sub { color:rgba(255,255,255,0.6); font-size:2.2rem; }
+.hero-desc {
+    color:rgba(255,255,255,0.45); line-height:1.9;
+    font-size:1rem; margin-bottom:30px; max-width:480px;
+}
+.trust-badge { display:flex; align-items:center; gap:7px; color:rgba(255,255,255,0.4); font-size:0.84rem; }
+
+/* Animate In */
+.animate-in {
+    opacity:0; transform:translateY(22px);
+    animation:fadeUp 0.6s ease forwards;
+    animation-delay:var(--delay);
+}
+@keyframes fadeUp { to { opacity:1; transform:translateY(0); } }
+
+/* Hero Buttons */
+.btn-hero-primary {
+    display:inline-flex; align-items:center;
+    padding:14px 32px; border-radius:50px;
+    background:linear-gradient(135deg,#dc3545,#b02a37);
+    color:white !important; font-weight:700; font-size:1rem;
+    text-decoration:none; position:relative; overflow:hidden;
+    box-shadow:0 6px 25px rgba(220,53,69,0.45);
+    transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+.btn-hero-primary:hover {
+    transform:translateY(-3px) scale(1.04);
+    box-shadow:0 12px 35px rgba(220,53,69,0.6);
+}
+.btn-shine {
+    position:absolute; top:0; left:-100%; width:100%; height:100%;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,0.18),transparent);
+    animation:shine 2.5s infinite;
+}
+@keyframes shine { 0%{left:-100%} 50%,100%{left:100%} }
+.btn-hero-outline {
+    display:inline-flex; align-items:center;
+    padding:14px 32px; border-radius:50px;
+    border:1px solid rgba(220,53,69,0.45);
+    color:#dc3545 !important; font-weight:700; font-size:1rem;
+    text-decoration:none; background:rgba(220,53,69,0.05);
+    transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+.btn-hero-outline:hover {
+    background:rgba(220,53,69,0.12); border-color:#dc3545;
+    transform:translateY(-3px) scale(1.03);
+    box-shadow:0 8px 25px rgba(220,53,69,0.2);
+}
+
+/* Hero Card Wrap */
+.hero-card-wrap {
+    position:relative; display:inline-block;
+}
+.hero-ring {
+    position:absolute; border-radius:50%;
+    border:1px solid rgba(220,53,69,0.12);
+    top:50%; left:50%; transform:translate(-50%,-50%);
+    animation:ringPulse 3s ease-in-out infinite;
+}
+.hero-ring-1 { width:360px; height:360px; animation-delay:0s; }
+.hero-ring-2 { width:420px; height:420px; animation-delay:0.5s; opacity:0.6; }
+.hero-ring-3 { width:480px; height:480px; animation-delay:1s; opacity:0.3; }
+@keyframes ringPulse {
+    0%,100% { transform:translate(-50%,-50%) scale(1); opacity:0.4; }
+    50%      { transform:translate(-50%,-50%) scale(1.04); opacity:0.8; }
+}
+.hero-glass-card {
+    position:relative; z-index:2;
+    background:rgba(255,255,255,0.04);
+    backdrop-filter:blur(30px);
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:28px; padding:32px 28px;
+    min-width:340px;
+}
+.hero-glass-card::before {
+    content:''; position:absolute; top:0; left:0;
+    width:100%; height:1px;
+    background:linear-gradient(90deg,transparent,rgba(220,53,69,0.4),transparent);
+}
+.heart-glow-bg {
+    position:absolute; width:180px; height:180px;
+    border-radius:50%; left:50%; top:50%;
+    transform:translate(-50%,-60%);
+    background:radial-gradient(circle,rgba(220,53,69,0.18) 0%,transparent 70%);
+    pointer-events:none;
+    animation:glowPulse 1.2s ease-in-out infinite;
+}
+.hero-heart-body {
+    transform-origin:170px 175px;
+    animation:heartBeat 1.2s ease-in-out infinite;
+}
+@keyframes heartBeat {
+    0%,100% { transform:scale(1); }
+    14%     { transform:scale(1.07); }
+    28%     { transform:scale(1); }
+    42%     { transform:scale(1.04); }
+    70%     { transform:scale(1); }
+}
+@keyframes glowPulse {
+    0%,100% { opacity:0.5; transform:translate(-50%,-60%) scale(1); }
+    14%     { opacity:1;   transform:translate(-50%,-60%) scale(1.1); }
+    28%     { opacity:0.5; transform:translate(-50%,-60%) scale(1); }
+    42%     { opacity:0.8; transform:translate(-50%,-60%) scale(1.06); }
+}
+.hero-mini-stat {
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.07);
+    border-radius:12px; padding:10px 8px; text-align:center;
+}
+.hero-mini-num { color:#dc3545; font-weight:800; font-size:1.1rem; }
+.hero-mini-lbl { color:#555; font-size:0.7rem; margin-top:2px; }
+.hero-ecg-box {
+    background:rgba(220,53,69,0.05);
+    border:1px solid rgba(220,53,69,0.1);
+    border-radius:12px; padding:10px 14px;
+}
+.hero-ecg-label {
+    color:rgba(220,53,69,0.5); font-size:0.68rem;
+    margin:3px 0 0; text-align:center; letter-spacing:2px;
+}
+
+/* Stats Bar */
+.stats-bar {
+    background:rgba(255,255,255,0.02);
+    border:1px solid rgba(255,255,255,0.05);
+    border-radius:20px; overflow:hidden;
+}
+.stats-bar-item {
+    padding:28px 20px;
+    border-right:1px solid rgba(255,255,255,0.04);
+    transition:background 0.3s;
+}
+.stats-bar-item:hover { background:rgba(220,53,69,0.04); }
+.stats-bar-num {
+    font-size:2rem; font-weight:900; color:#dc3545; line-height:1;
+}
+.stats-bar-lbl { color:#555; font-size:0.8rem; margin-top:5px; }
+
+/* Section */
+.section-wrap { position:relative; }
+.section-tag {
+    display:inline-block; color:#dc3545;
+    font-size:0.78rem; letter-spacing:3px;
+    text-transform:uppercase; font-weight:600;
+}
+
+/* How Cards */
+.how-card {
+    background:rgba(255,255,255,0.03);
+    border:1px solid rgba(255,255,255,0.07);
+    border-radius:20px; padding:32px 24px;
+    position:relative; overflow:hidden;
+    transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    opacity:0; transform:translateY(30px);
+}
+.how-card.visible {
+    opacity:1; transform:translateY(0);
+    transition:opacity 0.5s ease var(--sr-delay,0s),
+                transform 0.5s ease var(--sr-delay,0s),
+                border-color 0.3s, box-shadow 0.3s;
+}
+.how-card:hover {
+    border-color:rgba(220,53,69,0.3);
+    transform:translateY(-6px);
+    box-shadow:0 20px 50px rgba(0,0,0,0.3);
+}
+.how-num {
+    position:absolute; top:16px; right:20px;
+    font-size:3.5rem; font-weight:900;
+    color:rgba(220,53,69,0.07); line-height:1;
+}
+.how-icon-wrap {
+    width:64px; height:64px;
+    background:rgba(220,53,69,0.08);
+    border:1px solid rgba(220,53,69,0.2);
+    border-radius:18px;
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom:20px; font-size:1.4rem;
+    transition:transform 0.3s;
+}
+.how-card:hover .how-icon-wrap { transform:scale(1.1) rotate(-5deg); }
+.how-title { color:white; font-weight:700; margin-bottom:10px; }
+.how-desc  { color:#555; font-size:0.9rem; line-height:1.7; margin:0; }
+.how-line  {
+    position:absolute; bottom:0; left:0; width:0; height:2px;
+    background:linear-gradient(90deg,#dc3545,transparent);
+    transition:width 0.4s ease;
+}
+.how-card:hover .how-line { width:100%; }
+
+/* Feature Cards */
+.feat-card {
+    background:rgba(255,255,255,0.03);
+    border:1px solid rgba(255,255,255,0.06);
+    border-radius:16px; padding:24px 18px;
+    text-align:center; height:100%;
+    transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    opacity:0; transform:translateY(20px);
+}
+.feat-card.visible {
+    opacity:1; transform:translateY(0);
+    transition:opacity 0.5s ease var(--sr-delay,0s),
+                transform 0.5s ease var(--sr-delay,0s),
+                border-color 0.3s, box-shadow 0.3s;
+}
+.feat-card:hover {
+    border-color:rgba(220,53,69,0.25);
+    transform:translateY(-5px);
+    box-shadow:0 16px 40px rgba(0,0,0,0.3);
+}
+.feat-icon-wrap {
+    width:52px; height:52px;
+    background:rgba(220,53,69,0.08);
+    border-radius:14px;
+    display:flex; align-items:center; justify-content:center;
+    margin:0 auto 16px;
+    transition:transform 0.3s;
+}
+.feat-card:hover .feat-icon-wrap { transform:scale(1.15) rotate(-8deg); }
+.feat-title { color:white; font-weight:700; font-size:0.95rem; margin-bottom:8px; }
+.feat-desc  { color:#555; font-size:0.85rem; line-height:1.6; margin:0; }
+
+/* Tech Strip */
+.tech-strip {
+    display:flex; align-items:center; justify-content:center;
+    flex-wrap:wrap; gap:8px;
+    background:rgba(255,255,255,0.02);
+    border:1px solid rgba(255,255,255,0.05);
+    border-radius:16px; padding:20px 28px;
+}
+.tech-item {
+    display:flex; align-items:center; gap:8px;
+    color:#666; font-size:0.88rem; font-weight:500;
+    padding:6px 14px; border-radius:20px;
+    transition:all 0.3s;
+}
+.tech-item:hover { color:#dc3545; background:rgba(220,53,69,0.08); }
+.tech-item i { color:#dc3545; font-size:1rem; }
+.tech-sep { color:#333; font-size:1.2rem; }
+
+/* CTA */
+.cta-section {
+    background:linear-gradient(135deg,rgba(220,53,69,0.1),rgba(139,0,0,0.06));
+    border:1px solid rgba(220,53,69,0.2);
+    border-radius:24px; padding:60px 40px;
+    position:relative; overflow:hidden;
+}
+.cta-bg-circle-1 {
+    position:absolute; top:-60px; right:-60px;
+    width:220px; height:220px; border-radius:50%;
+    background:radial-gradient(circle,rgba(220,53,69,0.1),transparent);
+    pointer-events:none;
+}
+.cta-bg-circle-2 {
+    position:absolute; bottom:-60px; left:-60px;
+    width:180px; height:180px; border-radius:50%;
+    background:radial-gradient(circle,rgba(220,53,69,0.08),transparent);
+    pointer-events:none;
+}
+
+/* Scroll Reveal */
+.scroll-reveal {
+    opacity:0; transform:translateY(30px);
+    transition:opacity 0.6s ease, transform 0.6s ease;
+}
+.scroll-reveal.visible {
+    opacity:1; transform:translateY(0);
+    transition-delay:var(--sr-delay,0s);
+}
+</style>
+
+<script>
+// ── Hero ECG ─────────────────────────────────────────────────────────────────
+(function(){
+    const canvas = document.getElementById('heroEcg');
+    if(!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let w, offset = 0;
+    function ecgY(x){ const c=x%1; if(c<0.3)return Math.sin(c*Math.PI*6)*4; if(c<0.38)return -7; if(c<0.42)return 26; if(c<0.46)return -11; if(c<0.55)return Math.sin((c-0.46)*Math.PI*5)*5; return 0; }
+    function resize(){ w=canvas.offsetWidth; canvas.width=w; canvas.height=36; }
+    function draw(){
+        ctx.clearRect(0,0,w,36);
+        ctx.beginPath(); ctx.strokeStyle='#dc3545'; ctx.lineWidth=1.5;
+        ctx.shadowBlur=5; ctx.shadowColor='#dc3545';
+        for(let i=0;i<w;i++){ const y=18-ecgY((i+offset)/100); i===0?ctx.moveTo(i,y):ctx.lineTo(i,y); }
+        ctx.stroke(); ctx.shadowBlur=0;
+        offset+=1.8; requestAnimationFrame(draw);
+    }
+    resize(); window.addEventListener('resize',resize); draw();
+})();
+
+// ── Stats Counter ─────────────────────────────────────────────────────────────
+document.querySelectorAll('.stats-bar-num').forEach(el => {
+    const target = parseFloat(el.getAttribute('data-count'));
+    const suffix = el.getAttribute('data-suffix') || '';
+    const isFloat = target % 1 !== 0;
+    let current = 0;
+    const observer = new IntersectionObserver(entries => {
+        if(entries[0].isIntersecting){
+            const step = target / 60;
+            const timer = setInterval(() => {
+                current = Math.min(current + step, target);
+                el.textContent = (isFloat ? current.toFixed(2) : Math.floor(current)) + suffix;
+                if(current >= target) clearInterval(timer);
+            }, 25);
+            observer.disconnect();
+        }
+    });
+    observer.observe(el);
+});
+
+// ── Scroll Reveal ─────────────────────────────────────────────────────────────
+const revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+        if(e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); }
+    });
+}, { threshold: 0.15 });
+document.querySelectorAll('.scroll-reveal').forEach(el => revealObserver.observe(el));
+</script>
 
 {% endblock %}
