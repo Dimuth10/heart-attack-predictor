@@ -562,6 +562,74 @@ def evaluation():
                            test_records=len(X_test))
 
 
+# ── Feature Importance Route ─────────────────────────────────────────────────
+@app.route('/feature-importance')
+@login_required
+def feature_importance():
+    try:
+        rf_model    = model.named_steps['model']
+        importances = rf_model.feature_importances_
+
+        feature_labels = {
+            'age':      'Age',
+            'sex':      'Sex',
+            'cp':       'Chest Pain Type',
+            'trestbps': 'Blood Pressure',
+            'chol':     'Cholesterol',
+            'fbs':      'Fasting Blood Sugar',
+            'thalach':  'Max Heart Rate'
+        }
+
+        feature_descriptions = {
+            'age':      'Patient age in years. Older age is associated with higher cardiovascular risk.',
+            'sex':      'Biological sex (Male/Female). Males tend to have higher heart disease prevalence.',
+            'cp':       'Type of chest pain experienced. Asymptomatic type is a strong predictor.',
+            'trestbps': 'Resting blood pressure in mmHg. High BP strains the heart over time.',
+            'chol':     'Serum cholesterol in mg/dl. High levels lead to arterial plaque buildup.',
+            'fbs':      'Fasting blood sugar above 120 mg/dl. Elevated levels indicate diabetes risk.',
+            'thalach':  'Maximum heart rate achieved during exercise. Lower rates can signal risk.'
+        }
+
+        feature_ranges = {
+            'age':      'Typical: 29 – 77 years',
+            'sex':      '0 = Female, 1 = Male',
+            'cp':       '0 = Asymptomatic, 1–3 = Various pain types',
+            'trestbps': 'Normal: < 120 mmHg',
+            'chol':     'Normal: < 200 mg/dl',
+            'fbs':      '0 = Normal, 1 = Above 120 mg/dl',
+            'thalach':  'Normal: 60 – 202 bpm'
+        }
+
+        importance_data = []
+        total = sum(importances)
+        for fname, imp in zip(features, importances):
+            pct = round((imp / total) * 100, 2)
+            importance_data.append({
+                'feature':     feature_labels.get(fname, fname),
+                'key':         fname,
+                'importance':  round(float(imp), 4),
+                'percentage':  pct,
+                'description': feature_descriptions.get(fname, ''),
+                'range':       feature_ranges.get(fname, ''),
+            })
+
+        importance_data.sort(key=lambda x: x['importance'], reverse=True)
+
+        bar_colors = ['#dc3545', '#e05a2b', '#e07b20', '#c99a18', '#a0a818',
+                      '#6aaa20', '#20aa6a']
+        for i, item in enumerate(importance_data):
+            item['color'] = bar_colors[i] if i < len(bar_colors) else '#888888'
+            item['rank']  = i + 1
+
+        return render_template('feature_importance.html',
+                               importance_data=importance_data,
+                               total_features=len(importance_data))
+
+    except Exception as e:
+        flash(f'Error loading feature importance: {str(e)}', 'danger')
+        return redirect(url_for('dashboard'))
+
+
 # ── Profile Route ────────────────────────────────────────────────────────────
 @app.route('/profile', methods=['GET', 'POST'])
 @login_required
