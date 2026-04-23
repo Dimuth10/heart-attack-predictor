@@ -1,0 +1,369 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="animate-fade-up">
+
+    <!-- Page Header -->
+    <div class="row mb-5">
+        <div class="col-12 text-center">
+            <div class="mb-3">
+                <span style="background:rgba(220,53,69,0.1); border:1px solid rgba(220,53,69,0.3);
+                             color:#dc3545; padding:6px 18px; border-radius:20px; font-size:0.8rem;
+                             font-weight:600; letter-spacing:1px; text-transform:uppercase;">
+                    <i class="fas fa-brain me-2"></i>Model Insights
+                </span>
+            </div>
+            <h1 class="section-title mb-3">Feature <span>Importance</span></h1>
+            <p style="color:#888; max-width:600px; margin:0 auto; font-size:1rem; line-height:1.7;">
+                Understand which clinical features drive the Random Forest model's predictions.
+                Higher importance means the feature has greater influence on heart attack risk assessment.
+            </p>
+        </div>
+    </div>
+
+    <!-- Top Stats -->
+    <div class="row g-3 mb-5">
+        <div class="col-6 col-md-3">
+            <div class="stat-card">
+                <i class="fas fa-project-diagram fa-lg mb-2" style="color:#dc3545"></i>
+                <div class="stat-number">{{ total_features }}</div>
+                <div class="stat-label">Clinical Features</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="stat-card">
+                <i class="fas fa-tree fa-lg mb-2" style="color:#dc3545"></i>
+                <div class="stat-number">100</div>
+                <div class="stat-label">Decision Trees</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="stat-card">
+                <i class="fas fa-bullseye fa-lg mb-2" style="color:#dc3545"></i>
+                <div class="stat-number">89.1%</div>
+                <div class="stat-label">Model Accuracy</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="stat-card">
+                <i class="fas fa-database fa-lg mb-2" style="color:#dc3545"></i>
+                <div class="stat-number">2,024</div>
+                <div class="stat-label">Training Records</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+
+        <!-- Bar Chart -->
+        <div class="col-lg-7">
+            <div class="card p-4 h-100">
+                <div class="d-flex align-items-center mb-4">
+                    <div style="width:40px; height:40px; background:rgba(220,53,69,0.1);
+                                border-radius:10px; display:flex; align-items:center;
+                                justify-content:center; margin-right:12px;">
+                        <i class="fas fa-chart-bar" style="color:#dc3545"></i>
+                    </div>
+                    <div>
+                        <h5 class="mb-0" style="color:white; font-weight:700;">Importance Score</h5>
+                        <small style="color:#666;">Gini-based feature importance from Random Forest</small>
+                    </div>
+                </div>
+                <div style="position:relative; height:320px;">
+                    <canvas id="featureBarCanvas"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Donut Chart -->
+        <div class="col-lg-5">
+            <div class="card p-4 h-100">
+                <div class="d-flex align-items-center mb-4">
+                    <div style="width:40px; height:40px; background:rgba(220,53,69,0.1);
+                                border-radius:10px; display:flex; align-items:center;
+                                justify-content:center; margin-right:12px;">
+                        <i class="fas fa-chart-pie" style="color:#dc3545"></i>
+                    </div>
+                    <div>
+                        <h5 class="mb-0" style="color:white; font-weight:700;">Distribution</h5>
+                        <small style="color:#666;">Percentage contribution of each feature</small>
+                    </div>
+                </div>
+                <div style="position:relative; height:250px; display:flex;
+                            align-items:center; justify-content:center;">
+                    <canvas id="featureDonutCanvas"></canvas>
+                </div>
+                <div class="mt-3">
+                    {% for item in importance_data %}
+                    <div class="d-flex align-items-center justify-content-between mb-1">
+                        <div class="d-flex align-items-center">
+                            <div style="width:10px; height:10px; border-radius:50%;
+                                        background:{{ item.color }}; margin-right:8px; flex-shrink:0;"></div>
+                            <small style="color:#aaa; font-size:0.78rem;">{{ item.feature }}</small>
+                        </div>
+                        <small style="color:#dc3545; font-weight:600; font-size:0.78rem;">
+                            {{ item.percentage }}%
+                        </small>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feature Detail Cards -->
+    <div class="row mt-4 mb-2">
+        <div class="col-12">
+            <h5 style="color:white; font-weight:700;">
+                <i class="fas fa-list-ol me-2" style="color:#dc3545"></i>Feature Breakdown
+            </h5>
+            <p style="color:#666; font-size:0.88rem;">Click any feature card to learn more</p>
+        </div>
+    </div>
+
+    <div class="row g-3 mb-5">
+        {% for item in importance_data %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card p-3" style="cursor:pointer; transition:all 0.3s;"
+                 onclick="toggleDetail(this)">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div class="d-flex align-items-center">
+                        <div style="width:36px; height:36px; border-radius:10px;
+                                    background:{{ item.color }}22; border:1px solid {{ item.color }}44;
+                                    display:flex; align-items:center; justify-content:center;
+                                    margin-right:10px; flex-shrink:0;">
+                            <span style="color:{{ item.color }}; font-weight:800; font-size:0.85rem;">
+                                #{{ item.rank }}
+                            </span>
+                        </div>
+                        <div>
+                            <div style="color:white; font-weight:700; font-size:0.95rem;">
+                                {{ item.feature }}
+                            </div>
+                            <div style="color:#666; font-size:0.75rem;">{{ item.range }}</div>
+                        </div>
+                    </div>
+                    <div style="text-align:right;">
+                        <div style="color:{{ item.color }}; font-weight:800; font-size:1.1rem;">
+                            {{ item.percentage }}%
+                        </div>
+                        <div style="color:#555; font-size:0.72rem;">importance</div>
+                    </div>
+                </div>
+                <div style="background:rgba(255,255,255,0.05); border-radius:6px;
+                            height:6px; margin-bottom:12px; overflow:hidden;">
+                    <div class="importance-bar"
+                         data-width="{{ item.percentage }}"
+                         style="height:100%; border-radius:6px; width:0%;
+                                background:linear-gradient(90deg, {{ item.color }}, {{ item.color }}88);
+                                transition:width 1.2s ease;"></div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span style="background:{{ item.color }}15; border:1px solid {{ item.color }}33;
+                                  color:{{ item.color }}; padding:3px 10px; border-radius:20px;
+                                  font-size:0.75rem; font-weight:600;">
+                        Score: {{ item.importance }}
+                    </span>
+                    <i class="fas fa-chevron-down toggle-icon"
+                       style="color:#555; font-size:0.75rem; transition:transform 0.3s;"></i>
+                </div>
+                <div class="feature-description mt-3 pt-3"
+                     style="border-top:1px solid rgba(255,255,255,0.05);
+                            display:none; color:#aaa; font-size:0.85rem; line-height:1.6;">
+                    <i class="fas fa-info-circle me-2" style="color:#dc3545"></i>
+                    {{ item.description }}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- How It Works -->
+    <div class="card p-4 mb-5">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <h5 style="color:white; font-weight:700; margin-bottom:15px;">
+                    <i class="fas fa-question-circle me-2" style="color:#dc3545"></i>
+                    How Feature Importance Works
+                </h5>
+                <p style="color:#888; font-size:0.9rem; line-height:1.8; margin-bottom:12px;">
+                    The Random Forest model consists of <strong style="color:#dc3545;">100 decision trees</strong>,
+                    each trained on a random subset of the data. Feature importance is measured using
+                    <strong style="color:#dc3545;">Gini impurity</strong> — how much each feature reduces
+                    uncertainty across all trees.
+                </p>
+                <p style="color:#888; font-size:0.9rem; line-height:1.8; margin-bottom:0;">
+                    A higher importance score means the model relies more heavily on that feature
+                    when deciding whether a patient is at high or low risk of a heart attack.
+                    All scores sum to <strong style="color:#dc3545;">1.0 (100%)</strong>.
+                </p>
+            </div>
+            <div class="col-lg-6">
+                <div class="row g-3">
+                    <div class="col-6">
+                        <div style="background:rgba(220,53,69,0.05); border:1px solid rgba(220,53,69,0.15);
+                                    border-radius:14px; padding:16px; text-align:center;">
+                            <i class="fas fa-random fa-2x mb-2" style="color:#dc3545"></i>
+                            <div style="color:white; font-weight:700; font-size:0.9rem;">Random Forest</div>
+                            <div style="color:#666; font-size:0.8rem; margin-top:4px;">Ensemble of 100 trees</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div style="background:rgba(220,53,69,0.05); border:1px solid rgba(220,53,69,0.15);
+                                    border-radius:14px; padding:16px; text-align:center;">
+                            <i class="fas fa-filter fa-2x mb-2" style="color:#dc3545"></i>
+                            <div style="color:white; font-weight:700; font-size:0.9rem;">Gini Impurity</div>
+                            <div style="color:#666; font-size:0.8rem; margin-top:4px;">Importance metric</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div style="background:rgba(220,53,69,0.05); border:1px solid rgba(220,53,69,0.15);
+                                    border-radius:14px; padding:16px; text-align:center;">
+                            <i class="fas fa-heartbeat fa-2x mb-2" style="color:#dc3545"></i>
+                            <div style="color:white; font-weight:700; font-size:0.9rem;">7 Features</div>
+                            <div style="color:#666; font-size:0.8rem; margin-top:4px;">Clinical inputs used</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div style="background:rgba(220,53,69,0.05); border:1px solid rgba(220,53,69,0.15);
+                                    border-radius:14px; padding:16px; text-align:center;">
+                            <i class="fas fa-chart-line fa-2x mb-2" style="color:#dc3545"></i>
+                            <div style="color:white; font-weight:700; font-size:0.9rem;">AUC 0.9652</div>
+                            <div style="color:#666; font-size:0.8rem; margin-top:4px;">Discrimination score</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="text-center mb-5">
+        <a href="/predict" class="btn btn-danger btn-lg me-3 px-5">
+            <i class="fas fa-stethoscope me-2"></i>Run a Prediction
+        </a>
+        <a href="/evaluation" class="btn btn-outline-danger btn-lg px-5">
+            <i class="fas fa-chart-line me-2"></i>Model Evaluation
+        </a>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+const featureData = [
+    {% for item in importance_data %}
+    {
+        feature:    "{{ item.feature }}",
+        percentage: {{ item.percentage }},
+        importance: {{ item.importance }},
+        color:      "{{ item.color }}"
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+];
+
+const labels      = featureData.map(d => d.feature);
+const percentages = featureData.map(d => d.percentage);
+const chartColors = featureData.map(d => d.color);
+
+const barCtx = document.getElementById('featureBarCanvas').getContext('2d');
+new Chart(barCtx, {
+    type: 'bar',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'Importance (%)',
+            data: percentages,
+            backgroundColor: chartColors.map(c => c + '99'),
+            borderColor: chartColors,
+            borderWidth: 2,
+            borderRadius: 8,
+            borderSkipped: false,
+        }]
+    },
+    options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { display: false },
+            tooltip: {
+                backgroundColor: 'rgba(2,8,24,0.95)',
+                borderColor: 'rgba(220,53,69,0.3)',
+                borderWidth: 1,
+                titleColor: '#ffffff',
+                bodyColor: '#aaaaaa',
+                padding: 12,
+                callbacks: {
+                    label: ctx => ' ' + ctx.parsed.x.toFixed(2) + '% importance'
+                }
+            }
+        },
+        scales: {
+            x: {
+                grid: { color: 'rgba(255,255,255,0.04)' },
+                ticks: { color: '#666', font: { size: 11 } },
+                border: { color: 'rgba(255,255,255,0.05)' }
+            },
+            y: {
+                grid: { display: false },
+                ticks: { color: '#ccc', font: { size: 12, weight: '500' } },
+                border: { color: 'rgba(255,255,255,0.05)' }
+            }
+        }
+    }
+});
+
+const donutCtx = document.getElementById('featureDonutCanvas').getContext('2d');
+new Chart(donutCtx, {
+    type: 'doughnut',
+    data: {
+        labels: labels,
+        datasets: [{
+            data: percentages,
+            backgroundColor: chartColors.map(c => c + 'bb'),
+            borderColor: chartColors,
+            borderWidth: 2,
+            hoverOffset: 8
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '68%',
+        plugins: {
+            legend: { display: false },
+            tooltip: {
+                backgroundColor: 'rgba(2,8,24,0.95)',
+                borderColor: 'rgba(220,53,69,0.3)',
+                borderWidth: 1,
+                titleColor: '#ffffff',
+                bodyColor: '#aaaaaa',
+                padding: 12,
+                callbacks: {
+                    label: ctx => ' ' + ctx.parsed.toFixed(2) + '%'
+                }
+            }
+        }
+    }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        document.querySelectorAll('.importance-bar').forEach(bar => {
+            bar.style.width = bar.getAttribute('data-width') + '%';
+        });
+    }, 300);
+});
+
+function toggleDetail(card) {
+    const desc = card.querySelector('.feature-description');
+    const icon = card.querySelector('.toggle-icon');
+    const isOpen = desc.style.display === 'block';
+    desc.style.display = isOpen ? 'none' : 'block';
+    if (icon) icon.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+    card.style.borderColor = isOpen ? 'rgba(255,255,255,0.08)' : 'rgba(220,53,69,0.3)';
+}
+</script>
+
+{% endblock %}
