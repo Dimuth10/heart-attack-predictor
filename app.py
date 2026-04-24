@@ -25,6 +25,8 @@ import numpy as np
 import json
 import io
 from functools import wraps
+from flask_mail import Mail, Message
+from itsdangerous import URLSafeTimedSerializer
 
 # ── App Setup ────────────────────────────────────────────────────────────────
 app = Flask(__name__)
@@ -32,9 +34,19 @@ app.config['SECRET_KEY'] = 'cardiopredict_secret_2025'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cardiopredict.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+# ── Mail Config ──────────────────────────────────────────────────────────────
+app.config['MAIL_SERVER']   = 'smtp.gmail.com'
+app.config['MAIL_PORT']     = 587
+app.config['MAIL_USE_TLS']  = True
+app.config['MAIL_USERNAME'] = 'dimuth.thakshila.2003@gmail.com'
+app.config['MAIL_PASSWORD'] = 'usaq nobt xadd hikh'
+app.config['MAIL_DEFAULT_SENDER'] = ('CardioPredict AI', 'dimuth.thakshila.2003@gmail.com')
+
 db      = SQLAlchemy(app)
 bcrypt  = Bcrypt(app)
 login_manager = LoginManager(app)
+mail       = Mail(app)
+serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
 
@@ -193,6 +205,7 @@ def predict():
             cp_val  = int(request.form['cp'])
             sex_val = int(request.form['sex'])
             fbs_val = int(request.form['fbs'])
+
 
             user_input = {
                 'age':      float(request.form['age']),
@@ -705,6 +718,115 @@ def admin():
 def history():
     predictions = Prediction.query.filter_by(user_id=current_user.id).order_by(Prediction.created_at.asc()).all()
     return render_template('history.html', predictions=predictions)
+
+
+# ── Forgot Password ─────────────────────────────────────────────────────────
+@app.route('/forgot-password', methods=['GET', 'POST'])
+def forgot_password():
+    if current_user.is_authenticated:
+        return redirect(url_for('dashboard'))
+    if request.method == 'POST':
+        email = request.form['email']
+        user  = User.query.filter_by(email=email).first()
+        if user:
+            token = serializer.dumps(email, salt='password-reset')
+            reset_url = url_for('reset_password', token=token, _external=True)
+            try:
+                msg = Message('Reset Your CardioPredict AI Password', recipients=[email])
+                msg.html = f"""
+                <!DOCTYPE html>
+                <html>
+                <head><meta charset="UTF-8"></head>
+                <body style="margin:0;padding:0;background:#020818;font-family:'Segoe UI',Arial,sans-serif;">
+                  <div style="max-width:580px;margin:40px auto;background:#0d1117;border:1px solid rgba(220,53,69,0.2);border-radius:16px;overflow:hidden;">
+                    <!-- Header -->
+                    <div style="background:linear-gradient(135deg,rgba(220,53,69,0.2),rgba(139,0,0,0.1));padding:36px 40px;text-align:center;border-bottom:1px solid rgba(220,53,69,0.15);">
+                      <div style="font-size:2rem;margin-bottom:8px;">❤️</div>
+                      <h1 style="color:white;font-size:1.6rem;font-weight:800;margin:0;">CardioPredict AI</h1>
+                      <p style="color:#888;margin:6px 0 0;font-size:0.9rem;">Heart Attack Risk Prediction System</p>
+                    </div>
+                    <!-- Body -->
+                    <div style="padding:40px;">
+                      <h2 style="color:white;font-size:1.3rem;font-weight:700;margin:0 0 12px;">Password Reset Request</h2>
+                      <p style="color:#888;font-size:0.95rem;line-height:1.7;margin:0 0 24px;">
+                        Hi <strong style="color:#e0e0e0;">{user.full_name}</strong>,<br><br>
+                        We received a request to reset your CardioPredict AI password.
+                        Click the button below to create a new password.
+                        This link will expire in <strong style="color:#dc3545;">30 minutes</strong>.
+                      </p>
+                      <!-- Button -->
+                      <div style="text-align:center;margin:32px 0;">
+                        <a href="{reset_url}"
+                           style="display:inline-block;background:linear-gradient(135deg,#dc3545,#b02a37);
+                                  color:white;text-decoration:none;padding:14px 36px;
+                                  border-radius:8px;font-weight:700;font-size:1rem;
+                                  box-shadow:0 4px 20px rgba(220,53,69,0.4);">
+                          Reset My Password
+                        </a>
+                      </div>
+                      <p style="color:#555;font-size:0.82rem;line-height:1.6;margin:0;">
+                        If the button doesn't work, copy and paste this link into your browser:<br>
+                        <a href="{reset_url}" style="color:#dc3545;word-break:break-all;">{reset_url}</a>
+                      </p>
+                      <hr style="border:none;border-top:1px solid rgba(255,255,255,0.06);margin:28px 0;">
+                      <p style="color:#444;font-size:0.8rem;margin:0;">
+                        If you didn't request a password reset, you can safely ignore this email.
+                        Your password will not be changed.
+                      </p>
+                    </div>
+                    <!-- Footer -->
+                    <div style="background:rgba(255,255,255,0.02);padding:20px 40px;text-align:center;border-top:1px solid rgba(255,255,255,0.04);">
+                      <p style="color:#333;font-size:0.78rem;margin:0;">
+                        © 2025 CardioPredict AI — BSc (Hons) Software Engineering Final Year Project<br>
+                        NSBM Green University | University of Plymouth
+                      </p>
+                    </div>
+                  </div>
+                </body>
+                </html>
+                """
+                mail.send(msg)
+                flash('Password reset email sent! Check your inbox.', 'success')
+            except Exception as e:
+                flash(f'Email could not be sent. Error: {str(e)}', 'danger')
+        else:
+            flash('If that email exists in our system, a reset link has been sent.', 'info')
+        return redirect(url_for('forgot_password'))
+    return render_template('forgot_password.html')
+
+
+@app.route('/reset-password/<token>', methods=['GET', 'POST'])
+def reset_password(token):
+    if current_user.is_authenticated:
+        return redirect(url_for('dashboard'))
+    try:
+        email = serializer.loads(token, salt='password-reset', max_age=1800)
+    except Exception:
+        flash('The reset link is invalid or has expired. Please request a new one.', 'danger')
+        return redirect(url_for('forgot_password'))
+
+    user = User.query.filter_by(email=email).first()
+    if not user:
+        flash('User not found.', 'danger')
+        return redirect(url_for('forgot_password'))
+
+    if request.method == 'POST':
+        new_pw     = request.form['new_password']
+        confirm_pw = request.form['confirm_password']
+
+        if new_pw != confirm_pw:
+            flash('Passwords do not match!', 'danger')
+            return redirect(url_for('reset_password', token=token))
+        if len(new_pw) < 6:
+            flash('Password must be at least 6 characters!', 'danger')
+            return redirect(url_for('reset_password', token=token))
+
+        user.password = bcrypt.generate_password_hash(new_pw).decode('utf-8')
+        db.session.commit()
+        flash('Password reset successfully! You can now log in.', 'success')
+        return redirect(url_for('login'))
+
+    return render_template('reset_password.html', token=token)
 
 
 # ── Init DB & Run ────────────────────────────────────────────────────────────
