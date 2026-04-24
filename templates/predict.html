@@ -365,95 +365,7 @@
 function updateCard(key, val, unit) {
     const el = document.getElementById('prev-' + key);
     if(el && val) el.textContent = val + (unit ? ' ' + unit : '');
-    checkStepProgress();
 }
-
-function checkStepProgress() {
-    const age     = document.querySelector('[name="age"]').value;
-    const sex     = document.querySelector('[name="sex"]').value;
-    const chol    = document.querySelector('[name="chol"]').value;
-    const fbs     = document.querySelector('[name="fbs"]').value;
-    const bp      = document.querySelector('[name="trestbps"]').value;
-    const cp      = document.querySelector('[name="cp"]').value;
-    const hr      = document.querySelector('[name="thalach"]').value;
-
-    const s1done = age && sex;
-    const s2done = chol && fbs && bp;
-    const s3done = cp && hr;
-
-    setStep(1, s1done, true);
-    setStep(2, s2done, s1done);
-    setStep(3, s3done, s1done && s2done);
-}
-
-function setStep(num, done, reachable) {
-    const circle = document.querySelector('#step' + num + 'ind .step-circle');
-    const label  = document.querySelector('#step' + num + 'ind .step-label');
-    const ind    = document.getElementById('step' + num + 'ind');
-    if(!circle) return;
-
-    if(done) {
-        circle.style.background      = '#dc3545';
-        circle.style.borderColor     = '#dc3545';
-        circle.style.color           = 'white';
-        circle.style.boxShadow       = '0 0 15px rgba(220,53,69,0.5)';
-        circle.innerHTML             = '<i class="fas fa-check" style="font-size:0.75rem"></i>';
-        label.style.color            = '#6edba8';
-        ind.style.transform          = 'scale(1.05)';
-    } else if(reachable) {
-        circle.style.background      = 'rgba(220,53,69,0.15)';
-        circle.style.borderColor     = '#dc3545';
-        circle.style.color           = '#dc3545';
-        circle.style.boxShadow       = '0 0 12px rgba(220,53,69,0.3)';
-        circle.innerHTML             = num;
-        label.style.color            = '#dc3545';
-        ind.style.transform          = 'scale(1.0)';
-    } else {
-        circle.style.background      = 'rgba(255,255,255,0.05)';
-        circle.style.borderColor     = 'rgba(255,255,255,0.1)';
-        circle.style.color           = '#555';
-        circle.style.boxShadow       = 'none';
-        circle.innerHTML             = num;
-        label.style.color            = '#555';
-        ind.style.transform          = 'scale(1.0)';
-    }
-}
-
-// Animate step lines when sections complete
-function animateStepLine(lineIndex, active) {
-    const lines = document.querySelectorAll('.step-line');
-    if(lines[lineIndex]) {
-        lines[lineIndex].style.background = active
-            ? 'linear-gradient(90deg, #dc3545, rgba(220,53,69,0.3))'
-            : 'rgba(255,255,255,0.06)';
-        lines[lineIndex].style.transition = 'background 0.5s ease';
-    }
-}
-
-// Attach listeners to all inputs
-document.addEventListener('DOMContentLoaded', function() {
-    const inputs = document.querySelectorAll('.predict-input');
-    inputs.forEach(input => {
-        input.addEventListener('input', checkStepProgress);
-        input.addEventListener('change', checkStepProgress);
-    });
-
-    // Scroll section into view when focused
-    document.querySelector('[name="chol"]').addEventListener('focus', function() {
-        const age = document.querySelector('[name="age"]').value;
-        const sex = document.querySelector('[name="sex"]').value;
-        if(age && sex) animateStepLine(0, true);
-    });
-    document.querySelector('[name="cp"]').addEventListener('focus', function() {
-        const chol = document.querySelector('[name="chol"]').value;
-        const fbs  = document.querySelector('[name="fbs"]').value;
-        const bp   = document.querySelector('[name="trestbps"]').value;
-        if(chol && fbs && bp) animateStepLine(1, true);
-    });
-
-    checkStepProgress();
-});
-
 function resetPreview() {
     ['age','sex','chol','bp','hr','fbs','cp'].forEach(k => {
         const el = document.getElementById('prev-' + k);
@@ -461,14 +373,7 @@ function resetPreview() {
     });
     document.getElementById('cholBar').style.display = 'none';
     document.getElementById('bpBar').style.display = 'none';
-
-    // Reset steps
-    [1,2,3].forEach(n => setStep(n, false, n===1));
-    document.querySelectorAll('.step-line').forEach(l => {
-        l.style.background = 'rgba(255,255,255,0.06)';
-    });
 }
-
 function updateCholStatus(v) {
     const bar = document.getElementById('cholBar');
     const fill = document.getElementById('cholFill');
@@ -480,9 +385,7 @@ function updateCholStatus(v) {
     if(v >= 240) { fill.style.background='#dc3545'; hint.textContent = '⚠ High — above 240 mg/dl is risky'; hint.style.color='#ff6b7a'; }
     else if(v >= 200) { fill.style.background='#ffc107'; hint.textContent = '⚡ Borderline — aim for below 200 mg/dl'; hint.style.color='#ffd85e'; }
     else { fill.style.background='#198754'; hint.textContent = '✓ Normal — within healthy range'; hint.style.color='#6edba8'; }
-    checkStepProgress();
 }
-
 function updateBpStatus(v) {
     const bar = document.getElementById('bpBar');
     const fill = document.getElementById('bpFill');
@@ -494,9 +397,7 @@ function updateBpStatus(v) {
     if(v >= 140) { fill.style.background='#dc3545'; hint.textContent = '⚠ High — above 140 mmHg is hypertension'; hint.style.color='#ff6b7a'; }
     else if(v >= 120) { fill.style.background='#ffc107'; hint.textContent = '⚡ Elevated — healthy is below 120 mmHg'; hint.style.color='#ffd85e'; }
     else { fill.style.background='#198754'; hint.textContent = '✓ Normal — within healthy range'; hint.style.color='#6edba8'; }
-    checkStepProgress();
 }
-
 document.getElementById('predictForm').addEventListener('submit', function(){
     const btn = document.getElementById('submitBtn');
     const txt = document.getElementById('submitText');

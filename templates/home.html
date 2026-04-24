@@ -2,718 +2,1005 @@
 
 {% block content %}
 
-<!-- ── Hero Section ── -->
-<div class="row align-items-center mb-5" style="min-height:90vh; padding-top:20px;">
-    <div class="col-lg-6 mb-5">
+<!-- ── HERO ── -->
+<div class="hero-wrap">
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+    <div class="hero-orb hero-orb-3"></div>
+    <div class="hero-grid"></div>
 
-        <!-- Badge -->
-        <div class="mb-4 animate-in" style="--delay:0.1s">
-            <span class="hero-badge">
-                <span class="hero-badge-dot"></span>
-                AI-Powered Heart Health Assessment
-            </span>
+    <div class="row align-items-center hero-inner">
+        <div class="col-lg-6 hero-left">
+
+            <div class="hero-tag animate-in" style="--delay:0.1s">
+                <span class="hero-tag-dot"></span>
+                AI-POWERED &nbsp;·&nbsp; CLINICAL GRADE &nbsp;·&nbsp; INSTANT RESULTS
+            </div>
+
+            <h1 class="hero-title animate-in" style="--delay:0.2s">
+                <span class="hero-title-line">PREDICT YOUR</span>
+                <span class="hero-title-line hero-title-red">HEART ATTACK</span>
+                <span class="hero-title-line hero-title-outline">RISK</span>
+            </h1>
+
+            <p class="hero-desc animate-in" style="--delay:0.35s">
+                Machine learning trained on <strong style="color:white">2,024 clinical records</strong>
+                delivers your personalised cardiovascular risk score with
+                <strong style="color:#dc3545">89% accuracy</strong> — in seconds, for free.
+            </p>
+
+            <div class="hero-btns animate-in" style="--delay:0.45s">
+                {% if current_user.is_authenticated %}
+                <a href="/predict" class="hbtn hbtn-primary">
+                    <i class="fas fa-heartbeat me-2"></i>Start
+                    <span class="hbtn-shine"></span>
+                    <span class="hbtn-arrow">→</span>
+                </a>
+                <a href="/dashboard" class="hbtn hbtn-ghost">
+                    <i class="fas fa-th-large me-2"></i>Dashboard
+                </a>
+                {% else %}
+                <a href="/register" class="hbtn hbtn-primary">
+                    <i class="fas fa-user-plus me-2"></i>Get Started Free
+                    <span class="hbtn-shine"></span>
+                    <span class="hbtn-arrow">→</span>
+                </a>
+                <a href="/login" class="hbtn hbtn-ghost">
+                    <i class="fas fa-sign-in-alt me-2"></i>Sign In
+                </a>
+                {% endif %}
+            </div>
+
+            <div class="hero-trust animate-in" style="--delay:0.55s">
+                <div class="htrust-item">
+                    <i class="fas fa-check-circle" style="color:#6edba8"></i>
+                    <span>89.14% Accuracy</span>
+                </div>
+                <div class="htrust-sep"></div>
+                <div class="htrust-item">
+                    <i class="fas fa-check-circle" style="color:#6edba8"></i>
+                    <span>AUC 0.9652</span>
+                </div>
+                <div class="htrust-sep"></div>
+                <div class="htrust-item">
+                    <i class="fas fa-check-circle" style="color:#6edba8"></i>
+                    <span>Free Forever</span>
+                </div>
+            </div>
         </div>
 
-        <!-- Title -->
-        <h1 class="hero-title animate-in" style="--delay:0.2s">
-            Predict Your<br>
-            <span class="hero-gradient">Heart Attack Risk</span><br>
-            <span class="hero-sub">With Advanced AI</span>
-        </h1>
+        <!-- Right Visual -->
+        <div class="col-lg-6 hero-right animate-in" style="--delay:0.3s">
+            <div class="hvisual">
+                <!-- Rings -->
+                <div class="hv-ring hv-ring-1"></div>
+                <div class="hv-ring hv-ring-2"></div>
+                <div class="hv-ring hv-ring-3"></div>
+                <!-- Scan line -->
+                <div class="hv-scan"></div>
+                <!-- Corner brackets -->
+                <div class="hv-corner hv-tl"></div>
+                <div class="hv-corner hv-tr"></div>
+                <div class="hv-corner hv-bl"></div>
+                <div class="hv-corner hv-br"></div>
+                <!-- Floating data tags -->
+                <div class="hv-tag hv-tag-1">
+                    <i class="fas fa-heartbeat me-1" style="color:#dc3545"></i>
+                    <span>89% Accuracy</span>
+                </div>
+                <div class="hv-tag hv-tag-2">
+                    <i class="fas fa-brain me-1" style="color:#7edfee"></i>
+                    <span>Random Forest</span>
+                </div>
+                <div class="hv-tag hv-tag-3">
+                    <i class="fas fa-shield-alt me-1" style="color:#6edba8"></i>
+                    <span>AUC 0.9652</span>
+                </div>
 
-        <p class="hero-desc animate-in" style="--delay:0.3s">
-            CardioPredict AI uses a Random Forest model trained on
-            <strong style="color:#dc3545;">2,024 clinical records</strong>
-            to estimate your heart attack risk with
-            <strong style="color:#dc3545;">89% accuracy</strong> — instantly.
-        </p>
-
-        <!-- Buttons -->
-        <div class="d-flex gap-3 flex-wrap animate-in" style="--delay:0.4s">
-            {% if current_user.is_authenticated %}
-            <a href="/predict" class="btn-hero-primary">
-                <i class="fas fa-heartbeat me-2"></i>Start Prediction
-                <span class="btn-shine"></span>
-            </a>
-            <a href="/dashboard" class="btn-hero-outline">
-                <i class="fas fa-th-large me-2"></i>My Dashboard
-            </a>
-            {% else %}
-            <a href="/register" class="btn-hero-primary">
-                <i class="fas fa-user-plus me-2"></i>Get Started Free
-                <span class="btn-shine"></span>
-            </a>
-            <a href="/login" class="btn-hero-outline">
-                <i class="fas fa-sign-in-alt me-2"></i>Login
-            </a>
-            {% endif %}
-        </div>
-
-        <!-- Trust Badges -->
-        <div class="d-flex gap-4 mt-4 flex-wrap animate-in" style="--delay:0.5s">
-            <div class="trust-badge"><i class="fas fa-check-circle" style="color:#6edba8"></i> 89% Accuracy</div>
-            <div class="trust-badge"><i class="fas fa-check-circle" style="color:#6edba8"></i> 2,024 Records</div>
-            <div class="trust-badge"><i class="fas fa-check-circle" style="color:#6edba8"></i> Instant Results</div>
-            <div class="trust-badge"><i class="fas fa-check-circle" style="color:#6edba8"></i> Free to Use</div>
-        </div>
-    </div>
-
-    <!-- Hero Visual -->
-    <div class="col-lg-6 text-center animate-in" style="--delay:0.3s">
-        <div class="hero-card-wrap">
-            <!-- Outer rings -->
-            <div class="hero-ring hero-ring-1"></div>
-            <div class="hero-ring hero-ring-2"></div>
-            <div class="hero-ring hero-ring-3"></div>
-
-            <!-- Main glass card -->
-            <div class="hero-glass-card">
-
-                <!-- Anatomical Heart SVG -->
-                <div style="position:relative; margin-bottom:20px;">
-                    <div class="heart-glow-bg"></div>
-                    <svg id="heroHeart" viewBox="0 0 340 320" width="160" height="160"
+                <!-- Anatomical Heart -->
+                <div class="hv-heart-container">
+                    <div class="hv-glow"></div>
+                    <svg id="mainHeart" viewBox="0 0 340 360" width="230" height="230"
                          xmlns="http://www.w3.org/2000/svg"
-                         style="filter:drop-shadow(0 0 20px rgba(220,53,69,0.6)) drop-shadow(0 4px 16px rgba(0,0,0,0.5));">
+                         style="filter:drop-shadow(0 0 28px rgba(220,53,69,0.75)) drop-shadow(0 0 55px rgba(220,53,69,0.3)) drop-shadow(0 4px 20px rgba(0,0,0,0.6));">
                       <defs>
-                        <radialGradient id="hhg1" cx="38%" cy="32%" r="65%">
+                        <radialGradient id="hg1" cx="38%" cy="32%" r="65%">
                           <stop offset="0%"   stop-color="#ff5566"/>
-                          <stop offset="40%"  stop-color="#cc2233"/>
-                          <stop offset="100%" stop-color="#660011"/>
-                        </radialGradient>
-                        <radialGradient id="hhg2" cx="70%" cy="40%" r="55%">
-                          <stop offset="0%"   stop-color="#bb1122"/>
+                          <stop offset="35%"  stop-color="#cc2233"/>
+                          <stop offset="70%"  stop-color="#991122"/>
                           <stop offset="100%" stop-color="#550008"/>
                         </radialGradient>
-                        <linearGradient id="hveinG" x1="0%" y1="0%" x2="100%" y2="100%">
-                          <stop offset="0%"   stop-color="#4466cc"/>
+                        <radialGradient id="hg2" cx="70%" cy="40%" r="55%">
+                          <stop offset="0%"   stop-color="#bb1122"/>
+                          <stop offset="100%" stop-color="#440006"/>
+                        </radialGradient>
+                        <linearGradient id="vein" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%"   stop-color="#5577ee"/>
                           <stop offset="100%" stop-color="#223388"/>
                         </linearGradient>
+                        <radialGradient id="hlG" cx="30%" cy="20%" r="50%">
+                          <stop offset="0%"   stop-color="rgba(255,255,255,0.3)"/>
+                          <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+                        </radialGradient>
+                        <filter id="sglow">
+                          <feGaussianBlur stdDeviation="2.5"/>
+                        </filter>
                       </defs>
-                      <path d="M170 290 C138 270,95 242,72 215 C48 188,38 162,38 138
-                               C38 98,58 72,88 65 C102 61,116 65,128 74
-                               C138 82,148 94,155 108 C160 98,168 85,178 76
-                               C190 66,206 60,222 62 C254 67,275 94,275 132
-                               C275 160,262 188,240 213 C218 238,195 260,170 290Z"
-                             fill="url(#hhg1)" class="hero-heart-body"/>
-                      <path d="M222 62 C254 67,275 94,275 132 C275 160,262 188,240 213
-                               C220 236,196 258,170 290 C185 270,210 245,228 220
-                               C248 192,262 165,262 135 C262 100,248 75,222 62Z"
-                             fill="url(#hhg2)" opacity="0.7"/>
-                      <ellipse cx="118" cy="72" rx="40" ry="28" fill="#dd3344" transform="rotate(-15,118,72)"/>
-                      <ellipse cx="218" cy="74" rx="36" ry="24" fill="#bb2233" transform="rotate(10,218,74)"/>
-                      <path d="M155 60 C150 38,140 18,120 10 C100 2,80 8,74 24
-                               C68 40,78 54,92 56" fill="none" stroke="#e03040" stroke-width="18" stroke-linecap="round"/>
-                      <path d="M155 60 C150 38,140 18,120 10 C100 2,80 8,74 24"
-                            fill="none" stroke="#ff6677" stroke-width="8" stroke-linecap="round" opacity="0.45"/>
-                      <path d="M182 58 C188 36,202 20,218 14 C232 8,248 12,252 24"
-                            fill="none" stroke="url(#hveinG)" stroke-width="16" stroke-linecap="round"/>
-                      <path d="M148 108 C135 120,115 138,105 162 C95 184,95 208,105 228"
-                            fill="none" stroke="#cc1122" stroke-width="4.5" stroke-linecap="round" opacity="0.85"/>
-                      <path d="M192 100 C205 115,218 135,220 158 C222 182,212 205,200 225"
-                            fill="none" stroke="#aa0011" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
-                      <path d="M168 100 C166 140,165 185,170 248" fill="none" stroke="rgba(80,0,0,0.5)" stroke-width="3.5"/>
-                      <path d="M95 82 C108 70,128 66,142 74 C130 68,110 72,95 82Z" fill="rgba(255,255,255,0.22)"/>
-                      <ellipse cx="108" cy="90" rx="16" ry="9" fill="rgba(255,255,255,0.12)" transform="rotate(-25,108,90)"/>
-                      <circle r="4" fill="#ff8899" opacity="0.9">
+                      <ellipse cx="170" cy="348" rx="75" ry="10" fill="rgba(0,0,0,0.35)" filter="url(#sglow)"/>
+                      <path d="M170 310 C138 290,95 262,72 235 C48 208,38 182,38 158
+                               C38 118,58 92,88 85 C102 81,116 85,128 94
+                               C138 102,148 114,155 128 C160 118,168 105,178 96
+                               C190 86,206 80,222 82 C254 87,275 114,275 152
+                               C275 180,262 208,240 233 C218 258,195 280,170 310Z"
+                            fill="url(#hg1)" class="main-heart-body"/>
+                      <path d="M222 82 C254 87,275 114,275 152 C275 180,262 208,240 233
+                               C220 256,196 278,170 310 C185 290,210 265,228 240
+                               C248 212,262 185,262 155 C262 120,248 95,222 82Z"
+                            fill="url(#hg2)" opacity="0.7"/>
+                      <ellipse cx="118" cy="88" rx="42" ry="32" fill="#dd3344" transform="rotate(-15,118,88)"/>
+                      <ellipse cx="118" cy="88" rx="38" ry="28" fill="#ee4455" transform="rotate(-15,118,88)"/>
+                      <ellipse cx="218" cy="90" rx="38" ry="28" fill="#aa1122" transform="rotate(10,218,90)"/>
+                      <ellipse cx="220" cy="88" rx="34" ry="24" fill="#bb2233" transform="rotate(10,220,88)"/>
+                      <!-- Aorta -->
+                      <path d="M155 78 C150 52,140 30,120 22 C100 14,80 20,74 36 C68 52,78 68,92 72"
+                            fill="none" stroke="#e03040" stroke-width="22" stroke-linecap="round"/>
+                      <path d="M155 78 C150 52,140 30,120 22 C100 14,80 20,74 36 C68 52,78 68,92 72"
+                            fill="none" stroke="#ff6677" stroke-width="10" stroke-linecap="round" opacity="0.45"/>
+                      <path d="M152 72 C148 50,140 32,122 24"
+                            fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="4" stroke-linecap="round"/>
+                      <!-- Pulmonary -->
+                      <path d="M182 75 C188 52,202 36,218 30 C232 24,248 28,252 40"
+                            fill="none" stroke="url(#vein)" stroke-width="18" stroke-linecap="round"/>
+                      <path d="M182 75 C188 52,202 36,218 30 C232 24,248 28,252 40"
+                            fill="none" stroke="#7799ee" stroke-width="8" stroke-linecap="round" opacity="0.4"/>
+                      <!-- Vena cava -->
+                      <path d="M245 68 C252 50,254 30,248 14"
+                            fill="none" stroke="#334db3" stroke-width="14" stroke-linecap="round"/>
+                      <!-- Coronary arteries -->
+                      <path d="M148 125 C135 138,115 155,105 178 C95 200,95 225,105 248"
+                            fill="none" stroke="#cc1122" stroke-width="5" stroke-linecap="round" opacity="0.85"/>
+                      <path d="M148 125 C140 140,125 155,118 175"
+                            fill="none" stroke="#cc1122" stroke-width="3.5" stroke-linecap="round" opacity="0.6"/>
+                      <path d="M130 162 C118 168,108 178,104 192"
+                            fill="none" stroke="#cc1122" stroke-width="2.5" stroke-linecap="round" opacity="0.55"/>
+                      <path d="M192 118 C205 132,218 152,220 175 C222 198,212 222,200 242"
+                            fill="none" stroke="#aa0011" stroke-width="4.5" stroke-linecap="round" opacity="0.8"/>
+                      <!-- Septum -->
+                      <path d="M168 118 C166 160,165 205,170 268"
+                            fill="none" stroke="rgba(80,0,0,0.5)" stroke-width="4"/>
+                      <!-- Highlights -->
+                      <path d="M95 100 C108 88,128 84,142 92 C130 86,110 90,95 100Z"
+                            fill="rgba(255,255,255,0.22)"/>
+                      <ellipse cx="108" cy="108" rx="18" ry="10" fill="rgba(255,255,255,0.12)" transform="rotate(-25,108,108)"/>
+                      <!-- Blood flow dots -->
+                      <circle r="4.5" fill="#ff8899" opacity="0.9">
                         <animateMotion dur="2.2s" repeatCount="indefinite"
-                          path="M148,108 C135,120 115,138 105,162 C95,184 95,208 105,228"/>
+                          path="M148,125 C135,138 115,155 105,178 C95,200 95,225 105,248"/>
                       </circle>
-                      <circle r="3.5" fill="#ff7788" opacity="0.85">
+                      <circle r="4" fill="#ff7788" opacity="0.85">
                         <animateMotion dur="2.6s" repeatCount="indefinite" begin="0.4s"
-                          path="M192,100 C205,115 218,135 220,158 C222,182 212,205 200,225"/>
+                          path="M192,118 C205,132 218,152 220,175 C222,198 212,222 200,242"/>
                       </circle>
-                      <circle r="4" fill="#ffaabb" opacity="0.8">
+                      <circle r="5" fill="#ffaabb" opacity="0.8">
                         <animateMotion dur="1.6s" repeatCount="indefinite" begin="0.2s"
-                          path="M155,60 C150,38 140,18 120,10 C100,2 80,8 74,24"/>
+                          path="M155,78 C150,52 140,30 120,22 C100,14 80,20 74,36"/>
                       </circle>
-                      <circle r="3.5" fill="#88aaff" opacity="0.75">
+                      <circle r="4" fill="#88aaff" opacity="0.75">
                         <animateMotion dur="2s" repeatCount="indefinite" begin="0.8s"
-                          path="M182,58 C188,36 202,20 218,14 C232,8 248,12 252,24"/>
+                          path="M182,75 C188,52 202,36 218,30 C232,24 248,28 252,40"/>
+                      </circle>
+                      <circle r="3" fill="#6699ff" opacity="0.7">
+                        <animateMotion dur="1.8s" repeatCount="indefinite" begin="0.3s"
+                          path="M245,68 C252,50 254,30 248,14"/>
                       </circle>
                     </svg>
                 </div>
 
-                <!-- Mini Stats -->
-                <div class="row g-2 mb-3">
-                    <div class="col-4">
-                        <div class="hero-mini-stat">
-                            <div class="hero-mini-num">89%</div>
-                            <div class="hero-mini-lbl">Accuracy</div>
-                        </div>
+                <!-- ECG Strip at bottom -->
+                <div class="hv-ecg-strip">
+                    <div class="hv-ecg-label">
+                        <span class="hv-ecg-dot"></span>LIVE ECG
                     </div>
-                    <div class="col-4">
-                        <div class="hero-mini-stat">
-                            <div class="hero-mini-num">2K+</div>
-                            <div class="hero-mini-lbl">Records</div>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="hero-mini-stat">
-                            <div class="hero-mini-num">0.96</div>
-                            <div class="hero-mini-lbl">AUC</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Live ECG -->
-                <div class="hero-ecg-box">
-                    <canvas id="heroEcg" height="36" style="width:100%;"></canvas>
-                    <p class="hero-ecg-label">LIVE ECG SIMULATION</p>
+                    <canvas id="heroEcg" height="40" style="flex:1;"></canvas>
+                    <div class="hv-ecg-bpm" id="heroBpm">72 BPM</div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- ── Stats Bar ── -->
-<div class="stats-bar mb-5">
-    <div class="row text-center g-0">
-        <div class="col-6 col-md-3">
-            <div class="stats-bar-item">
-                <div class="stats-bar-num" data-count="89.14" data-suffix="%">0%</div>
-                <div class="stats-bar-lbl">Model Accuracy</div>
-            </div>
+<!-- ── SCROLLING STATS BAR ── -->
+<div class="stats-ticker">
+    <div class="stats-ticker-inner">
+        <div class="stats-ticker-item">
+            <span class="sticker-num" data-val="89.14" data-suf="%">0%</span>
+            <span class="sticker-lbl">Accuracy</span>
         </div>
-        <div class="col-6 col-md-3">
-            <div class="stats-bar-item">
-                <div class="stats-bar-num" data-count="2024" data-suffix="">0</div>
-                <div class="stats-bar-lbl">Training Records</div>
-            </div>
+        <div class="stats-ticker-sep">—</div>
+        <div class="stats-ticker-item">
+            <span class="sticker-num" data-val="2024" data-suf="">0</span>
+            <span class="sticker-lbl">Training Records</span>
         </div>
-        <div class="col-6 col-md-3">
-            <div class="stats-bar-item">
-                <div class="stats-bar-num" data-count="96.52" data-suffix="%">0%</div>
-                <div class="stats-bar-lbl">AUC Score</div>
-            </div>
+        <div class="stats-ticker-sep">—</div>
+        <div class="stats-ticker-item">
+            <span class="sticker-num" data-val="96.52" data-suf="%">0%</span>
+            <span class="sticker-lbl">AUC Score</span>
         </div>
-        <div class="col-6 col-md-3">
-            <div class="stats-bar-item">
-                <div class="stats-bar-num" data-count="7" data-suffix="">0</div>
-                <div class="stats-bar-lbl">Clinical Features</div>
-            </div>
+        <div class="stats-ticker-sep">—</div>
+        <div class="stats-ticker-item">
+            <span class="sticker-num" data-val="7" data-suf="">0</span>
+            <span class="sticker-lbl">Clinical Features</span>
+        </div>
+        <div class="stats-ticker-sep">—</div>
+        <div class="stats-ticker-item">
+            <span class="sticker-num" data-val="100" data-suf="">0</span>
+            <span class="sticker-lbl">Decision Trees</span>
+        </div>
+        <div class="stats-ticker-sep">—</div>
+        <div class="stats-ticker-item">
+            <span class="sticker-num" data-val="92.66" data-suf="%">0%</span>
+            <span class="sticker-lbl">Recall</span>
         </div>
     </div>
 </div>
 
-<!-- ── How It Works ── -->
-<div class="section-wrap mb-5">
+<!-- ── HOW IT WORKS ── -->
+<div class="section-block">
     <div class="text-center mb-5">
-        <div class="section-tag">Simple Process</div>
-        <h2 class="section-title mt-2">How It <span>Works</span></h2>
-        <p style="color:#555; max-width:500px; margin:10px auto 0;">
-            Three simple steps to get your personalised heart attack risk assessment
+        <div class="section-eyebrow">// PROCESS</div>
+        <h2 class="section-big-title">HOW IT <span style="color:#dc3545">WORKS</span></h2>
+        <p style="color:#555; max-width:480px; margin:12px auto 0; font-size:0.95rem;">
+            Three steps to your personalised heart attack risk assessment
         </p>
     </div>
     <div class="row g-4">
         <div class="col-md-4">
-            <div class="how-card scroll-reveal">
-                <div class="how-num">01</div>
-                <div class="how-icon-wrap">
-                    <i class="fas fa-user-plus" style="color:#dc3545"></i>
+            <div class="how-block sr-item">
+                <div class="how-block-num">01</div>
+                <div class="how-block-icon">
+                    <i class="fas fa-user-plus"></i>
                 </div>
-                <h5 class="how-title">Create Account</h5>
-                <p class="how-desc">Register with your basic details to get started with your personal heart health dashboard.</p>
-                <div class="how-line"></div>
+                <div class="how-block-line"></div>
+                <h5 class="how-block-title">Create Account</h5>
+                <p class="how-block-desc">Register with your basic details to unlock your personal heart health dashboard and prediction history.</p>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="how-card scroll-reveal" style="--sr-delay:0.15s">
-                <div class="how-num">02</div>
-                <div class="how-icon-wrap">
-                    <i class="fas fa-clipboard-list" style="color:#dc3545"></i>
+            <div class="how-block sr-item" style="--sr-d:0.15s">
+                <div class="how-block-num">02</div>
+                <div class="how-block-icon">
+                    <i class="fas fa-clipboard-list"></i>
                 </div>
-                <h5 class="how-title">Enter Parameters</h5>
-                <p class="how-desc">Input your clinical data such as age, cholesterol, blood pressure and heart rate indicators.</p>
-                <div class="how-line"></div>
+                <div class="how-block-line"></div>
+                <h5 class="how-block-title">Enter Parameters</h5>
+                <p class="how-block-desc">Input 7 clinical values — age, cholesterol, blood pressure, heart rate and more from your medical report.</p>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="how-card scroll-reveal" style="--sr-delay:0.3s">
-                <div class="how-num">03</div>
-                <div class="how-icon-wrap">
-                    <i class="fas fa-chart-line" style="color:#dc3545"></i>
+            <div class="how-block sr-item" style="--sr-d:0.3s">
+                <div class="how-block-num">03</div>
+                <div class="how-block-icon">
+                    <i class="fas fa-chart-line"></i>
                 </div>
-                <h5 class="how-title">Get Results</h5>
-                <p class="how-desc">Receive instant AI-powered risk assessment with probability score and personalised recommendations.</p>
-                <div class="how-line"></div>
+                <div class="how-block-line"></div>
+                <h5 class="how-block-title">Get Results</h5>
+                <p class="how-block-desc">Receive an instant AI risk score with SHAP explainability, health factor analysis and a downloadable PDF report.</p>
             </div>
         </div>
     </div>
 </div>
 
-<!-- ── Features Grid ── -->
-<div class="section-wrap mb-5">
+<!-- ── FEATURES ── -->
+<div class="section-block">
     <div class="text-center mb-5">
-        <div class="section-tag">Why Choose Us</div>
-        <h2 class="section-title mt-2">Why <span>CardioPredict AI</span></h2>
+        <div class="section-eyebrow">// CAPABILITIES</div>
+        <h2 class="section-big-title">WHAT YOU <span style="color:#dc3545">GET</span></h2>
     </div>
-    <div class="row g-4">
-        <div class="col-md-3 col-6">
-            <div class="feat-card scroll-reveal">
-                <div class="feat-icon-wrap">
-                    <i class="fas fa-bolt" style="color:#dc3545; font-size:1.3rem;"></i>
+    <div class="row g-3">
+        <div class="col-md-4">
+            <div class="feat-block sr-item">
+                <div class="feat-block-top">
+                    <div class="feat-icon"><i class="fas fa-bolt"></i></div>
+                    <div class="feat-tag">INSTANT</div>
                 </div>
-                <h6 class="feat-title">Instant Results</h6>
-                <p class="feat-desc">Risk assessment in seconds with detailed breakdown and recommendations.</p>
+                <h6 class="feat-title">Real-Time Results</h6>
+                <p class="feat-desc">Risk assessment delivered in under 2 seconds with full breakdown and colour-coded health factors.</p>
             </div>
         </div>
-        <div class="col-md-3 col-6">
-            <div class="feat-card scroll-reveal" style="--sr-delay:0.1s">
-                <div class="feat-icon-wrap">
-                    <i class="fas fa-brain" style="color:#dc3545; font-size:1.3rem;"></i>
-                </div>
-                <h6 class="feat-title">ML Powered</h6>
-                <p class="feat-desc">Random Forest achieving 89% accuracy and 0.96 AUC on clinical data.</p>
-            </div>
-        </div>
-        <div class="col-md-3 col-6">
-            <div class="feat-card scroll-reveal" style="--sr-delay:0.2s">
-                <div class="feat-icon-wrap">
-                    <i class="fas fa-file-pdf" style="color:#dc3545; font-size:1.3rem;"></i>
-                </div>
-                <h6 class="feat-title">PDF Reports</h6>
-                <p class="feat-desc">Download professional PDF reports with full clinical analysis.</p>
-            </div>
-        </div>
-        <div class="col-md-3 col-6">
-            <div class="feat-card scroll-reveal" style="--sr-delay:0.3s">
-                <div class="feat-icon-wrap">
-                    <i class="fas fa-lock" style="color:#dc3545; font-size:1.3rem;"></i>
-                </div>
-                <h6 class="feat-title">Secure & Private</h6>
-                <p class="feat-desc">Your health data is encrypted and never shared with third parties.</p>
-            </div>
-        </div>
-        <div class="col-md-3 col-6">
-            <div class="feat-card scroll-reveal" style="--sr-delay:0.1s">
-                <div class="feat-icon-wrap">
-                    <i class="fas fa-project-diagram" style="color:#dc3545; font-size:1.3rem;"></i>
+        <div class="col-md-4">
+            <div class="feat-block sr-item" style="--sr-d:0.1s">
+                <div class="feat-block-top">
+                    <div class="feat-icon"><i class="fas fa-brain"></i></div>
+                    <div class="feat-tag">AI</div>
                 </div>
                 <h6 class="feat-title">SHAP Explainability</h6>
-                <p class="feat-desc">Understand why the model made each prediction with SHAP values.</p>
+                <p class="feat-desc">See exactly which clinical factors drove the prediction using SHAP values — not just a black box.</p>
             </div>
         </div>
-        <div class="col-md-3 col-6">
-            <div class="feat-card scroll-reveal" style="--sr-delay:0.2s">
-                <div class="feat-icon-wrap">
-                    <i class="fas fa-history" style="color:#dc3545; font-size:1.3rem;"></i>
+        <div class="col-md-4">
+            <div class="feat-block sr-item" style="--sr-d:0.2s">
+                <div class="feat-block-top">
+                    <div class="feat-icon"><i class="fas fa-file-pdf"></i></div>
+                    <div class="feat-tag">REPORT</div>
                 </div>
-                <h6 class="feat-title">Full History</h6>
-                <p class="feat-desc">Track all past predictions and monitor your risk trend over time.</p>
+                <h6 class="feat-title">PDF Report Download</h6>
+                <p class="feat-desc">Download a professional clinical report with patient info, risk level, analysis and recommendations.</p>
             </div>
         </div>
-        <div class="col-md-3 col-6">
-            <div class="feat-card scroll-reveal" style="--sr-delay:0.3s">
-                <div class="feat-icon-wrap">
-                    <i class="fas fa-chart-bar" style="color:#dc3545; font-size:1.3rem;"></i>
+        <div class="col-md-4">
+            <div class="feat-block sr-item" style="--sr-d:0.05s">
+                <div class="feat-block-top">
+                    <div class="feat-icon"><i class="fas fa-chart-bar"></i></div>
+                    <div class="feat-tag">ANALYTICS</div>
                 </div>
-                <h6 class="feat-title">Model Evaluation</h6>
-                <p class="feat-desc">Full ROC curve, confusion matrix and performance metrics page.</p>
+                <h6 class="feat-title">Risk Trend Tracking</h6>
+                <p class="feat-desc">Monitor your risk over time with a full prediction history, trend charts and dashboard analytics.</p>
             </div>
         </div>
-        <div class="col-md-3 col-6">
-            <div class="feat-card scroll-reveal" style="--sr-delay:0.4s">
-                <div class="feat-icon-wrap">
-                    <i class="fas fa-mobile-alt" style="color:#dc3545; font-size:1.3rem;"></i>
+        <div class="col-md-4">
+            <div class="feat-block sr-item" style="--sr-d:0.15s">
+                <div class="feat-block-top">
+                    <div class="feat-icon"><i class="fas fa-lock"></i></div>
+                    <div class="feat-tag">SECURE</div>
                 </div>
-                <h6 class="feat-title">Mobile Friendly</h6>
-                <p class="feat-desc">Fully responsive design that works on any device or screen size.</p>
+                <h6 class="feat-title">Private & Encrypted</h6>
+                <p class="feat-desc">Your health data is stored securely with bcrypt encryption. Never shared with third parties.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feat-block sr-item" style="--sr-d:0.25s">
+                <div class="feat-block-top">
+                    <div class="feat-icon"><i class="fas fa-project-diagram"></i></div>
+                    <div class="feat-tag">ML</div>
+                </div>
+                <h6 class="feat-title">Feature Importance</h6>
+                <p class="feat-desc">Explore which clinical features matter most to the model with interactive charts and explanations.</p>
             </div>
         </div>
     </div>
 </div>
 
-<!-- ── Tech Stack ── -->
-<div class="section-wrap mb-5">
-    <div class="text-center mb-4">
-        <div class="section-tag">Built With</div>
-        <h2 class="section-title mt-2">Technology <span>Stack</span></h2>
-    </div>
-    <div class="tech-strip">
-        <div class="tech-item"><i class="fab fa-python"></i><span>Python 3.9</span></div>
-        <div class="tech-sep">•</div>
-        <div class="tech-item"><i class="fas fa-flask"></i><span>Flask</span></div>
-        <div class="tech-sep">•</div>
-        <div class="tech-item"><i class="fas fa-brain"></i><span>Scikit-learn</span></div>
-        <div class="tech-sep">•</div>
-        <div class="tech-item"><i class="fas fa-database"></i><span>SQLite</span></div>
-        <div class="tech-sep">•</div>
-        <div class="tech-item"><i class="fab fa-bootstrap"></i><span>Bootstrap 5</span></div>
-        <div class="tech-sep">•</div>
-        <div class="tech-item"><i class="fab fa-github"></i><span>GitHub</span></div>
-        <div class="tech-sep">•</div>
-        <div class="tech-item"><i class="fas fa-chart-line"></i><span>SHAP</span></div>
+<!-- ── MODEL STATS VISUAL ── -->
+<div class="section-block">
+    <div class="model-showcase sr-item">
+        <div class="ms-bg-glow"></div>
+        <div class="row align-items-center g-5">
+            <div class="col-lg-5">
+                <div class="section-eyebrow">// ML MODEL</div>
+                <h2 class="section-big-title" style="font-size:2.2rem;">RANDOM<br><span style="color:#dc3545">FOREST</span><br>CLASSIFIER</h2>
+                <p style="color:#666; font-size:0.92rem; line-height:1.8; margin-top:16px;">
+                    100 decision trees trained on the UCI Heart Disease dataset combined with
+                    the Statlog Cleveland Hungary dataset — 2,024 records total.
+                    Validated with stratified 80/20 train-test split.
+                </p>
+                <a href="/evaluation" class="hbtn hbtn-ghost mt-3 d-inline-flex">
+                    <i class="fas fa-chart-line me-2"></i>View Full Evaluation
+                </a>
+            </div>
+            <div class="col-lg-7">
+                <div class="row g-3">
+                    <div class="col-6">
+                        <div class="ms-metric sr-item">
+                            <canvas class="ms-arc" data-v="89" data-c="#dc3545" width="100" height="100"></canvas>
+                            <div class="ms-metric-num">89.14%</div>
+                            <div class="ms-metric-lbl">Accuracy</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="ms-metric sr-item" style="--sr-d:0.1s">
+                            <canvas class="ms-arc" data-v="96" data-c="#7edfee" width="100" height="100"></canvas>
+                            <div class="ms-metric-num">96.52%</div>
+                            <div class="ms-metric-lbl">AUC Score</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="ms-metric sr-item" style="--sr-d:0.2s">
+                            <canvas class="ms-arc" data-v="92" data-c="#6edba8" width="100" height="100"></canvas>
+                            <div class="ms-metric-num">92.66%</div>
+                            <div class="ms-metric-lbl">Recall</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="ms-metric sr-item" style="--sr-d:0.3s">
+                            <canvas class="ms-arc" data-v="90" data-c="#ffc107" width="100" height="100"></canvas>
+                            <div class="ms-metric-num">90.18%</div>
+                            <div class="ms-metric-lbl">F1 Score</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+
 
 <!-- ── CTA ── -->
 {% if not current_user.is_authenticated %}
-<div class="cta-section mb-5">
-    <div class="cta-bg-heart"></div>
-    <div class="cta-bg-circle-1"></div>
-    <div class="cta-bg-circle-2"></div>
-    <div style="position:relative; z-index:1; text-align:center;">
-        <i class="fas fa-heartbeat fa-3x mb-3 animate-heartbeat" style="color:#dc3545; filter:drop-shadow(0 0 15px rgba(220,53,69,0.4))"></i>
-        <h3 style="color:white; font-weight:800; margin-bottom:12px;">Ready to Check Your Heart Health?</h3>
-        <p style="color:#666; max-width:500px; margin:0 auto 28px; line-height:1.7;">
-            Create a free account and get your first heart attack risk assessment today. No credit card required.
-        </p>
-        <a href="/register" class="btn-hero-primary">
-            <i class="fas fa-heartbeat me-2"></i>Get Started Now — It's Free
-            <span class="btn-shine"></span>
-        </a>
+<div class="section-block">
+    <div class="cta-block sr-item">
+        <div class="cta-bg-orb-1"></div>
+        <div class="cta-bg-orb-2"></div>
+        <div class="cta-inner">
+            <div class="cta-heart-icon">
+                <i class="fas fa-heartbeat animate-heartbeat" style="color:#dc3545; font-size:2.5rem; filter:drop-shadow(0 0 15px rgba(220,53,69,0.5))"></i>
+            </div>
+            <h2 class="cta-title">READY TO CHECK YOUR<br><span style="color:#dc3545">HEART HEALTH?</span></h2>
+            <p class="cta-desc">Create a free account and get your first heart attack risk assessment today. No credit card required. Takes 2 minutes.</p>
+            <a href="/register" class="hbtn hbtn-primary hbtn-lg">
+                <i class="fas fa-user-plus me-2"></i>Get Started Now — It's Free
+                <span class="hbtn-shine"></span>
+                <span class="hbtn-arrow">→</span>
+            </a>
+        </div>
     </div>
 </div>
 {% endif %}
 
-<!-- ── Styles ── -->
+<!-- ── STYLES ── -->
 <style>
-/* Hero */
-.hero-badge {
-    display:inline-flex; align-items:center; gap:8px;
-    background:rgba(220,53,69,0.1); color:#dc3545;
-    padding:8px 20px; border-radius:30px; font-size:0.82rem;
-    border:1px solid rgba(220,53,69,0.25); letter-spacing:1px;
-    text-transform:uppercase; font-weight:600;
+/* ── Hero ── */
+.hero-wrap {
+    position: relative;
+    min-height: 92vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding: 60px 0 40px;
 }
-.hero-badge-dot {
-    width:8px; height:8px; border-radius:50%; background:#dc3545;
-    box-shadow:0 0 0 0 rgba(220,53,69,0.4);
-    animation:heroDot 1.5s infinite;
+.hero-orb {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    filter: blur(80px);
 }
-@keyframes heroDot {
-    0%   { box-shadow:0 0 0 0 rgba(220,53,69,0.4); }
-    70%  { box-shadow:0 0 0 7px rgba(220,53,69,0); }
-    100% { box-shadow:0 0 0 0 rgba(220,53,69,0); }
+.hero-orb-1 {
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(220,53,69,0.12), transparent);
+    top: -100px; left: -100px;
+    animation: orbFloat 8s ease-in-out infinite;
 }
-.hero-title {
-    color:white; font-size:3.4rem; font-weight:900;
-    line-height:1.15; margin-bottom:20px;
+.hero-orb-2 {
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(139,0,0,0.08), transparent);
+    bottom: -80px; right: 0;
+    animation: orbFloat 10s ease-in-out infinite reverse;
 }
-.hero-gradient {
-    background:linear-gradient(135deg,#dc3545,#ff6b7a,#ff9999);
-    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-    background-clip:text;
+.hero-orb-3 {
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(220,53,69,0.06), transparent);
+    top: 50%; left: 50%;
+    animation: orbFloat 12s ease-in-out infinite;
 }
-.hero-sub { color:rgba(255,255,255,0.6); font-size:2.2rem; }
-.hero-desc {
-    color:rgba(255,255,255,0.45); line-height:1.9;
-    font-size:1rem; margin-bottom:30px; max-width:480px;
+@keyframes orbFloat {
+    0%,100% { transform: translate(0,0) scale(1); }
+    33%      { transform: translate(30px,-20px) scale(1.05); }
+    66%      { transform: translate(-20px,15px) scale(0.95); }
 }
-.trust-badge { display:flex; align-items:center; gap:7px; color:rgba(255,255,255,0.4); font-size:0.84rem; }
+.hero-grid {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image:
+        linear-gradient(rgba(220,53,69,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(220,53,69,0.025) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+}
+.hero-inner { position: relative; z-index: 2; width: 100%; }
+.hero-left  { padding-right: 40px; }
 
-/* Animate In */
+/* Tag */
+.hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(220,53,69,0.08);
+    border: 1px solid rgba(220,53,69,0.2);
+    color: #dc3545; padding: 7px 16px;
+    border-radius: 4px; font-size: 0.72rem;
+    font-weight: 700; letter-spacing: 2px;
+    margin-bottom: 24px; display: block;
+}
+.hero-tag-dot {
+    display: inline-block; width: 7px; height: 7px;
+    border-radius: 50%; background: #dc3545;
+    box-shadow: 0 0 0 0 rgba(220,53,69,0.4);
+    animation: tagDot 1.5s infinite; margin-right: 6px;
+}
+@keyframes tagDot {
+    0%   { box-shadow: 0 0 0 0 rgba(220,53,69,0.4); }
+    70%  { box-shadow: 0 0 0 6px rgba(220,53,69,0); }
+    100% { box-shadow: 0 0 0 0 rgba(220,53,69,0); }
+}
+
+/* Title */
+.hero-title {
+    display: flex; flex-direction: column;
+    margin-bottom: 24px;
+}
+.hero-title-line {
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    font-weight: 900; line-height: 1.0;
+    letter-spacing: -1px; color: white;
+    display: block;
+}
+.hero-title-red {
+    color: #dc3545;
+    text-shadow: 0 0 40px rgba(220,53,69,0.4);
+}
+.hero-title-outline {
+    -webkit-text-stroke: 2px rgba(255,255,255,0.3);
+    color: transparent;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+}
+
+.hero-desc {
+    color: rgba(255,255,255,0.45);
+    font-size: 1rem; line-height: 1.85;
+    max-width: 480px; margin-bottom: 32px;
+}
+
+/* Buttons */
+.hero-btns { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 28px; }
+.hbtn {
+    display: inline-flex; align-items: center;
+    padding: 13px 28px; border-radius: 6px;
+    font-weight: 700; font-size: 0.92rem;
+    text-decoration: none; position: relative;
+    overflow: hidden; transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    gap: 6px;
+}
+.hbtn-primary {
+    background: linear-gradient(135deg, #dc3545, #a01020);
+    color: white !important;
+    box-shadow: 0 6px 30px rgba(220,53,69,0.45);
+    border: 1px solid rgba(220,53,69,0.5);
+}
+.hbtn-primary:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 12px 40px rgba(220,53,69,0.6);
+}
+.hbtn-ghost {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.7) !important;
+}
+.hbtn-ghost:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.25);
+    color: white !important;
+    transform: translateY(-2px);
+}
+.hbtn-lg { padding: 16px 36px; font-size: 1rem; }
+.hbtn-shine {
+    position: absolute; top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg,transparent,rgba(255,255,255,0.15),transparent);
+    animation: btnShine 2.5s infinite;
+}
+@keyframes btnShine { 0%{left:-100%} 50%,100%{left:100%} }
+.hbtn-arrow {
+    opacity: 0; transform: translateX(-6px);
+    transition: all 0.3s; font-size: 1.1rem;
+}
+.hbtn:hover .hbtn-arrow { opacity: 1; transform: translateX(0); }
+
+/* Trust */
+.hero-trust {
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+}
+.htrust-item {
+    display: flex; align-items: center; gap: 7px;
+    color: rgba(255,255,255,0.4); font-size: 0.84rem;
+}
+.htrust-sep {
+    width: 1px; height: 16px;
+    background: rgba(255,255,255,0.1);
+}
+
+/* Hero Visual */
+.hero-right { display: flex; justify-content: center; }
+.hvisual {
+    position: relative; width: 420px; height: 420px;
+    display: flex; align-items: center; justify-content: center;
+}
+.hv-ring {
+    position: absolute; border-radius: 50%;
+    border: 1px solid rgba(220,53,69,0.1);
+    top: 50%; left: 50%; transform: translate(-50%,-50%);
+    animation: hvRing 3s ease-in-out infinite;
+}
+.hv-ring-1 { width: 280px; height: 280px; }
+.hv-ring-2 { width: 340px; height: 340px; animation-delay:0.6s; opacity:0.6; }
+.hv-ring-3 { width: 400px; height: 400px; animation-delay:1.2s; opacity:0.3; }
+@keyframes hvRing {
+    0%,100% { opacity:0.3; transform:translate(-50%,-50%) scale(1); }
+    50%      { opacity:0.8; transform:translate(-50%,-50%) scale(1.03); }
+}
+/* Scan line */
+.hv-scan {
+    position: absolute; left: 10%; width: 80%; height: 2px;
+    background: linear-gradient(90deg,transparent,rgba(220,53,69,0.6),transparent);
+    top: 0; animation: hvScan 3s ease-in-out infinite;
+    box-shadow: 0 0 8px rgba(220,53,69,0.4);
+    z-index: 3; pointer-events: none;
+}
+@keyframes hvScan {
+    0%,100% { top: 10%; opacity:0; }
+    10%      { opacity:1; }
+    90%      { opacity:1; }
+    50%      { top: 90%; }
+}
+/* Corner brackets */
+.hv-corner {
+    position: absolute; width: 20px; height: 20px;
+    border-color: rgba(220,53,69,0.5); border-style: solid;
+    z-index: 4;
+}
+.hv-tl { top:8%; left:8%; border-width:2px 0 0 2px; }
+.hv-tr { top:8%; right:8%; border-width:2px 2px 0 0; }
+.hv-bl { bottom:8%; left:8%; border-width:0 0 2px 2px; }
+.hv-br { bottom:8%; right:8%; border-width:0 2px 2px 0; }
+
+/* Floating tags */
+.hv-tag {
+    position: absolute; z-index: 5;
+    background: rgba(2,8,24,0.85);
+    border: 1px solid rgba(220,53,69,0.25);
+    border-radius: 8px; padding: 6px 12px;
+    font-size: 0.75rem; color: #e0e0e0; font-weight: 600;
+    backdrop-filter: blur(10px);
+    white-space: nowrap;
+    animation: tagFloat 3s ease-in-out infinite;
+}
+.hv-tag-1 { top: 12%; left: 2%; animation-delay:0s; }
+.hv-tag-2 { top: 18%; right: 0%; animation-delay:1s; }
+.hv-tag-3 { bottom: 18%; right: 2%; animation-delay:2s; }
+@keyframes tagFloat {
+    0%,100% { transform:translateY(0); }
+    50%      { transform:translateY(-6px); }
+}
+
+/* Heart container */
+.hv-heart-container { position: relative; z-index: 2; }
+.hv-glow {
+    position: absolute; width: 200px; height: 200px;
+    border-radius: 50%; top:50%; left:50%;
+    transform: translate(-50%,-50%);
+    background: radial-gradient(circle,rgba(220,53,69,0.2),transparent 70%);
+    animation: glowPulse 1.2s ease-in-out infinite;
+    pointer-events: none;
+}
+.main-heart-body {
+    transform-origin: 170px 196px;
+    animation: heartBeat 1.2s ease-in-out infinite;
+}
+@keyframes heartBeat {
+    0%,100%{transform:scale(1)} 14%{transform:scale(1.07)}
+    28%{transform:scale(1)} 42%{transform:scale(1.04)} 70%{transform:scale(1)}
+}
+@keyframes glowPulse {
+    0%,100%{opacity:0.5;transform:translate(-50%,-50%) scale(1)}
+    14%{opacity:1;transform:translate(-50%,-50%) scale(1.12)}
+    28%{opacity:0.5;transform:translate(-50%,-50%) scale(1)}
+    42%{opacity:0.8;transform:translate(-50%,-50%) scale(1.08)}
+}
+
+/* ECG strip */
+.hv-ecg-strip {
+    position: absolute; bottom: 5%;
+    left: 8%; right: 8%;
+    background: rgba(2,8,24,0.7);
+    border: 1px solid rgba(220,53,69,0.15);
+    border-radius: 8px; padding: 8px 12px;
+    display: flex; align-items: center; gap: 10px;
+    z-index: 5; backdrop-filter: blur(10px);
+}
+.hv-ecg-label {
+    color: #dc3545; font-size: 0.65rem; font-weight: 700;
+    letter-spacing: 1.5px; white-space: nowrap;
+    display: flex; align-items: center; gap: 5px;
+}
+.hv-ecg-dot {
+    width: 6px; height: 6px; border-radius: 50%; background: #dc3545;
+    animation: tagDot 1.5s infinite;
+}
+.hv-ecg-bpm {
+    color: #dc3545; font-weight: 800; font-size: 0.78rem;
+    white-space: nowrap; letter-spacing: 1px;
+}
+
+/* Animate in */
 .animate-in {
-    opacity:0; transform:translateY(22px);
-    animation:fadeUp 0.6s ease forwards;
-    animation-delay:var(--delay);
+    opacity:0; transform:translateY(20px);
+    animation: fadeUp 0.6s ease forwards;
+    animation-delay: var(--delay,0s);
 }
 @keyframes fadeUp { to { opacity:1; transform:translateY(0); } }
 
-/* Hero Buttons */
-.btn-hero-primary {
-    display:inline-flex; align-items:center;
-    padding:14px 32px; border-radius:50px;
-    background:linear-gradient(135deg,#dc3545,#b02a37);
-    color:white !important; font-weight:700; font-size:1rem;
-    text-decoration:none; position:relative; overflow:hidden;
-    box-shadow:0 6px 25px rgba(220,53,69,0.45);
-    transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+/* Stats ticker */
+.stats-ticker {
+    background: rgba(220,53,69,0.04);
+    border-top: 1px solid rgba(220,53,69,0.1);
+    border-bottom: 1px solid rgba(220,53,69,0.1);
+    padding: 20px 0; margin: 0 -12px 80px;
+    overflow: hidden;
 }
-.btn-hero-primary:hover {
-    transform:translateY(-3px) scale(1.04);
-    box-shadow:0 12px 35px rgba(220,53,69,0.6);
+.stats-ticker-inner {
+    display: flex; align-items: center; justify-content: space-around;
+    flex-wrap: wrap; gap: 20px; padding: 0 20px;
 }
-.btn-shine {
-    position:absolute; top:0; left:-100%; width:100%; height:100%;
-    background:linear-gradient(90deg,transparent,rgba(255,255,255,0.18),transparent);
-    animation:shine 2.5s infinite;
+.stats-ticker-item { text-align: center; }
+.sticker-num {
+    display: block; font-size: 1.8rem; font-weight: 900;
+    color: #dc3545; line-height: 1;
 }
-@keyframes shine { 0%{left:-100%} 50%,100%{left:100%} }
-.btn-hero-outline {
-    display:inline-flex; align-items:center;
-    padding:14px 32px; border-radius:50px;
-    border:1px solid rgba(220,53,69,0.45);
-    color:#dc3545 !important; font-weight:700; font-size:1rem;
-    text-decoration:none; background:rgba(220,53,69,0.05);
-    transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+.sticker-lbl { color: #555; font-size: 0.75rem; margin-top: 3px; display: block; }
+.stats-ticker-sep { color: rgba(220,53,69,0.2); font-size: 1.5rem; }
+
+/* Section blocks */
+.section-block { margin-bottom: 100px; }
+.section-eyebrow {
+    color: #dc3545; font-size: 0.75rem; font-weight: 700;
+    letter-spacing: 3px; margin-bottom: 8px;
 }
-.btn-hero-outline:hover {
-    background:rgba(220,53,69,0.12); border-color:#dc3545;
-    transform:translateY(-3px) scale(1.03);
-    box-shadow:0 8px 25px rgba(220,53,69,0.2);
+.section-big-title {
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 900; color: white;
+    letter-spacing: -0.5px; line-height: 1.1;
 }
 
-/* Hero Card Wrap */
-.hero-card-wrap {
-    position:relative; display:inline-block;
+/* How blocks */
+.how-block {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 16px; padding: 32px 26px;
+    position: relative; overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    height: 100%;
 }
-.hero-ring {
-    position:absolute; border-radius:50%;
-    border:1px solid rgba(220,53,69,0.12);
-    top:50%; left:50%; transform:translate(-50%,-50%);
-    animation:ringPulse 3s ease-in-out infinite;
+.how-block:hover {
+    border-color: rgba(220,53,69,0.3);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
 }
-.hero-ring-1 { width:360px; height:360px; animation-delay:0s; }
-.hero-ring-2 { width:420px; height:420px; animation-delay:0.5s; opacity:0.6; }
-.hero-ring-3 { width:480px; height:480px; animation-delay:1s; opacity:0.3; }
-@keyframes ringPulse {
-    0%,100% { transform:translate(-50%,-50%) scale(1); opacity:0.4; }
-    50%      { transform:translate(-50%,-50%) scale(1.04); opacity:0.8; }
+.how-block-num {
+    position: absolute; top: 16px; right: 20px;
+    font-size: 4rem; font-weight: 900;
+    color: rgba(220,53,69,0.07); line-height: 1;
 }
-.hero-glass-card {
-    position:relative; z-index:2;
-    background:rgba(255,255,255,0.04);
-    backdrop-filter:blur(30px);
-    border:1px solid rgba(255,255,255,0.1);
-    border-radius:28px; padding:32px 28px;
-    min-width:340px;
+.how-block-icon {
+    width: 56px; height: 56px; border-radius: 14px;
+    background: rgba(220,53,69,0.1);
+    border: 1px solid rgba(220,53,69,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; color: #dc3545;
+    margin-bottom: 20px;
+    transition: transform 0.3s;
 }
-.hero-glass-card::before {
-    content:''; position:absolute; top:0; left:0;
-    width:100%; height:1px;
-    background:linear-gradient(90deg,transparent,rgba(220,53,69,0.4),transparent);
+.how-block:hover .how-block-icon { transform: scale(1.1) rotate(-5deg); }
+.how-block-line {
+    position: absolute; bottom: 0; left: 0;
+    height: 2px; width: 0;
+    background: linear-gradient(90deg, #dc3545, transparent);
+    transition: width 0.4s ease;
 }
-.heart-glow-bg {
-    position:absolute; width:180px; height:180px;
-    border-radius:50%; left:50%; top:50%;
-    transform:translate(-50%,-60%);
-    background:radial-gradient(circle,rgba(220,53,69,0.18) 0%,transparent 70%);
-    pointer-events:none;
-    animation:glowPulse 1.2s ease-in-out infinite;
-}
-.hero-heart-body {
-    transform-origin:170px 175px;
-    animation:heartBeat 1.2s ease-in-out infinite;
-}
-@keyframes heartBeat {
-    0%,100% { transform:scale(1); }
-    14%     { transform:scale(1.07); }
-    28%     { transform:scale(1); }
-    42%     { transform:scale(1.04); }
-    70%     { transform:scale(1); }
-}
-@keyframes glowPulse {
-    0%,100% { opacity:0.5; transform:translate(-50%,-60%) scale(1); }
-    14%     { opacity:1;   transform:translate(-50%,-60%) scale(1.1); }
-    28%     { opacity:0.5; transform:translate(-50%,-60%) scale(1); }
-    42%     { opacity:0.8; transform:translate(-50%,-60%) scale(1.06); }
-}
-.hero-mini-stat {
-    background:rgba(255,255,255,0.04);
-    border:1px solid rgba(255,255,255,0.07);
-    border-radius:12px; padding:10px 8px; text-align:center;
-}
-.hero-mini-num { color:#dc3545; font-weight:800; font-size:1.1rem; }
-.hero-mini-lbl { color:#555; font-size:0.7rem; margin-top:2px; }
-.hero-ecg-box {
-    background:rgba(220,53,69,0.05);
-    border:1px solid rgba(220,53,69,0.1);
-    border-radius:12px; padding:10px 14px;
-}
-.hero-ecg-label {
-    color:rgba(220,53,69,0.5); font-size:0.68rem;
-    margin:3px 0 0; text-align:center; letter-spacing:2px;
-}
+.how-block:hover .how-block-line { width: 100%; }
+.how-block-title { color: white; font-weight: 700; margin-bottom: 10px; }
+.how-block-desc  { color: #555; font-size: 0.88rem; line-height: 1.7; margin: 0; }
 
-/* Stats Bar */
-.stats-bar {
-    background:rgba(255,255,255,0.02);
-    border:1px solid rgba(255,255,255,0.05);
-    border-radius:20px; overflow:hidden;
+/* Feature blocks */
+.feat-block {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 14px; padding: 24px;
+    transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    height: 100%;
 }
-.stats-bar-item {
-    padding:28px 20px;
-    border-right:1px solid rgba(255,255,255,0.04);
-    transition:background 0.3s;
+.feat-block:hover {
+    border-color: rgba(220,53,69,0.25);
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.25);
 }
-.stats-bar-item:hover { background:rgba(220,53,69,0.04); }
-.stats-bar-num {
-    font-size:2rem; font-weight:900; color:#dc3545; line-height:1;
+.feat-block-top {
+    display: flex; align-items: center;
+    justify-content: space-between; margin-bottom: 14px;
 }
-.stats-bar-lbl { color:#555; font-size:0.8rem; margin-top:5px; }
+.feat-icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: rgba(220,53,69,0.1);
+    display: flex; align-items: center; justify-content: center;
+    color: #dc3545; font-size: 1rem;
+    transition: transform 0.3s;
+}
+.feat-block:hover .feat-icon { transform: scale(1.15) rotate(-8deg); }
+.feat-tag {
+    font-size: 0.62rem; font-weight: 700; letter-spacing: 2px;
+    color: #333; background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 3px 8px; border-radius: 4px;
+}
+.feat-title { color: white; font-weight: 700; font-size: 0.92rem; margin-bottom: 7px; }
+.feat-desc  { color: #555; font-size: 0.84rem; line-height: 1.6; margin: 0; }
 
-/* Section */
-.section-wrap { position:relative; }
-.section-tag {
-    display:inline-block; color:#dc3545;
-    font-size:0.78rem; letter-spacing:3px;
-    text-transform:uppercase; font-weight:600;
+/* Model showcase */
+.model-showcase {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 24px; padding: 50px 44px;
+    position: relative; overflow: hidden;
 }
+.ms-bg-glow {
+    position: absolute; top: -60px; right: -60px;
+    width: 300px; height: 300px; border-radius: 50%;
+    background: radial-gradient(circle,rgba(220,53,69,0.07),transparent);
+    pointer-events: none;
+}
+.ms-metric {
+    text-align: center; padding: 20px 10px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+}
+.ms-arc { display: block; margin: 0 auto 8px; }
+.ms-metric-num { color: white; font-weight: 800; font-size: 1.1rem; }
+.ms-metric-lbl { color: #555; font-size: 0.78rem; margin-top: 3px; }
 
-/* How Cards */
-.how-card {
-    background:rgba(255,255,255,0.03);
-    border:1px solid rgba(255,255,255,0.07);
-    border-radius:20px; padding:32px 24px;
-    position:relative; overflow:hidden;
-    transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);
-    opacity:0; transform:translateY(30px);
+/* Tech pills */
+.tech-row {
+    display: flex; flex-wrap: wrap; gap: 10px;
+    justify-content: center;
 }
-.how-card.visible {
-    opacity:1; transform:translateY(0);
-    transition:opacity 0.5s ease var(--sr-delay,0s),
-                transform 0.5s ease var(--sr-delay,0s),
-                border-color 0.3s, box-shadow 0.3s;
+.tech-pill {
+    display: inline-flex; align-items: center;
+    padding: 10px 20px; border-radius: 50px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: #888; font-size: 0.85rem; font-weight: 600;
+    transition: all 0.3s;
 }
-.how-card:hover {
-    border-color:rgba(220,53,69,0.3);
-    transform:translateY(-6px);
-    box-shadow:0 20px 50px rgba(0,0,0,0.3);
+.tech-pill:hover {
+    background: rgba(220,53,69,0.08);
+    border-color: rgba(220,53,69,0.25);
+    color: #dc3545; transform: translateY(-3px);
 }
-.how-num {
-    position:absolute; top:16px; right:20px;
-    font-size:3.5rem; font-weight:900;
-    color:rgba(220,53,69,0.07); line-height:1;
-}
-.how-icon-wrap {
-    width:64px; height:64px;
-    background:rgba(220,53,69,0.08);
-    border:1px solid rgba(220,53,69,0.2);
-    border-radius:18px;
-    display:flex; align-items:center; justify-content:center;
-    margin-bottom:20px; font-size:1.4rem;
-    transition:transform 0.3s;
-}
-.how-card:hover .how-icon-wrap { transform:scale(1.1) rotate(-5deg); }
-.how-title { color:white; font-weight:700; margin-bottom:10px; }
-.how-desc  { color:#555; font-size:0.9rem; line-height:1.7; margin:0; }
-.how-line  {
-    position:absolute; bottom:0; left:0; width:0; height:2px;
-    background:linear-gradient(90deg,#dc3545,transparent);
-    transition:width 0.4s ease;
-}
-.how-card:hover .how-line { width:100%; }
-
-/* Feature Cards */
-.feat-card {
-    background:rgba(255,255,255,0.03);
-    border:1px solid rgba(255,255,255,0.06);
-    border-radius:16px; padding:24px 18px;
-    text-align:center; height:100%;
-    transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);
-    opacity:0; transform:translateY(20px);
-}
-.feat-card.visible {
-    opacity:1; transform:translateY(0);
-    transition:opacity 0.5s ease var(--sr-delay,0s),
-                transform 0.5s ease var(--sr-delay,0s),
-                border-color 0.3s, box-shadow 0.3s;
-}
-.feat-card:hover {
-    border-color:rgba(220,53,69,0.25);
-    transform:translateY(-5px);
-    box-shadow:0 16px 40px rgba(0,0,0,0.3);
-}
-.feat-icon-wrap {
-    width:52px; height:52px;
-    background:rgba(220,53,69,0.08);
-    border-radius:14px;
-    display:flex; align-items:center; justify-content:center;
-    margin:0 auto 16px;
-    transition:transform 0.3s;
-}
-.feat-card:hover .feat-icon-wrap { transform:scale(1.15) rotate(-8deg); }
-.feat-title { color:white; font-weight:700; font-size:0.95rem; margin-bottom:8px; }
-.feat-desc  { color:#555; font-size:0.85rem; line-height:1.6; margin:0; }
-
-/* Tech Strip */
-.tech-strip {
-    display:flex; align-items:center; justify-content:center;
-    flex-wrap:wrap; gap:8px;
-    background:rgba(255,255,255,0.02);
-    border:1px solid rgba(255,255,255,0.05);
-    border-radius:16px; padding:20px 28px;
-}
-.tech-item {
-    display:flex; align-items:center; gap:8px;
-    color:#666; font-size:0.88rem; font-weight:500;
-    padding:6px 14px; border-radius:20px;
-    transition:all 0.3s;
-}
-.tech-item:hover { color:#dc3545; background:rgba(220,53,69,0.08); }
-.tech-item i { color:#dc3545; font-size:1rem; }
-.tech-sep { color:#333; font-size:1.2rem; }
+.tech-pill i { color: #dc3545; }
 
 /* CTA */
-.cta-section {
-    background:linear-gradient(135deg,rgba(220,53,69,0.1),rgba(139,0,0,0.06));
-    border:1px solid rgba(220,53,69,0.2);
-    border-radius:24px; padding:60px 40px;
-    position:relative; overflow:hidden;
+.cta-block {
+    background: linear-gradient(135deg,rgba(220,53,69,0.1),rgba(139,0,0,0.06));
+    border: 1px solid rgba(220,53,69,0.2);
+    border-radius: 24px; padding: 70px 40px;
+    text-align: center; position: relative; overflow: hidden;
 }
-.cta-bg-circle-1 {
-    position:absolute; top:-60px; right:-60px;
-    width:220px; height:220px; border-radius:50%;
-    background:radial-gradient(circle,rgba(220,53,69,0.1),transparent);
-    pointer-events:none;
+.cta-bg-orb-1 {
+    position: absolute; top: -60px; right: -60px;
+    width: 240px; height: 240px; border-radius: 50%;
+    background: radial-gradient(circle,rgba(220,53,69,0.1),transparent);
+    pointer-events: none;
 }
-.cta-bg-circle-2 {
-    position:absolute; bottom:-60px; left:-60px;
-    width:180px; height:180px; border-radius:50%;
-    background:radial-gradient(circle,rgba(220,53,69,0.08),transparent);
-    pointer-events:none;
+.cta-bg-orb-2 {
+    position: absolute; bottom: -60px; left: -60px;
+    width: 200px; height: 200px; border-radius: 50%;
+    background: radial-gradient(circle,rgba(220,53,69,0.08),transparent);
+    pointer-events: none;
+}
+.cta-inner { position: relative; z-index: 1; }
+.cta-heart-icon { margin-bottom: 20px; }
+.cta-title {
+    font-size: clamp(1.8rem,3vw,2.5rem);
+    font-weight: 900; color: white;
+    line-height: 1.15; margin-bottom: 16px;
+}
+.cta-desc {
+    color: #666; max-width: 480px;
+    margin: 0 auto 28px; line-height: 1.7; font-size: 0.95rem;
 }
 
-/* Scroll Reveal */
-.scroll-reveal {
-    opacity:0; transform:translateY(30px);
-    transition:opacity 0.6s ease, transform 0.6s ease;
+/* Scroll reveal */
+.sr-item {
+    opacity: 0; transform: translateY(28px);
+    transition: opacity 0.6s ease var(--sr-d,0s),
+                transform 0.6s ease var(--sr-d,0s);
 }
-.scroll-reveal.visible {
-    opacity:1; transform:translateY(0);
-    transition-delay:var(--sr-delay,0s);
+.sr-item.visible { opacity:1; transform:translateY(0); }
+
+@media (max-width: 992px) {
+    .hero-left { padding-right: 0; text-align: center; }
+    .hero-btns { justify-content: center; }
+    .hero-trust { justify-content: center; }
+    .hvisual { width: 300px; height: 300px; margin-top: 40px; }
+    .hero-title-line { font-size: 2.5rem; }
+    .hv-tag-1,.hv-tag-2,.hv-tag-3 { display:none; }
 }
 </style>
 
+<!-- ── SCRIPTS ── -->
 <script>
-// ── Hero ECG ─────────────────────────────────────────────────────────────────
+// ECG Animation
 (function(){
-    const canvas = document.getElementById('heroEcg');
-    if(!canvas) return;
-    const ctx = canvas.getContext('2d');
-    let w, offset = 0;
-    function ecgY(x){ const c=x%1; if(c<0.3)return Math.sin(c*Math.PI*6)*4; if(c<0.38)return -7; if(c<0.42)return 26; if(c<0.46)return -11; if(c<0.55)return Math.sin((c-0.46)*Math.PI*5)*5; return 0; }
-    function resize(){ w=canvas.offsetWidth; canvas.width=w; canvas.height=36; }
+    const c = document.getElementById('heroEcg');
+    if(!c) return;
+    const ctx = c.getContext('2d');
+    let w, off=0;
+    function ecgY(x){
+        const cy=x%1;
+        if(cy<0.3) return Math.sin(cy*Math.PI*6)*4;
+        if(cy<0.38) return -8;
+        if(cy<0.42) return 28;
+        if(cy<0.46) return -12;
+        if(cy<0.55) return Math.sin((cy-0.46)*Math.PI*5)*5;
+        return 0;
+    }
+    function resize(){ w=c.offsetWidth; c.width=w; c.height=40; }
     function draw(){
-        ctx.clearRect(0,0,w,36);
+        ctx.clearRect(0,0,w,40);
         ctx.beginPath(); ctx.strokeStyle='#dc3545'; ctx.lineWidth=1.5;
         ctx.shadowBlur=5; ctx.shadowColor='#dc3545';
-        for(let i=0;i<w;i++){ const y=18-ecgY((i+offset)/100); i===0?ctx.moveTo(i,y):ctx.lineTo(i,y); }
+        for(let i=0;i<w;i++){
+            const y=20-ecgY((i+off)/100);
+            i===0?ctx.moveTo(i,y):ctx.lineTo(i,y);
+        }
         ctx.stroke(); ctx.shadowBlur=0;
-        offset+=1.8; requestAnimationFrame(draw);
+        off+=1.8;
+        if(Math.floor(off)%100===0){
+            const bpm=65+Math.floor(Math.random()*18);
+            const el=document.getElementById('heroBpm');
+            if(el) el.textContent=bpm+' BPM';
+        }
+        requestAnimationFrame(draw);
     }
     resize(); window.addEventListener('resize',resize); draw();
 })();
 
-// ── Stats Counter ─────────────────────────────────────────────────────────────
-document.querySelectorAll('.stats-bar-num').forEach(el => {
-    const target = parseFloat(el.getAttribute('data-count'));
-    const suffix = el.getAttribute('data-suffix') || '';
-    const isFloat = target % 1 !== 0;
-    let current = 0;
-    const observer = new IntersectionObserver(entries => {
+// Stats counters
+const statsObs = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+        if(!e.isIntersecting) return;
+        const el = e.target;
+        const target = parseFloat(el.getAttribute('data-val'));
+        const suffix = el.getAttribute('data-suf')||'';
+        const isFloat = target%1!==0;
+        let cur=0; const step=target/60;
+        const t=setInterval(()=>{
+            cur=Math.min(cur+step,target);
+            el.textContent=(isFloat?cur.toFixed(2):Math.floor(cur))+suffix;
+            if(cur>=target) clearInterval(t);
+        },22);
+        statsObs.unobserve(el);
+    });
+},{threshold:0.3});
+document.querySelectorAll('.sticker-num').forEach(el=>statsObs.observe(el));
+
+// Scroll reveal
+const srObs = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+        if(e.isIntersecting){ e.target.classList.add('visible'); srObs.unobserve(e.target); }
+    });
+},{threshold:0.12});
+document.querySelectorAll('.sr-item').forEach(el=>srObs.observe(el));
+
+// Circular arc charts
+document.querySelectorAll('.ms-arc').forEach(canvas=>{
+    const ctx=canvas.getContext('2d');
+    const val=parseInt(canvas.getAttribute('data-v'));
+    const color=canvas.getAttribute('data-c');
+    let cur=0;
+    const arcObs=new IntersectionObserver(entries=>{
         if(entries[0].isIntersecting){
-            const step = target / 60;
-            const timer = setInterval(() => {
-                current = Math.min(current + step, target);
-                el.textContent = (isFloat ? current.toFixed(2) : Math.floor(current)) + suffix;
-                if(current >= target) clearInterval(timer);
-            }, 25);
-            observer.disconnect();
+            const t=setInterval(()=>{
+                cur=Math.min(cur+1.5,val);
+                ctx.clearRect(0,0,100,100);
+                ctx.beginPath(); ctx.arc(50,50,38,0,Math.PI*2);
+                ctx.strokeStyle='rgba(255,255,255,0.05)'; ctx.lineWidth=7; ctx.stroke();
+                ctx.beginPath();
+                ctx.arc(50,50,38,-Math.PI/2,(-Math.PI/2)+(cur/100)*Math.PI*2);
+                ctx.strokeStyle=color; ctx.lineWidth=7; ctx.lineCap='round'; ctx.stroke();
+                if(cur>=val) clearInterval(t);
+            },18);
+            arcObs.disconnect();
         }
     });
-    observer.observe(el);
+    arcObs.observe(canvas);
 });
-
-// ── Scroll Reveal ─────────────────────────────────────────────────────────────
-const revealObserver = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-        if(e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); }
-    });
-}, { threshold: 0.15 });
-document.querySelectorAll('.scroll-reveal').forEach(el => revealObserver.observe(el));
 </script>
 
 {% endblock %}
