@@ -359,46 +359,122 @@
     transition:all 0.3s;
 }
 .predict-reset-btn:hover { background:rgba(220,53,69,0.1); border-color:#dc3545; }
+
 </style>
 
 <script>
 function updateCard(key, val, unit) {
     const el = document.getElementById('prev-' + key);
     if(el && val) el.textContent = val + (unit ? ' ' + unit : '');
+    checkSteps();
 }
+
+function checkSteps() {
+    const age  = document.querySelector('[name="age"]').value;
+    const sex  = document.querySelector('[name="sex"]').value;
+    const chol = document.querySelector('[name="chol"]').value;
+    const fbs  = document.querySelector('[name="fbs"]').value;
+    const bp   = document.querySelector('[name="trestbps"]').value;
+    const cp   = document.querySelector('[name="cp"]').value;
+    const hr   = document.querySelector('[name="thalach"]').value;
+
+    const s1 = age && sex;
+    const s2 = chol && fbs && bp;
+    const s3 = cp && hr;
+
+    updateStep(1, s1, true);
+    updateStep(2, s2, !!s1);
+    updateStep(3, s3, !!(s1 && s2));
+
+    // Animate lines
+    const lines = document.querySelectorAll('.step-line');
+    if(lines[0]) lines[0].style.background = s1 ? 'linear-gradient(90deg,#dc3545,rgba(220,53,69,0.3))' : 'rgba(255,255,255,0.06)';
+    if(lines[1]) lines[1].style.background = s2 ? 'linear-gradient(90deg,#dc3545,rgba(220,53,69,0.3))' : 'rgba(255,255,255,0.06)';
+}
+
+function updateStep(num, done, reachable) {
+    const ind    = document.getElementById('step' + num + 'ind');
+    if(!ind) return;
+    const circle = ind.querySelector('.step-circle');
+    const label  = ind.querySelector('.step-label');
+
+    if(done) {
+        circle.style.background   = '#dc3545';
+        circle.style.borderColor  = '#dc3545';
+        circle.style.color        = 'white';
+        circle.style.boxShadow    = '0 0 15px rgba(220,53,69,0.5)';
+        circle.innerHTML          = '<i class="fas fa-check" style="font-size:0.75rem"></i>';
+        label.style.color         = '#6edba8';
+        ind.style.transform       = 'scale(1.08)';
+        ind.style.transition      = 'transform 0.3s';
+    } else if(reachable) {
+        circle.style.background   = 'rgba(220,53,69,0.15)';
+        circle.style.borderColor  = '#dc3545';
+        circle.style.color        = '#dc3545';
+        circle.style.boxShadow    = '0 0 10px rgba(220,53,69,0.3)';
+        circle.innerHTML          = num;
+        label.style.color         = '#dc3545';
+        ind.style.transform       = 'scale(1.0)';
+    } else {
+        circle.style.background   = 'rgba(255,255,255,0.05)';
+        circle.style.borderColor  = 'rgba(255,255,255,0.1)';
+        circle.style.color        = '#555';
+        circle.style.boxShadow    = 'none';
+        circle.innerHTML          = num;
+        label.style.color         = '#555';
+        ind.style.transform       = 'scale(1.0)';
+    }
+}
+
 function resetPreview() {
     ['age','sex','chol','bp','hr','fbs','cp'].forEach(k => {
         const el = document.getElementById('prev-' + k);
         if(el) el.textContent = '—';
     });
     document.getElementById('cholBar').style.display = 'none';
-    document.getElementById('bpBar').style.display = 'none';
+    document.getElementById('bpBar').style.display   = 'none';
+    [1,2,3].forEach(n => updateStep(n, false, n===1));
+    document.querySelectorAll('.step-line').forEach(l => {
+        l.style.background = 'rgba(255,255,255,0.06)';
+    });
 }
+
 function updateCholStatus(v) {
-    const bar = document.getElementById('cholBar');
+    const bar  = document.getElementById('cholBar');
     const fill = document.getElementById('cholFill');
     const hint = document.getElementById('cholHint');
     if(!v) return;
     bar.style.display = 'block';
-    const pct = Math.min((v/400)*100, 100);
-    fill.style.width = pct + '%';
-    if(v >= 240) { fill.style.background='#dc3545'; hint.textContent = '⚠ High — above 240 mg/dl is risky'; hint.style.color='#ff6b7a'; }
-    else if(v >= 200) { fill.style.background='#ffc107'; hint.textContent = '⚡ Borderline — aim for below 200 mg/dl'; hint.style.color='#ffd85e'; }
-    else { fill.style.background='#198754'; hint.textContent = '✓ Normal — within healthy range'; hint.style.color='#6edba8'; }
+    fill.style.width  = Math.min((v/400)*100, 100) + '%';
+    if(v >= 240)      { fill.style.background='#dc3545'; hint.textContent='⚠ High — above 240 mg/dl is risky'; hint.style.color='#ff6b7a'; }
+    else if(v >= 200) { fill.style.background='#ffc107'; hint.textContent='⚡ Borderline — aim for below 200 mg/dl'; hint.style.color='#ffd85e'; }
+    else              { fill.style.background='#198754'; hint.textContent='✓ Normal — within healthy range'; hint.style.color='#6edba8'; }
+    checkSteps();
 }
+
 function updateBpStatus(v) {
-    const bar = document.getElementById('bpBar');
+    const bar  = document.getElementById('bpBar');
     const fill = document.getElementById('bpFill');
     const hint = document.getElementById('bpHint');
     if(!v) return;
     bar.style.display = 'block';
-    const pct = Math.min((v/200)*100, 100);
-    fill.style.width = pct + '%';
-    if(v >= 140) { fill.style.background='#dc3545'; hint.textContent = '⚠ High — above 140 mmHg is hypertension'; hint.style.color='#ff6b7a'; }
-    else if(v >= 120) { fill.style.background='#ffc107'; hint.textContent = '⚡ Elevated — healthy is below 120 mmHg'; hint.style.color='#ffd85e'; }
-    else { fill.style.background='#198754'; hint.textContent = '✓ Normal — within healthy range'; hint.style.color='#6edba8'; }
+    fill.style.width  = Math.min((v/200)*100, 100) + '%';
+    if(v >= 140)      { fill.style.background='#dc3545'; hint.textContent='⚠ High — above 140 mmHg is hypertension'; hint.style.color='#ff6b7a'; }
+    else if(v >= 120) { fill.style.background='#ffc107'; hint.textContent='⚡ Elevated — healthy is below 120 mmHg'; hint.style.color='#ffd85e'; }
+    else              { fill.style.background='#198754'; hint.textContent='✓ Normal — within healthy range'; hint.style.color='#6edba8'; }
+    checkSteps();
 }
-document.getElementById('predictForm').addEventListener('submit', function(){
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Attach change listeners to all inputs
+    document.querySelectorAll('.predict-input').forEach(input => {
+        input.addEventListener('input',  checkSteps);
+        input.addEventListener('change', checkSteps);
+    });
+    checkSteps();
+});
+
+document.getElementById('predictForm').addEventListener('submit', function() {
     const btn = document.getElementById('submitBtn');
     const txt = document.getElementById('submitText');
     btn.style.opacity = '0.8';
