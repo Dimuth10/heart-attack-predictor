@@ -121,6 +121,14 @@ def admin_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+
+# ── Global Template Variables ─────────────────────────────────────────────────
+from config import MODEL_STATS
+
+@app.context_processor
+def inject_model_stats():
+    return dict(MODEL_STATS=MODEL_STATS)
+
 # ── Routes ───────────────────────────────────────────────────────────────────
 @app.route('/')
 def home():

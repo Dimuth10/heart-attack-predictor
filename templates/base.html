@@ -436,6 +436,132 @@
             line-height: 1;
         }
     </style>
+
+    <style id="lightModeStyles"></style>
+    <script>
+    const LIGHT_CSS = `
+        body { background-color: #f0f4f8 !important; color: #1a1a2e !important; }
+        body::before { opacity: 0.03 !important; }
+        body::after { opacity: 0.3 !important; }
+        .navbar { background: rgba(255,255,255,0.92) !important; border-bottom: 1px solid rgba(220,53,69,0.15) !important; }
+        .navbar .nav-link { color: rgba(0,0,0,0.7) !important; }
+        .navbar .nav-link:hover { color: #dc3545 !important; }
+        .navbar-brand { color: #1a1a2e !important; }
+        .card {
+            background: rgba(255,255,255,0.9) !important;
+            border: 1px solid rgba(0,0,0,0.08) !important;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08) !important;
+        }
+        .card::before { opacity: 0.3 !important; }
+        .form-control, .form-select {
+            background: rgba(0,0,0,0.04) !important;
+            border: 1px solid rgba(0,0,0,0.12) !important;
+            color: #1a1a2e !important;
+        }
+        .form-control:focus, .form-select:focus {
+            background: white !important;
+            border-color: rgba(220,53,69,0.4) !important;
+        }
+        .form-control::placeholder { color: rgba(0,0,0,0.3) !important; }
+        .form-label { color: rgba(0,0,0,0.7) !important; }
+        .input-group-text { background: rgba(0,0,0,0.04) !important; border: 1px solid rgba(0,0,0,0.12) !important; }
+        .form-control, .form-select, input, select, textarea {
+            background: white !important;
+            border: 1.5px solid rgba(0,0,0,0.2) !important;
+            color: #1a1a2e !important;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06) !important;
+        }
+        .form-control:focus, .form-select:focus, input:focus, select:focus {
+            border-color: #dc3545 !important;
+            box-shadow: 0 0 0 3px rgba(220,53,69,0.1) !important;
+        }
+        select option { background: white !important; color: #1a1a2e !important; }
+        .footer { background: rgba(240,244,248,0.95) !important; border-top: 1px solid rgba(220,53,69,0.1) !important; }
+        .footer a { color: #666 !important; }
+        .footer p { color: #666 !important; }
+        .footer h6 { color: #dc3545 !important; }
+        .table { color: #1a1a2e !important; }
+        .table td, .table th { border-color: rgba(0,0,0,0.08) !important; }
+        .table tbody tr:hover { background: rgba(220,53,69,0.04) !important; }
+        .glass-card { background: rgba(255,255,255,0.8) !important; border: 1px solid rgba(0,0,0,0.1) !important; }
+        .alert-danger { background: rgba(220,53,69,0.08) !important; color: #c0392b !important; }
+        .alert-success { background: rgba(25,135,84,0.08) !important; color: #1a6b3c !important; }
+        .stat-card { background: rgba(255,255,255,0.9) !important; border: 1px solid rgba(0,0,0,0.08) !important; }
+        h1,h2,h3,h4,h5,h6 { color: #1a1a2e !important; }
+        p { color: #444 !important; }
+        span { color: #333 !important; }
+        label { color: #444 !important; }
+        small { color: #555 !important; }
+        td, th { color: #1a1a2e !important; }
+        .welcome-title { color: #1a1a2e !important; }
+        .welcome-title span { color: #dc3545 !important; }
+        .welcome-sub { color: #555 !important; }
+        .card-heading { color: #1a1a2e !important; }
+        .stat-num { color: #dc3545 !important; }
+        .stat-lbl { color: #666 !important; }
+        .how-block-title { color: #1a1a2e !important; }
+        .how-block-desc { color: #555 !important; }
+        .feat-title { color: #1a1a2e !important; }
+        .feat-desc { color: #555 !important; }
+        .section-big-title { color: #1a1a2e !important; }
+        .hero-title-line { color: #1a1a2e !important; }
+        .hero-desc { color: #444 !important; }
+        .ht-card { background: rgba(255,255,255,0.85) !important; }
+        .ht-date { color: #666 !important; }
+        .latest-key { color: #666 !important; }
+        .latest-val { color: #1a1a2e !important; }
+        .qa-label { color: #1a1a2e !important; }
+        .hist-summary-strip { background: rgba(255,255,255,0.8) !important; }
+        .hss-num { color: #dc3545 !important; }
+        .hss-lbl { color: #666 !important; }
+        .eval-metric { background: rgba(255,255,255,0.85) !important; }
+        .eval-metric-num { color: #1a1a2e !important; }
+        .eval-metric-lbl { color: #555 !important; }
+        .cm-cell-val { color: #1a1a2e !important; }
+        .admin-stat-num { color: #dc3545 !important; }
+        .admin-stat-lbl { color: #555 !important; }
+        .result-title { color: #1a1a2e !important; }
+        .shap-label { color: #1a1a2e !important; }
+        .factor-name { color: #1a1a2e !important; }
+        .factor-msg { color: #555 !important; }
+        .result-list li { color: #555 !important; }
+        .ms-metric-num { color: #1a1a2e !important; }
+        .ms-metric-lbl { color: #555 !important; }
+        .htrust-item span { color: #555 !important; }
+        ::-webkit-scrollbar-track { background: #f0f4f8 !important; }
+        #themeToggle { background:rgba(0,0,0,0.06) !important; border:1px solid rgba(0,0,0,0.15) !important; color:#1a1a2e !important; }
+    `;
+
+    function applyTheme(theme) {
+        const styleEl = document.getElementById('lightModeStyles');
+        const icon = document.getElementById('themeIcon');
+        const label = document.getElementById('themeLabel');
+        if (theme === 'light') {
+            styleEl.textContent = LIGHT_CSS;
+            icon.className = 'fas fa-moon';
+            label.textContent = 'Dark';
+            document.body.setAttribute('data-theme', 'light');
+        } else {
+            styleEl.textContent = '';
+            icon.className = 'fas fa-sun';
+            label.textContent = 'Light';
+            document.body.setAttribute('data-theme', 'dark');
+        }
+    }
+
+    function toggleTheme() {
+        const current = localStorage.getItem('theme') || 'dark';
+        const next = current === 'dark' ? 'light' : 'dark';
+        localStorage.setItem('theme', next);
+        applyTheme(next);
+    }
+
+    // Apply saved theme immediately on load
+    (function() {
+        const saved = localStorage.getItem('theme') || 'dark';
+        applyTheme(saved);
+    })();
+    </script>
 </head>
 <body>
 
@@ -460,7 +586,6 @@
                 <li class="nav-item"><a class="nav-link" href="/history"><i class="fas fa-history me-1"></i>History</a></li>
                 <li class="nav-item"><a class="nav-link" href="/evaluation"><i class="fas fa-chart-line me-1"></i>Evaluation</a></li>
                 <li class="nav-item"><a class="nav-link" href="/feature-importance"><i class="fas fa-project-diagram me-1"></i>Features</a></li>
-                <li class="nav-item"><a class="nav-link" href="/profile"><i class="fas fa-user-cog me-1"></i>Profile</a></li>
                 {% if current_user.is_admin %}
                 <li class="nav-item"><a class="nav-link" href="/admin" style="color:#ffd85e !important;"><i class="fas fa-shield-alt me-1"></i>Admin</a></li>
                 {% endif %}
@@ -470,8 +595,11 @@
             <ul class="navbar-nav">
                 {% if current_user.is_authenticated %}
                 <li class="nav-item me-2">
-                    <a class="nav-link" href="/profile" style="color:#6edba8">
-                        <i class="fas fa-user-circle me-1"></i>{{ current_user.full_name }}
+                    <a class="nav-link" href="/profile" style="color:#6edba8; display:flex; align-items:center; gap:6px;">
+                        <div style="width:28px; height:28px; border-radius:50%; background:rgba(220,53,69,0.2); border:1px solid rgba(220,53,69,0.4); display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700; color:#dc3545;">
+                            {{ current_user.full_name[0]|upper }}
+                        </div>
+                        <span>{{ current_user.full_name.split()[0] }}</span>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -491,6 +619,16 @@
                     </a>
                 </li>
                 {% endif %}
+                <li class="nav-item ms-2">
+                    <button id="themeToggle" onclick="toggleTheme()" style="
+                        background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12);
+                        border-radius:50px; padding:6px 14px; color:white; cursor:pointer;
+                        font-size:0.82rem; display:flex; align-items:center; gap:6px;
+                        transition:all 0.3s; margin-top:2px;">
+                        <i id="themeIcon" class="fas fa-sun"></i>
+                        <span id="themeLabel">Light</span>
+                    </button>
+                </li>
             </ul>
         </div>
     </div>

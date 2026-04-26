@@ -26,7 +26,7 @@
             <p class="hero-desc animate-in" style="--delay:0.35s">
                 Machine learning trained on <strong style="color:white">2,024 clinical records</strong>
                 delivers your personalised cardiovascular risk score with
-                <strong style="color:#dc3545">89% accuracy</strong> — in seconds, for free.
+                <strong style="color:#dc3545">{{ MODEL_STATS.accuracy }}% accuracy</strong> — in seconds, for free.
             </p>
 
             <div class="hero-btns animate-in" style="--delay:0.45s">
@@ -54,12 +54,12 @@
             <div class="hero-trust animate-in" style="--delay:0.55s">
                 <div class="htrust-item">
                     <i class="fas fa-check-circle" style="color:#6edba8"></i>
-                    <span>89.14% Accuracy</span>
+                    <span>{{ MODEL_STATS.accuracy }}% Accuracy</span>
                 </div>
                 <div class="htrust-sep"></div>
                 <div class="htrust-item">
                     <i class="fas fa-check-circle" style="color:#6edba8"></i>
-                    <span>AUC 0.9652</span>
+                    <span>AUC {{ MODEL_STATS.auc }}</span>
                 </div>
                 <div class="htrust-sep"></div>
                 <div class="htrust-item">
@@ -86,7 +86,7 @@
                 <!-- Floating data tags -->
                 <div class="hv-tag hv-tag-1">
                     <i class="fas fa-heartbeat me-1" style="color:#dc3545"></i>
-                    <span>89% Accuracy</span>
+                    <span>{{ MODEL_STATS.accuracy_int }}% Accuracy</span>
                 </div>
                 <div class="hv-tag hv-tag-2">
                     <i class="fas fa-brain me-1" style="color:#7edfee"></i>
@@ -94,7 +94,7 @@
                 </div>
                 <div class="hv-tag hv-tag-3">
                     <i class="fas fa-shield-alt me-1" style="color:#6edba8"></i>
-                    <span>AUC 0.9652</span>
+                    <span>AUC {{ MODEL_STATS.auc }}</span>
                 </div>
 
                 <!-- Anatomical Heart -->
@@ -209,7 +209,7 @@
 <div class="stats-ticker">
     <div class="stats-ticker-inner">
         <div class="stats-ticker-item">
-            <span class="sticker-num" data-val="89.14" data-suf="%">0%</span>
+            <span class="sticker-num" data-val="{{ MODEL_STATS.accuracy }}" data-suf="%">0%</span>
             <span class="sticker-lbl">Accuracy</span>
         </div>
         <div class="stats-ticker-sep">—</div>
@@ -219,7 +219,7 @@
         </div>
         <div class="stats-ticker-sep">—</div>
         <div class="stats-ticker-item">
-            <span class="sticker-num" data-val="96.52" data-suf="%">0%</span>
+            <span class="sticker-num" data-val="{{ MODEL_STATS.auc_pct }}" data-suf="%">0%</span>
             <span class="sticker-lbl">AUC Score</span>
         </div>
         <div class="stats-ticker-sep">—</div>
@@ -234,7 +234,7 @@
         </div>
         <div class="stats-ticker-sep">—</div>
         <div class="stats-ticker-item">
-            <span class="sticker-num" data-val="92.66" data-suf="%">0%</span>
+            <span class="sticker-num" data-val="{{ MODEL_STATS.recall }}" data-suf="%">0%</span>
             <span class="sticker-lbl">Recall</span>
         </div>
     </div>
@@ -459,7 +459,7 @@
                       <text x="40" y="225" fill="#666" font-size="12" font-family="monospace" text-anchor="middle" transform="rotate(-90,40,225)">True Positive Rate</text>
                       <!-- AUC label -->
                       <rect x="520" y="200" width="160" height="60" rx="8" fill="rgba(255,193,7,0.08)" stroke="rgba(255,193,7,0.3)" stroke-width="1"/>
-                      <text x="600" y="225" fill="#ffc107" font-size="13" font-family="monospace" font-weight="bold" text-anchor="middle">AUC = 0.9652</text>
+                      <text x="600" y="225" fill="#ffc107" font-size="13" font-family="monospace" font-weight="bold" text-anchor="middle">AUC = {{ MODEL_STATS.auc }}</text>
                       <text x="600" y="245" fill="#666" font-size="10" font-family="monospace" text-anchor="middle">Excellent Performance</text>
                       <!-- Animated point on curve -->
                       <circle r="6" fill="#ffc107" opacity="0.9">
@@ -480,7 +480,7 @@
                     </svg>
                     <div class="ics-overlay">
                         <div class="ics-tag">03 / 03</div>
-                        <h3 class="ics-title">ROC Curve — AUC 0.9652</h3>
+                        <h3 class="ics-title">ROC Curve — AUC {{ MODEL_STATS.auc }}</h3>
                         <p class="ics-desc">Near-perfect discrimination between high and low risk patients across all classification thresholds</p>
                     </div>
                 </div>
@@ -798,29 +798,29 @@ resetProgress();
                 <div class="row g-3">
                     <div class="col-6">
                         <div class="ms-metric sr-item">
-                            <canvas class="ms-arc" data-v="89" data-c="#dc3545" width="100" height="100"></canvas>
-                            <div class="ms-metric-num">89.14%</div>
+                            <canvas class="ms-arc" data-v="{{ MODEL_STATS.accuracy_int }}" data-c="#dc3545" width="100" height="100"></canvas>
+                            <div class="ms-metric-num">{{ MODEL_STATS.accuracy }}%</div>
                             <div class="ms-metric-lbl">Accuracy</div>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="ms-metric sr-item" style="--sr-d:0.1s">
                             <canvas class="ms-arc" data-v="96" data-c="#7edfee" width="100" height="100"></canvas>
-                            <div class="ms-metric-num">96.52%</div>
+                            <div class="ms-metric-num">{{ MODEL_STATS.auc_pct }}%</div>
                             <div class="ms-metric-lbl">AUC Score</div>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="ms-metric sr-item" style="--sr-d:0.2s">
                             <canvas class="ms-arc" data-v="92" data-c="#6edba8" width="100" height="100"></canvas>
-                            <div class="ms-metric-num">92.66%</div>
+                            <div class="ms-metric-num">{{ MODEL_STATS.recall }}%</div>
                             <div class="ms-metric-lbl">Recall</div>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="ms-metric sr-item" style="--sr-d:0.3s">
                             <canvas class="ms-arc" data-v="90" data-c="#ffc107" width="100" height="100"></canvas>
-                            <div class="ms-metric-num">90.18%</div>
+                            <div class="ms-metric-num">{{ MODEL_STATS.f1 }}%</div>
                             <div class="ms-metric-lbl">F1 Score</div>
                         </div>
                     </div>

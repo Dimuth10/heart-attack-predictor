@@ -40,7 +40,7 @@
         <div class="col-6 col-md-3">
             <div class="stat-card">
                 <i class="fas fa-bullseye fa-lg mb-2" style="color:#dc3545"></i>
-                <div class="stat-number">89.1%</div>
+                <div class="stat-number">{{ MODEL_STATS.accuracy }}%</div>
                 <div class="stat-label">Model Accuracy</div>
             </div>
         </div>
@@ -228,7 +228,7 @@
                         <div style="background:rgba(220,53,69,0.05); border:1px solid rgba(220,53,69,0.15);
                                     border-radius:14px; padding:16px; text-align:center;">
                             <i class="fas fa-chart-line fa-2x mb-2" style="color:#dc3545"></i>
-                            <div style="color:white; font-weight:700; font-size:0.9rem;">AUC 0.9652</div>
+                            <div style="color:white; font-weight:700; font-size:0.9rem;">AUC {{ MODEL_STATS.auc }}</div>
                             <div style="color:#666; font-size:0.8rem; margin-top:4px;">Discrimination score</div>
                         </div>
                     </div>

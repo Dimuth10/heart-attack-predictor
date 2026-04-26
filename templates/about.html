@@ -90,8 +90,8 @@
         <div class="col-6 col-md-3">
             <div class="about-metric scroll-reveal">
                 <div class="about-metric-ring" style="--clr:#dc3545">
-                    <canvas class="metric-canvas" data-value="89" data-color="#dc3545" width="90" height="90"></canvas>
-                    <div class="about-metric-num">89.14%</div>
+                    <canvas class="metric-canvas" data-value="{{ MODEL_STATS.accuracy_int }}" data-color="#dc3545" width="90" height="90"></canvas>
+                    <div class="about-metric-num">{{ MODEL_STATS.accuracy }}%</div>
                 </div>
                 <div class="about-metric-lbl">Accuracy</div>
             </div>
@@ -109,7 +109,7 @@
             <div class="about-metric scroll-reveal" style="--sr-delay:0.2s">
                 <div class="about-metric-ring" style="--clr:#6edba8">
                     <canvas class="metric-canvas" data-value="92" data-color="#6edba8" width="90" height="90"></canvas>
-                    <div class="about-metric-num">92.66%</div>
+                    <div class="about-metric-num">{{ MODEL_STATS.recall }}%</div>
                 </div>
                 <div class="about-metric-lbl">Recall</div>
             </div>
@@ -118,7 +118,7 @@
             <div class="about-metric scroll-reveal" style="--sr-delay:0.3s">
                 <div class="about-metric-ring" style="--clr:#ffc107">
                     <canvas class="metric-canvas" data-value="90" data-color="#ffc107" width="90" height="90"></canvas>
-                    <div class="about-metric-num">90.18%</div>
+                    <div class="about-metric-num">{{ MODEL_STATS.f1 }}%</div>
                 </div>
                 <div class="about-metric-lbl">F1 Score</div>
             </div>
