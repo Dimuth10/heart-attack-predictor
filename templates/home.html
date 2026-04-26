@@ -196,14 +196,10 @@
                     </svg>
                 </div>
 
-                <!-- ECG Strip at bottom -->
-                <div class="hv-ecg-strip">
-                    <div class="hv-ecg-label">
-                        <span class="hv-ecg-dot"></span>LIVE ECG
-                    </div>
-                    <canvas id="heroEcg" height="40" style="flex:1;"></canvas>
-                    <div class="hv-ecg-bpm" id="heroBpm">72 BPM</div>
+                <div style="position:absolute;bottom:4%;left:8%;right:8%;background:rgba(2,8,24,0.6);border:1px solid rgba(220,53,69,0.15);border-radius:8px;padding:6px 10px;z-index:5;">
+                    <canvas id="heroEcg" height="36" style="width:100%;display:block;"></canvas>
                 </div>
+
             </div>
         </div>
     </div>
@@ -243,6 +239,427 @@
         </div>
     </div>
 </div>
+
+
+<!-- ── CINEMATIC IMAGE CAROUSEL ── -->
+<div class="img-carousel-section mb-5">
+
+    <!-- Section Label -->
+    <div class="text-center mb-4">
+        <div class="section-eyebrow">// MEDICAL AI IN ACTION</div>
+        <h2 class="section-big-title">WHERE <span style="color:#dc3545">TECHNOLOGY</span> MEETS MEDICINE</h2>
+    </div>
+
+    <!-- Main Carousel -->
+    <div class="img-carousel-wrap">
+        <div class="img-carousel-track" id="carouselTrack">
+
+            <!-- Slide 2 -->
+            <div class="img-carousel-slide">
+                <div class="ics-img-wrap">
+                    <svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+                      <defs>
+                        <radialGradient id="bg2" cx="40%" cy="40%" r="70%">
+                          <stop offset="0%" stop-color="#0a0515"/>
+                          <stop offset="100%" stop-color="#020810"/>
+                        </radialGradient>
+                      </defs>
+                      <rect width="800" height="450" fill="url(#bg2)"/>
+                      <g opacity="0.05" stroke="#7edfee" stroke-width="0.5">
+                        <line x1="0" y1="75" x2="800" y2="75"/><line x1="0" y1="150" x2="800" y2="150"/>
+                        <line x1="0" y1="225" x2="800" y2="225"/><line x1="0" y1="300" x2="800" y2="300"/>
+                        <line x1="0" y1="375" x2="800" y2="375"/>
+                        <line x1="100" y1="0" x2="100" y2="450"/><line x1="200" y1="0" x2="200" y2="450"/>
+                        <line x1="300" y1="0" x2="300" y2="450"/><line x1="400" y1="0" x2="400" y2="450"/>
+                        <line x1="500" y1="0" x2="500" y2="450"/><line x1="600" y1="0" x2="600" y2="450"/>
+                        <line x1="700" y1="0" x2="700" y2="450"/>
+                      </g>
+                      <!-- Neural network nodes -->
+                      <g opacity="0.9">
+                        <!-- Layer 1 -->
+                        <circle cx="120" cy="112" r="18" fill="rgba(220,53,69,0.15)" stroke="#dc3545" stroke-width="1.5"/>
+                        <circle cx="120" cy="225" r="18" fill="rgba(220,53,69,0.15)" stroke="#dc3545" stroke-width="1.5"/>
+                        <circle cx="120" cy="338" r="18" fill="rgba(220,53,69,0.15)" stroke="#dc3545" stroke-width="1.5"/>
+                        <!-- Layer 2 -->
+                        <circle cx="280" cy="80" r="18" fill="rgba(126,223,238,0.12)" stroke="#7edfee" stroke-width="1.5"/>
+                        <circle cx="280" cy="168" r="18" fill="rgba(126,223,238,0.12)" stroke="#7edfee" stroke-width="1.5"/>
+                        <circle cx="280" cy="258" r="18" fill="rgba(126,223,238,0.12)" stroke="#7edfee" stroke-width="1.5"/>
+                        <circle cx="280" cy="348" r="18" fill="rgba(126,223,238,0.12)" stroke="#7edfee" stroke-width="1.5"/>
+                        <!-- Layer 3 -->
+                        <circle cx="440" cy="112" r="18" fill="rgba(110,219,168,0.12)" stroke="#6edba8" stroke-width="1.5"/>
+                        <circle cx="440" cy="225" r="18" fill="rgba(110,219,168,0.12)" stroke="#6edba8" stroke-width="1.5"/>
+                        <circle cx="440" cy="338" r="18" fill="rgba(110,219,168,0.12)" stroke="#6edba8" stroke-width="1.5"/>
+                        <!-- Layer 4 - output -->
+                        <circle cx="600" cy="168" r="22" fill="rgba(220,53,69,0.2)" stroke="#dc3545" stroke-width="2"/>
+                        <circle cx="600" cy="280" r="22" fill="rgba(25,135,84,0.2)" stroke="#198754" stroke-width="2"/>
+                        <!-- Connections L1-L2 -->
+                        <line x1="138" y1="112" x2="262" y2="80" stroke="rgba(220,53,69,0.2)" stroke-width="1"/>
+                        <line x1="138" y1="112" x2="262" y2="168" stroke="rgba(220,53,69,0.2)" stroke-width="1"/>
+                        <line x1="138" y1="112" x2="262" y2="258" stroke="rgba(220,53,69,0.15)" stroke-width="1"/>
+                        <line x1="138" y1="225" x2="262" y2="80" stroke="rgba(220,53,69,0.15)" stroke-width="1"/>
+                        <line x1="138" y1="225" x2="262" y2="168" stroke="rgba(220,53,69,0.2)" stroke-width="1"/>
+                        <line x1="138" y1="225" x2="262" y2="258" stroke="rgba(220,53,69,0.2)" stroke-width="1"/>
+                        <line x1="138" y1="225" x2="262" y2="348" stroke="rgba(220,53,69,0.15)" stroke-width="1"/>
+                        <line x1="138" y1="338" x2="262" y2="168" stroke="rgba(220,53,69,0.15)" stroke-width="1"/>
+                        <line x1="138" y1="338" x2="262" y2="258" stroke="rgba(220,53,69,0.2)" stroke-width="1"/>
+                        <line x1="138" y1="338" x2="262" y2="348" stroke="rgba(220,53,69,0.2)" stroke-width="1"/>
+                        <!-- Connections L2-L3 -->
+                        <line x1="298" y1="80" x2="422" y2="112" stroke="rgba(126,223,238,0.2)" stroke-width="1"/>
+                        <line x1="298" y1="168" x2="422" y2="112" stroke="rgba(126,223,238,0.2)" stroke-width="1"/>
+                        <line x1="298" y1="168" x2="422" y2="225" stroke="rgba(126,223,238,0.2)" stroke-width="1"/>
+                        <line x1="298" y1="258" x2="422" y2="225" stroke="rgba(126,223,238,0.2)" stroke-width="1"/>
+                        <line x1="298" y1="258" x2="422" y2="338" stroke="rgba(126,223,238,0.2)" stroke-width="1"/>
+                        <line x1="298" y1="348" x2="422" y2="338" stroke="rgba(126,223,238,0.2)" stroke-width="1"/>
+                        <!-- Connections L3-Output -->
+                        <line x1="458" y1="112" x2="578" y2="168" stroke="rgba(110,219,168,0.25)" stroke-width="1.5"/>
+                        <line x1="458" y1="225" x2="578" y2="168" stroke="rgba(110,219,168,0.25)" stroke-width="1.5"/>
+                        <line x1="458" y1="225" x2="578" y2="280" stroke="rgba(110,219,168,0.25)" stroke-width="1.5"/>
+                        <line x1="458" y1="338" x2="578" y2="280" stroke="rgba(110,219,168,0.25)" stroke-width="1.5"/>
+                        <!-- Output labels -->
+                        <text x="632" y="173" fill="#ff6b7a" font-size="11" font-family="monospace" font-weight="bold">HIGH</text>
+                        <text x="632" y="285" fill="#6edba8" font-size="11" font-family="monospace" font-weight="bold">LOW</text>
+                        <!-- Animated pulse on output -->
+                        <circle cx="600" cy="280" r="30" fill="none" stroke="#6edba8" stroke-width="1" opacity="0">
+                          <animate attributeName="r" from="22" to="45" dur="2s" repeatCount="indefinite"/>
+                          <animate attributeName="opacity" from="0.5" to="0" dur="2s" repeatCount="indefinite"/>
+                        </circle>
+                      </g>
+                      <!-- Labels -->
+                      <text x="100" y="390" fill="#444" font-size="10" font-family="monospace" text-anchor="middle">INPUT</text>
+                      <text x="280" y="390" fill="#444" font-size="10" font-family="monospace" text-anchor="middle">HIDDEN L1</text>
+                      <text x="440" y="390" fill="#444" font-size="10" font-family="monospace" text-anchor="middle">HIDDEN L2</text>
+                      <text x="600" y="390" fill="#444" font-size="10" font-family="monospace" text-anchor="middle">OUTPUT</text>
+                      <!-- Title -->
+                      <text x="30" y="40" fill="#7edfee" font-size="11" font-family="monospace" opacity="0.7">NEURAL_NETWORK_VIZ</text>
+                      <path d="M20,20 L20,50 M20,20 L50,20" stroke="#7edfee" stroke-width="2" opacity="0.5"/>
+                      <path d="M780,20 L780,50 M780,20 L750,20" stroke="#7edfee" stroke-width="2" opacity="0.5"/>
+                    </svg>
+                    <div class="ics-overlay">
+                        <div class="ics-tag">01 / 03</div>
+                        <h3 class="ics-title">Neural Network Architecture</h3>
+                        <p class="ics-desc">Deep learning layers trained on 2,024 clinical records to classify cardiovascular risk</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="img-carousel-slide">
+                <div class="ics-img-wrap">
+                    <svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+                      <defs>
+                        <radialGradient id="bg3" cx="60%" cy="40%" r="70%">
+                          <stop offset="0%" stop-color="#050f05"/>
+                          <stop offset="100%" stop-color="#020810"/>
+                        </radialGradient>
+                      </defs>
+                      <rect width="800" height="450" fill="url(#bg3)"/>
+                      <!-- Heart outline large -->
+                      <path d="M400 360 C320 310,220 260,180 210 C140 160,140 100,180 80 C210 65,240 72,265 92 C280 105,295 125,400 160 C505 125,520 105,535 92 C560 72,590 65,620 80 C660 100,660 160,620 210 C580 260,480 310,400 360Z"
+                            fill="none" stroke="rgba(220,53,69,0.15)" stroke-width="2"/>
+                      <!-- Filled heart -->
+                      <path d="M400 360 C320 310,220 260,180 210 C140 160,140 100,180 80 C210 65,240 72,265 92 C280 105,295 125,400 160 C505 125,520 105,535 92 C560 72,590 65,620 80 C660 100,660 160,620 210 C580 260,480 310,400 360Z"
+                            fill="rgba(220,53,69,0.06)">
+                        <animate attributeName="opacity" values="0.4;1;0.4" dur="1.2s" repeatCount="indefinite"/>
+                      </path>
+                      <!-- Feature bars -->
+                      <g font-family="monospace" font-size="11">
+                        <text x="50" y="75" fill="#888">Chest Pain Type</text>
+                        <rect x="200" y="60" width="200" height="14" rx="3" fill="rgba(255,255,255,0.04)"/>
+                        <rect x="200" y="60" width="180" height="14" rx="3" fill="rgba(220,53,69,0.7)">
+                          <animate attributeName="width" from="0" to="180" dur="1.5s" fill="freeze"/>
+                        </rect>
+                        <text x="390" y="72" fill="#dc3545" font-weight="bold">25.88%</text>
+
+                        <text x="50" y="110" fill="#888">Max Heart Rate</text>
+                        <rect x="200" y="95" width="200" height="14" rx="3" fill="rgba(255,255,255,0.04)"/>
+                        <rect x="200" y="95" width="155" height="14" rx="3" fill="rgba(224,80,43,0.7)">
+                          <animate attributeName="width" from="0" to="155" dur="1.5s" fill="freeze" begin="0.2s"/>
+                        </rect>
+                        <text x="365" y="107" fill="#e0502b" font-weight="bold">21.11%</text>
+
+                        <text x="50" y="145" fill="#888">Cholesterol</text>
+                        <rect x="200" y="130" width="200" height="14" rx="3" fill="rgba(255,255,255,0.04)"/>
+                        <rect x="200" y="130" width="134" height="14" rx="3" fill="rgba(224,120,32,0.7)">
+                          <animate attributeName="width" from="0" to="134" dur="1.5s" fill="freeze" begin="0.4s"/>
+                        </rect>
+                        <text x="344" y="142" fill="#e07820" font-weight="bold">18.24%</text>
+
+                        <text x="50" y="180" fill="#888">Age</text>
+                        <rect x="200" y="165" width="200" height="14" rx="3" fill="rgba(255,255,255,0.04)"/>
+                        <rect x="200" y="165" width="105" height="14" rx="3" fill="rgba(200,154,24,0.7)">
+                          <animate attributeName="width" from="0" to="105" dur="1.5s" fill="freeze" begin="0.6s"/>
+                        </rect>
+                        <text x="315" y="177" fill="#c89a18" font-weight="bold">14.36%</text>
+
+                        <text x="50" y="215" fill="#888">Blood Pressure</text>
+                        <rect x="200" y="200" width="200" height="14" rx="3" fill="rgba(255,255,255,0.04)"/>
+                        <rect x="200" y="200" width="82" height="14" rx="3" fill="rgba(160,168,24,0.7)">
+                          <animate attributeName="width" from="0" to="82" dur="1.5s" fill="freeze" begin="0.8s"/>
+                        </rect>
+                        <text x="292" y="212" fill="#a0a818" font-weight="bold">11.17%</text>
+
+                        <text x="50" y="250" fill="#888">Sex</text>
+                        <rect x="200" y="235" width="200" height="14" rx="3" fill="rgba(255,255,255,0.04)"/>
+                        <rect x="200" y="235" width="55" height="14" rx="3" fill="rgba(106,170,32,0.7)">
+                          <animate attributeName="width" from="0" to="55" dur="1.5s" fill="freeze" begin="1s"/>
+                        </rect>
+                        <text x="265" y="247" fill="#6aaa20" font-weight="bold">7.43%</text>
+
+                        <text x="50" y="285" fill="#888">Blood Sugar</text>
+                        <rect x="200" y="270" width="200" height="14" rx="3" fill="rgba(255,255,255,0.04)"/>
+                        <rect x="200" y="270" width="14" height="14" rx="3" fill="rgba(32,170,106,0.7)">
+                          <animate attributeName="width" from="0" to="14" dur="1.5s" fill="freeze" begin="1.2s"/>
+                        </rect>
+                        <text x="224" y="282" fill="#20aa6a" font-weight="bold">1.80%</text>
+                      </g>
+                      <text x="30" y="40" fill="#6edba8" font-size="11" font-family="monospace" opacity="0.7">FEATURE_IMPORTANCE_ANALYSIS</text>
+                      <path d="M20,20 L20,50 M20,20 L50,20" stroke="#6edba8" stroke-width="2" opacity="0.5"/>
+                      <path d="M780,20 L780,50 M780,20 L750,20" stroke="#6edba8" stroke-width="2" opacity="0.5"/>
+                      <text x="30" y="420" fill="#444" font-size="10" font-family="monospace">RANDOM FOREST — GINI IMPORTANCE</text>
+                    </svg>
+                    <div class="ics-overlay">
+                        <div class="ics-tag">02 / 03</div>
+                        <h3 class="ics-title">Feature Importance Analysis</h3>
+                        <p class="ics-desc">Chest pain type and max heart rate are the strongest predictors of cardiovascular risk</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4 -->
+            <div class="img-carousel-slide">
+                <div class="ics-img-wrap">
+                    <svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+                      <defs>
+                        <radialGradient id="bg4" cx="50%" cy="50%" r="70%">
+                          <stop offset="0%" stop-color="#08050f"/>
+                          <stop offset="100%" stop-color="#020810"/>
+                        </radialGradient>
+                      </defs>
+                      <rect width="800" height="450" fill="url(#bg4)"/>
+                      <g opacity="0.05" stroke="#ffc107" stroke-width="0.5">
+                        <line x1="0" y1="90" x2="800" y2="90"/><line x1="0" y1="180" x2="800" y2="180"/>
+                        <line x1="0" y1="270" x2="800" y2="270"/><line x1="0" y1="360" x2="800" y2="360"/>
+                        <line x1="200" y1="0" x2="200" y2="450"/><line x1="400" y1="0" x2="400" y2="450"/>
+                        <line x1="600" y1="0" x2="600" y2="450"/>
+                      </g>
+                      <!-- ROC Curve -->
+                      <!-- Random classifier diagonal -->
+                      <line x1="100" y1="380" x2="680" y2="60" stroke="rgba(255,255,255,0.1)" stroke-width="1.5" stroke-dasharray="8,4"/>
+                      <!-- Actual ROC curve -->
+                      <path d="M100,380 C110,370 120,340 140,300 C160,265 180,240 210,210 C240,185 270,170 300,155 C340,138 370,128 400,120 C440,112 470,108 510,102 C540,98 570,90 610,82 C640,76 660,70 680,62"
+                            fill="none" stroke="#ffc107" stroke-width="2.5" opacity="0.9"/>
+                      <!-- Fill under curve -->
+                      <path d="M100,380 C110,370 120,340 140,300 C160,265 180,240 210,210 C240,185 270,170 300,155 C340,138 370,128 400,120 C440,112 470,108 510,102 C540,98 570,90 610,82 C640,76 660,70 680,62 L680,380 Z"
+                            fill="rgba(255,193,7,0.06)"/>
+                      <!-- Axes -->
+                      <line x1="100" y1="60" x2="100" y2="380" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+                      <line x1="100" y1="380" x2="700" y2="380" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+                      <!-- Axis labels -->
+                      <text x="390" y="420" fill="#666" font-size="12" font-family="monospace" text-anchor="middle">False Positive Rate</text>
+                      <text x="40" y="225" fill="#666" font-size="12" font-family="monospace" text-anchor="middle" transform="rotate(-90,40,225)">True Positive Rate</text>
+                      <!-- AUC label -->
+                      <rect x="520" y="200" width="160" height="60" rx="8" fill="rgba(255,193,7,0.08)" stroke="rgba(255,193,7,0.3)" stroke-width="1"/>
+                      <text x="600" y="225" fill="#ffc107" font-size="13" font-family="monospace" font-weight="bold" text-anchor="middle">AUC = 0.9652</text>
+                      <text x="600" y="245" fill="#666" font-size="10" font-family="monospace" text-anchor="middle">Excellent Performance</text>
+                      <!-- Animated point on curve -->
+                      <circle r="6" fill="#ffc107" opacity="0.9">
+                        <animateMotion dur="4s" repeatCount="indefinite"
+                          path="M100,380 C110,370 120,340 140,300 C160,265 180,240 210,210 C240,185 270,170 300,155 C340,138 370,128 400,120 C440,112 470,108 510,102 C540,98 570,90 610,82 C640,76 660,70 680,62"/>
+                      </circle>
+                      <!-- Tick marks -->
+                      <g fill="#555" font-size="10" font-family="monospace">
+                        <text x="95" y="385" text-anchor="end">0</text>
+                        <text x="95" y="290" text-anchor="end">0.25</text>
+                        <text x="95" y="220" text-anchor="end">0.5</text>
+                        <text x="95" y="145" text-anchor="end">0.75</text>
+                        <text x="95" y="70"  text-anchor="end">1.0</text>
+                      </g>
+                      <text x="30" y="40" fill="#ffc107" font-size="11" font-family="monospace" opacity="0.7">ROC_CURVE_ANALYSIS</text>
+                      <path d="M20,20 L20,50 M20,20 L50,20" stroke="#ffc107" stroke-width="2" opacity="0.5"/>
+                      <path d="M780,20 L780,50 M780,20 L750,20" stroke="#ffc107" stroke-width="2" opacity="0.5"/>
+                    </svg>
+                    <div class="ics-overlay">
+                        <div class="ics-tag">03 / 03</div>
+                        <h3 class="ics-title">ROC Curve — AUC 0.9652</h3>
+                        <p class="ics-desc">Near-perfect discrimination between high and low risk patients across all classification thresholds</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Navigation -->
+        <button class="ics-nav ics-prev" id="icsPrev">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="ics-nav ics-next" id="icsNext">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+
+        <!-- Dots -->
+        <div class="ics-dots" id="icsDots">
+            <div class="ics-dot active" onclick="goToSlide(0)"></div>
+            <div class="ics-dot" onclick="goToSlide(1)"></div>
+            <div class="ics-dot" onclick="goToSlide(2)"></div>
+        </div>
+
+        <!-- Progress bar -->
+        <div class="ics-progress">
+            <div class="ics-progress-fill" id="icsProgress"></div>
+        </div>
+    </div>
+
+    <!-- Thumbnail strip -->
+    <div class="ics-thumbnails">
+        <div class="ics-thumb active" onclick="goToSlide(0)">
+            <i class="fas fa-brain" style="color:#7edfee"></i>
+            <span>Neural Network</span>
+        </div>
+        <div class="ics-thumb" onclick="goToSlide(2)">
+            <i class="fas fa-chart-bar" style="color:#6edba8"></i>
+            <span>Feature Analysis</span>
+        </div>
+        <div class="ics-thumb" onclick="goToSlide(3)">
+            <i class="fas fa-chart-area" style="color:#ffc107"></i>
+            <span>ROC Curve</span>
+        </div>
+    </div>
+</div>
+
+<style>
+.img-carousel-section { margin-bottom: 80px; }
+
+.img-carousel-wrap {
+    position: relative; border-radius: 20px;
+    overflow: hidden; margin-bottom: 12px;
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+}
+.img-carousel-track {
+    display: flex; transition: transform 0.6s cubic-bezier(0.77,0,0.175,1);
+}
+.img-carousel-slide { min-width: 100%; }
+.ics-img-wrap {
+    position: relative; height: 420px; overflow: hidden;
+    background: #020810;
+}
+.ics-img-wrap svg { width: 100%; height: 100%; display: block; }
+
+/* Overlay text */
+.ics-overlay {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 30px 32px;
+    background: linear-gradient(transparent, rgba(2,8,24,0.95));
+}
+.ics-tag {
+    color: #dc3545; font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 2px; margin-bottom: 8px; font-family: monospace;
+}
+.ics-title {
+    color: white; font-size: 1.5rem; font-weight: 800;
+    margin-bottom: 6px; line-height: 1.2;
+}
+.ics-desc { color: #888; font-size: 0.88rem; margin: 0; max-width: 500px; }
+
+/* Nav buttons */
+.ics-nav {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 48px; height: 48px; border-radius: 50%;
+    background: rgba(2,8,24,0.8); border: 1px solid rgba(255,255,255,0.1);
+    color: white; font-size: 1rem; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s; z-index: 10; backdrop-filter: blur(10px);
+}
+.ics-nav:hover { background: rgba(220,53,69,0.2); border-color: rgba(220,53,69,0.4); transform: translateY(-50%) scale(1.1); }
+.ics-prev { left: 16px; }
+.ics-next { right: 16px; }
+
+/* Dots */
+.ics-dots {
+    position: absolute; bottom: 90px; left: 50%;
+    transform: translateX(-50%); display: flex; gap: 8px; z-index: 10;
+}
+.ics-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: rgba(255,255,255,0.2); cursor: pointer;
+    transition: all 0.3s;
+}
+.ics-dot.active { background: #dc3545; width: 24px; border-radius: 4px; }
+
+/* Progress bar */
+.ics-progress {
+    height: 2px; background: rgba(255,255,255,0.05);
+    position: absolute; bottom: 0; left: 0; right: 0;
+}
+.ics-progress-fill {
+    height: 100%; background: #dc3545;
+    transition: width 0.1s linear;
+}
+
+/* Thumbnails */
+.ics-thumbnails {
+    display: flex; gap: 10px;
+}
+.ics-thumb {
+    flex: 1; display: flex; align-items: center; gap: 10px;
+    padding: 12px 16px; border-radius: 12px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    cursor: pointer; transition: all 0.3s;
+    color: #555; font-size: 0.82rem; font-weight: 600;
+}
+.ics-thumb:hover { background: rgba(220,53,69,0.06); border-color: rgba(220,53,69,0.2); color: #ccc; }
+.ics-thumb.active { background: rgba(220,53,69,0.08); border-color: rgba(220,53,69,0.25); color: white; }
+.ics-thumb i { font-size: 1rem; flex-shrink: 0; }
+
+@media(max-width:768px) {
+    .ics-thumbnails { display: none; }
+    .ics-img-wrap { height: 280px; }
+    .ics-title { font-size: 1.1rem; }
+}
+</style>
+
+<script>
+let currentSlide = 0;
+const totalSlides = 3;
+let autoplayTimer;
+let progressTimer;
+let progressVal = 0;
+
+function goToSlide(n) {
+    currentSlide = n;
+    document.getElementById('carouselTrack').style.transform = `translateX(-${n * 100}%)`;
+    document.querySelectorAll('.ics-dot').forEach((d,i) => d.classList.toggle('active', i===n));
+    document.querySelectorAll('.ics-thumb').forEach((t,i) => t.classList.toggle('active', i===n));
+    resetProgress();
+}
+
+function nextSlide() { goToSlide((currentSlide + 1) % totalSlides); }
+function prevSlide() { goToSlide((currentSlide - 1 + totalSlides) % totalSlides); }
+
+document.getElementById('icsNext').addEventListener('click', () => { nextSlide(); resetAutoplay(); });
+document.getElementById('icsPrev').addEventListener('click', () => { prevSlide(); resetAutoplay(); });
+
+function resetProgress() {
+    progressVal = 0;
+    document.getElementById('icsProgress').style.width = '0%';
+    clearInterval(progressTimer);
+    progressTimer = setInterval(() => {
+        progressVal += 0.5;
+        document.getElementById('icsProgress').style.width = progressVal + '%';
+        if(progressVal >= 100) clearInterval(progressTimer);
+    }, 25);
+}
+
+function resetAutoplay() {
+    clearInterval(autoplayTimer);
+    autoplayTimer = setInterval(() => { nextSlide(); }, 5000);
+}
+
+resetAutoplay();
+resetProgress();
+</script>
+
 
 <!-- ── HOW IT WORKS ── -->
 <div class="section-block">
@@ -685,28 +1102,7 @@
 }
 
 /* ECG strip */
-.hv-ecg-strip {
-    position: absolute; bottom: 5%;
-    left: 8%; right: 8%;
-    background: rgba(2,8,24,0.7);
-    border: 1px solid rgba(220,53,69,0.15);
-    border-radius: 8px; padding: 8px 12px;
-    display: flex; align-items: center; gap: 10px;
-    z-index: 5; backdrop-filter: blur(10px);
-}
-.hv-ecg-label {
-    color: #dc3545; font-size: 0.65rem; font-weight: 700;
-    letter-spacing: 1.5px; white-space: nowrap;
-    display: flex; align-items: center; gap: 5px;
-}
-.hv-ecg-dot {
-    width: 6px; height: 6px; border-radius: 50%; background: #dc3545;
-    animation: tagDot 1.5s infinite;
-}
-.hv-ecg-bpm {
-    color: #dc3545; font-weight: 800; font-size: 0.78rem;
-    white-space: nowrap; letter-spacing: 1px;
-}
+
 
 /* Animate in */
 .animate-in {
@@ -896,6 +1292,15 @@
 }
 
 /* Scroll reveal */
+.hv-ecg-minimal {
+    position: absolute; bottom: 4%;
+    left: 8%; right: 8%;
+    background: rgba(2,8,24,0.6);
+    border: 1px solid rgba(220,53,69,0.12);
+    border-radius: 8px; padding: 6px 10px;
+    z-index: 5; backdrop-filter: blur(10px);
+}
+
 .sr-item {
     opacity: 0; transform: translateY(28px);
     transition: opacity 0.6s ease var(--sr-d,0s),
@@ -915,7 +1320,9 @@
 
 <!-- ── SCRIPTS ── -->
 <script>
-// ECG Animation
+
+
+// Minimal ECG
 (function(){
     const c = document.getElementById('heroEcg');
     if(!c) return;
@@ -923,29 +1330,24 @@
     let w, off=0;
     function ecgY(x){
         const cy=x%1;
-        if(cy<0.3) return Math.sin(cy*Math.PI*6)*4;
-        if(cy<0.38) return -8;
-        if(cy<0.42) return 28;
-        if(cy<0.46) return -12;
-        if(cy<0.55) return Math.sin((cy-0.46)*Math.PI*5)*5;
+        if(cy<0.3) return Math.sin(cy*Math.PI*6)*3;
+        if(cy<0.38) return -7;
+        if(cy<0.42) return 24;
+        if(cy<0.46) return -10;
+        if(cy<0.55) return Math.sin((cy-0.46)*Math.PI*5)*4;
         return 0;
     }
-    function resize(){ w=c.offsetWidth; c.width=w; c.height=40; }
+    function resize(){ w=c.offsetWidth||300; c.width=w; c.height=36; }
     function draw(){
-        ctx.clearRect(0,0,w,40);
+        ctx.clearRect(0,0,w,36);
         ctx.beginPath(); ctx.strokeStyle='#dc3545'; ctx.lineWidth=1.5;
         ctx.shadowBlur=5; ctx.shadowColor='#dc3545';
         for(let i=0;i<w;i++){
-            const y=20-ecgY((i+off)/100);
+            const y=18-ecgY((i+off)/100);
             i===0?ctx.moveTo(i,y):ctx.lineTo(i,y);
         }
         ctx.stroke(); ctx.shadowBlur=0;
         off+=1.8;
-        if(Math.floor(off)%100===0){
-            const bpm=65+Math.floor(Math.random()*18);
-            const el=document.getElementById('heroBpm');
-            if(el) el.textContent=bpm+' BPM';
-        }
         requestAnimationFrame(draw);
     }
     resize(); window.addEventListener('resize',resize); draw();

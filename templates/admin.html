@@ -1,58 +1,118 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="row mb-4">
-    <div class="col-12">
-        <div class="card p-4" style="background: linear-gradient(135deg, rgba(220,53,69,0.15), rgba(220,53,69,0.05)); border: 1px solid rgba(220,53,69,0.3);">
-            <h3 style="color:white; font-weight:800; margin:0;">
-                <i class="fas fa-shield-alt me-2" style="color:#dc3545"></i>Admin Dashboard
-            </h3>
-            <p style="color:#888; margin:0;">System overview and user management</p>
+
+<!-- Header -->
+<div class="admin-hero mb-5 animate-in" style="--delay:0.1s">
+    <div class="admin-hero-bg"></div>
+    <div class="row align-items-center position-relative">
+        <div class="col-md-8">
+            <div class="mb-2">
+                <span class="admin-badge">
+                    <i class="fas fa-shield-alt me-2"></i>Administrator Access
+                </span>
+            </div>
+            <h2 style="color:white;font-weight:900;margin:0;">Admin <span style="color:#dc3545">Dashboard</span></h2>
+            <p style="color:#666;margin:6px 0 0;font-size:0.9rem;">System overview, user management and prediction monitoring</p>
+        </div>
+        <div class="col-md-4 text-md-end mt-3 mt-md-0">
+            <div style="color:#555;font-size:0.82rem;">
+                <i class="fas fa-clock me-1" style="color:#dc3545"></i>
+                Last updated: <span id="adminTime"></span>
+            </div>
         </div>
     </div>
 </div>
 
 <!-- Stats -->
-<div class="row mb-5">
-    <div class="col-md-3 mb-3">
-        <div class="stat-card">
-            <i class="fas fa-users fa-2x mb-2" style="color:#dc3545"></i>
-            <div class="stat-number">{{ total_users }}</div>
-            <div class="stat-label">Total Users</div>
+<div class="row g-3 mb-5">
+    <div class="col-6 col-md-3">
+        <div class="admin-stat animate-in" style="--delay:0.15s">
+            <div class="admin-stat-icon" style="background:rgba(220,53,69,0.1)">
+                <i class="fas fa-users" style="color:#dc3545"></i>
+            </div>
+            <div class="admin-stat-num counter" data-target="{{ total_users }}">0</div>
+            <div class="admin-stat-lbl">Total Users</div>
+            <div class="admin-stat-bar" style="--clr:#dc3545;--pct:100%"></div>
         </div>
     </div>
-    <div class="col-md-3 mb-3">
-        <div class="stat-card">
-            <i class="fas fa-chart-bar fa-2x mb-2" style="color:#dc3545"></i>
-            <div class="stat-number">{{ total_predictions }}</div>
-            <div class="stat-label">Total Predictions</div>
+    <div class="col-6 col-md-3">
+        <div class="admin-stat animate-in" style="--delay:0.2s">
+            <div class="admin-stat-icon" style="background:rgba(126,223,238,0.1)">
+                <i class="fas fa-chart-bar" style="color:#7edfee"></i>
+            </div>
+            <div class="admin-stat-num counter" data-target="{{ total_predictions }}" style="color:#7edfee">0</div>
+            <div class="admin-stat-lbl">Total Predictions</div>
+            <div class="admin-stat-bar" style="--clr:#7edfee;--pct:100%"></div>
         </div>
     </div>
-    <div class="col-md-3 mb-3">
-        <div class="stat-card">
-            <i class="fas fa-exclamation-triangle fa-2x mb-2" style="color:#ff6b7a"></i>
-            <div class="stat-number" style="color:#ff6b7a">{{ total_high_risk }}</div>
-            <div class="stat-label">High Risk Results</div>
+    <div class="col-6 col-md-3">
+        <div class="admin-stat animate-in" style="--delay:0.25s">
+            <div class="admin-stat-icon" style="background:rgba(255,107,122,0.1)">
+                <i class="fas fa-exclamation-triangle" style="color:#ff6b7a"></i>
+            </div>
+            <div class="admin-stat-num counter" data-target="{{ total_high_risk }}" style="color:#ff6b7a">0</div>
+            <div class="admin-stat-lbl">High Risk</div>
+            <div class="admin-stat-bar" style="--clr:#ff6b7a;--pct:{% if total_predictions > 0 %}{{ (total_high_risk/total_predictions*100)|int }}%{% else %}0%{% endif %}"></div>
         </div>
     </div>
-    <div class="col-md-3 mb-3">
-        <div class="stat-card">
-            <i class="fas fa-check-circle fa-2x mb-2" style="color:#6edba8"></i>
-            <div class="stat-number" style="color:#6edba8">{{ total_low_risk }}</div>
-            <div class="stat-label">Low Risk Results</div>
+    <div class="col-6 col-md-3">
+        <div class="admin-stat animate-in" style="--delay:0.3s">
+            <div class="admin-stat-icon" style="background:rgba(110,219,168,0.1)">
+                <i class="fas fa-check-circle" style="color:#6edba8"></i>
+            </div>
+            <div class="admin-stat-num counter" data-target="{{ total_low_risk }}" style="color:#6edba8">0</div>
+            <div class="admin-stat-lbl">Low Risk</div>
+            <div class="admin-stat-bar" style="--clr:#6edba8;--pct:{% if total_predictions > 0 %}{{ (total_low_risk/total_predictions*100)|int }}%{% else %}0%{% endif %}"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Charts Row -->
+<div class="row g-4 mb-5">
+    <div class="col-md-6">
+        <div class="card p-4 h-100 animate-in" style="--delay:0.35s">
+            <div class="d-flex align-items-center gap-3 mb-3">
+                <div class="admin-icon-wrap"><i class="fas fa-chart-pie" style="color:#dc3545"></i></div>
+                <div>
+                    <h5 style="color:white;font-weight:700;margin:0;">Risk Distribution</h5>
+                    <small style="color:#555;">High vs Low risk breakdown</small>
+                </div>
+            </div>
+            <div style="position:relative;height:220px;display:flex;align-items:center;justify-content:center;">
+                <canvas id="riskDonut"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card p-4 h-100 animate-in" style="--delay:0.4s">
+            <div class="d-flex align-items-center gap-3 mb-3">
+                <div class="admin-icon-wrap"><i class="fas fa-chart-bar" style="color:#dc3545"></i></div>
+                <div>
+                    <h5 style="color:white;font-weight:700;margin:0;">Predictions Per User</h5>
+                    <small style="color:#555;">Activity breakdown by user</small>
+                </div>
+            </div>
+            <div style="position:relative;height:220px;">
+                <canvas id="userBar"></canvas>
+            </div>
         </div>
     </div>
 </div>
 
 <!-- Users Table -->
 <div class="row mb-5">
-    <div class="col-12">
+    <div class="col-12 animate-in" style="--delay:0.45s">
         <div class="card p-4">
-            <h5 style="color:white; font-weight:700; margin-bottom:20px;">
-                <i class="fas fa-users me-2" style="color:#dc3545"></i>Registered Users
-            </h5>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="admin-icon-wrap"><i class="fas fa-users" style="color:#dc3545"></i></div>
+                    <h5 style="color:white;font-weight:700;margin:0;">Registered Users</h5>
+                </div>
+                <span style="color:#555;font-size:0.82rem;">{{ total_users }} total</span>
+            </div>
             <div class="table-responsive">
-                <table class="table table-hover">
+                <table class="table admin-table mb-0">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -66,20 +126,34 @@
                     </thead>
                     <tbody>
                         {% for user in all_users %}
-                        <tr>
-                            <td style="color:#666;">{{ user.id }}</td>
-                            <td style="color:white; font-weight:600;">{{ user.full_name }}</td>
-                            <td style="color:#888;">{{ user.email }}</td>
+                        <tr class="admin-row" style="--row-d:{{ loop.index * 0.04 }}s">
+                            <td style="color:#444;font-size:0.8rem;">{{ user.id }}</td>
+                            <td>
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="admin-user-avatar">{{ user.full_name[0]|upper }}</div>
+                                    <span style="color:white;font-weight:600;font-size:0.9rem;">{{ user.full_name }}</span>
+                                </div>
+                            </td>
+                            <td style="color:#666;font-size:0.85rem;">{{ user.email }}</td>
                             <td style="color:#e0e0e0;">{{ user.age }}</td>
                             <td>
                                 {% if user.is_admin %}
-                                <span class="badge bg-danger">Admin</span>
+                                <span class="admin-role-badge admin-role-admin">
+                                    <i class="fas fa-shield-alt me-1"></i>Admin
+                                </span>
                                 {% else %}
-                                <span class="badge bg-secondary">User</span>
+                                <span class="admin-role-badge admin-role-user">
+                                    <i class="fas fa-user me-1"></i>User
+                                </span>
                                 {% endif %}
                             </td>
-                            <td style="color:#666; font-size:0.85rem;">{{ user.created_at.strftime('%d %b %Y') }}</td>
-                            <td style="color:#dc3545; font-weight:700;">{{ user.predictions | length }}</td>
+                            <td style="color:#555;font-size:0.83rem;">{{ user.created_at.strftime('%d %b %Y') }}</td>
+                            <td>
+                                <span style="color:#dc3545;font-weight:700;">{{ user.predictions|length }}</span>
+                                <div class="admin-pred-bar">
+                                    <div class="admin-pred-fill" style="width:{{ [user.predictions|length * 10, 100]|min }}%"></div>
+                                </div>
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -90,14 +164,18 @@
 </div>
 
 <!-- Recent Predictions -->
-<div class="row mb-4">
-    <div class="col-12">
+<div class="row mb-5">
+    <div class="col-12 animate-in" style="--delay:0.5s">
         <div class="card p-4">
-            <h5 style="color:white; font-weight:700; margin-bottom:20px;">
-                <i class="fas fa-list me-2" style="color:#dc3545"></i>All Recent Predictions
-            </h5>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="admin-icon-wrap"><i class="fas fa-list" style="color:#dc3545"></i></div>
+                    <h5 style="color:white;font-weight:700;margin:0;">Recent Predictions</h5>
+                </div>
+                <span style="color:#555;font-size:0.82rem;">Latest 20 records</span>
+            </div>
             <div class="table-responsive">
-                <table class="table table-hover">
+                <table class="table admin-table mb-0">
                     <thead>
                         <tr>
                             <th>Date</th>
@@ -105,23 +183,27 @@
                             <th>Age</th>
                             <th>Sex</th>
                             <th>Cholesterol</th>
-                            <th>Blood Pressure</th>
+                            <th>BP</th>
                             <th>Heart Rate</th>
                             <th>Probability</th>
-                            <th>Risk Level</th>
+                            <th>Risk</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for p in all_predictions[:20] %}
-                        <tr>
-                            <td style="color:#666; font-size:0.85rem;">{{ p.created_at.strftime('%d %b %Y') }}</td>
-                            <td style="color:white; font-weight:600;">{{ p.user.full_name }}</td>
+                        <tr class="admin-row" style="--row-d:{{ loop.index * 0.03 }}s">
+                            <td style="color:#555;font-size:0.82rem;">{{ p.created_at.strftime('%d %b %Y') }}</td>
+                            <td style="color:white;font-weight:600;font-size:0.88rem;">{{ p.user.full_name }}</td>
                             <td style="color:#e0e0e0;">{{ p.age }}</td>
                             <td style="color:#e0e0e0;">{{ p.sex }}</td>
                             <td style="color:#e0e0e0;">{{ p.chol }}</td>
                             <td style="color:#e0e0e0;">{{ p.trestbps }}</td>
                             <td style="color:#e0e0e0;">{{ p.thalach }}</td>
-                            <td style="color:#e0e0e0; font-weight:600;">{{ p.probability }}%</td>
+                            <td>
+                                <span style="font-weight:700;{% if p.probability >= 50 %}color:#ff6b7a{% else %}color:#6edba8{% endif %}">
+                                    {{ p.probability }}%
+                                </span>
+                            </td>
                             <td>
                                 <span class="{% if p.risk_level == 'High Risk' %}badge-high{% else %}badge-low{% endif %}">
                                     {{ p.risk_level }}
@@ -135,4 +217,146 @@
         </div>
     </div>
 </div>
+
+<style>
+.animate-in { opacity:0; transform:translateY(18px); animation:fadeUp 0.5s ease forwards; animation-delay:var(--delay,0s); }
+@keyframes fadeUp { to { opacity:1; transform:translateY(0); } }
+
+.admin-hero {
+    background:linear-gradient(135deg,rgba(220,53,69,0.12),rgba(220,53,69,0.04));
+    border:1px solid rgba(220,53,69,0.25); border-radius:20px;
+    padding:28px 32px; position:relative; overflow:hidden;
+}
+.admin-hero-bg {
+    position:absolute; top:-50px; right:-50px;
+    width:220px; height:220px; border-radius:50%;
+    background:radial-gradient(circle,rgba(220,53,69,0.08),transparent);
+    pointer-events:none;
+}
+.admin-badge {
+    display:inline-flex; align-items:center;
+    background:rgba(255,215,94,0.1); border:1px solid rgba(255,215,94,0.25);
+    color:#ffd85e; padding:5px 14px; border-radius:20px;
+    font-size:0.78rem; font-weight:600;
+}
+.admin-stat {
+    background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07);
+    border-radius:16px; padding:18px 14px; text-align:center;
+    position:relative; overflow:hidden; transition:all 0.3s;
+}
+.admin-stat:hover { border-color:rgba(220,53,69,0.2); transform:translateY(-3px); }
+.admin-stat-icon {
+    width:40px; height:40px; border-radius:11px;
+    display:flex; align-items:center; justify-content:center;
+    margin:0 auto 10px;
+}
+.admin-stat-num { font-size:1.8rem; font-weight:900; color:#dc3545; line-height:1; }
+.admin-stat-lbl { color:#555; font-size:0.77rem; margin-top:4px; }
+.admin-stat-bar {
+    position:absolute; bottom:0; left:0;
+    height:3px; width:var(--pct); background:var(--clr);
+    border-radius:0 3px 3px 0; opacity:0.5;
+    transition:width 1.5s ease;
+}
+.admin-icon-wrap {
+    width:38px; height:38px; border-radius:10px;
+    background:rgba(220,53,69,0.1);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.admin-table thead th {
+    background:rgba(220,53,69,0.06); color:#dc3545;
+    border-color:rgba(255,255,255,0.04); font-size:0.78rem;
+    text-transform:uppercase; letter-spacing:0.5px; padding:11px 12px;
+}
+.admin-table td { padding:11px 12px; vertical-align:middle; border-color:rgba(255,255,255,0.04); }
+.admin-row { opacity:0; animation:fadeUp 0.4s ease forwards; animation-delay:var(--row-d,0s); }
+.admin-row:hover { background:rgba(220,53,69,0.02) !important; }
+.admin-user-avatar {
+    width:30px; height:30px; border-radius:50%;
+    background:rgba(220,53,69,0.15); border:1px solid rgba(220,53,69,0.3);
+    display:flex; align-items:center; justify-content:center;
+    color:#dc3545; font-weight:700; font-size:0.8rem; flex-shrink:0;
+}
+.admin-role-badge {
+    padding:3px 10px; border-radius:15px; font-size:0.75rem; font-weight:600;
+}
+.admin-role-admin { background:rgba(255,215,94,0.1); color:#ffd85e; border:1px solid rgba(255,215,94,0.25); }
+.admin-role-user  { background:rgba(255,255,255,0.05); color:#888; border:1px solid rgba(255,255,255,0.1); }
+.admin-pred-bar { height:3px; background:rgba(255,255,255,0.05); border-radius:2px; margin-top:4px; width:60px; overflow:hidden; }
+.admin-pred-fill { height:100%; background:linear-gradient(90deg,#dc3545,#ff6b7a); border-radius:2px; }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+// Time
+document.getElementById('adminTime').textContent = new Date().toLocaleTimeString();
+
+// Counters
+document.querySelectorAll('.counter').forEach(el => {
+    const target = parseInt(el.getAttribute('data-target')) || 0;
+    let cur = 0; const step = Math.max(1, Math.ceil(target/40));
+    const t = setInterval(() => {
+        cur = Math.min(cur+step, target); el.textContent = cur;
+        if(cur >= target) clearInterval(t);
+    }, 40);
+});
+
+// Donut chart
+new Chart(document.getElementById('riskDonut').getContext('2d'), {
+    type: 'doughnut',
+    data: {
+        labels: ['High Risk', 'Low Risk'],
+        datasets: [{
+            data: [{{ total_high_risk }}, {{ total_low_risk }}],
+            backgroundColor: ['rgba(220,53,69,0.8)', 'rgba(25,135,84,0.8)'],
+            borderColor: ['#dc3545', '#198754'],
+            borderWidth: 2, hoverOffset: 8
+        }]
+    },
+    options: {
+        responsive: true, maintainAspectRatio: false, cutout: '68%',
+        plugins: {
+            legend: { position:'bottom', labels:{color:'#666',font:{size:11},padding:16} },
+            tooltip: {
+                backgroundColor:'rgba(2,8,24,0.95)',
+                borderColor:'rgba(220,53,69,0.3)', borderWidth:1,
+                titleColor:'#fff', bodyColor:'#aaa', padding:10
+            }
+        }
+    }
+});
+
+// Bar chart - predictions per user
+const userNames = [{% for u in all_users %}"{{ u.full_name.split()[0] }}"{% if not loop.last %},{% endif %}{% endfor %}];
+const userPreds = [{% for u in all_users %}{{ u.predictions|length }}{% if not loop.last %},{% endif %}{% endfor %}];
+
+new Chart(document.getElementById('userBar').getContext('2d'), {
+    type: 'bar',
+    data: {
+        labels: userNames,
+        datasets: [{
+            label: 'Predictions',
+            data: userPreds,
+            backgroundColor: 'rgba(220,53,69,0.7)',
+            borderColor: '#dc3545',
+            borderWidth: 2, borderRadius: 6,
+        }]
+    },
+    options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+            legend: { display:false },
+            tooltip: {
+                backgroundColor:'rgba(2,8,24,0.95)',
+                borderColor:'rgba(220,53,69,0.3)', borderWidth:1,
+                titleColor:'#fff', bodyColor:'#aaa', padding:10
+            }
+        },
+        scales: {
+            x: { grid:{color:'rgba(255,255,255,0.03)'}, ticks:{color:'#666',font:{size:11}}, border:{color:'rgba(255,255,255,0.04)'} },
+            y: { grid:{color:'rgba(255,255,255,0.03)'}, ticks:{color:'#666',font:{size:11}}, border:{color:'rgba(255,255,255,0.04)'} }
+        }
+    }
+});
+</script>
 {% endblock %}
