@@ -829,6 +829,31 @@ def reset_password(token):
     return render_template('reset_password.html', token=token)
 
 
+
+# ── Export History CSV ───────────────────────────────────────────────────────
+@app.route('/export-history')
+@login_required
+def export_history():
+    predictions = Prediction.query.filter_by(user_id=current_user.id).order_by(Prediction.created_at.asc()).all()
+    if not predictions:
+        flash('No predictions to export.', 'warning')
+        return redirect(url_for('history'))
+    output = io.StringIO()
+    output.write('No,Date,Time,Age,Sex,Chest Pain Type,Blood Pressure (mmHg),Cholesterol (mg/dl),Fasting Blood Sugar,Max Heart Rate (bpm),Probability (%),Risk Level\n')
+    for i, p in enumerate(predictions, 1):
+        d = p.created_at.strftime('%d/%m/%Y')
+        t = p.created_at.strftime('%H:%M')
+        row = ','.join([str(i), d, t, str(p.age), str(p.sex), str(p.cp), str(p.trestbps), str(p.chol), str(p.fbs), str(p.thalach), str(p.probability), p.risk_level])
+        output.write(row + '\n')
+    output.seek(0)
+    n = current_user.full_name.replace(' ', '_')
+    dt = datetime.now().strftime('%Y%m%d')
+    filename = 'HeartAttackPredict_History_' + n + '_' + dt + '.csv'
+    response = make_response(output.getvalue())
+    response.headers['Content-Type'] = 'text/csv'
+    response.headers['Content-Disposition'] = 'attachment; filename=' + filename
+    return response
+
 # ── Init DB & Run ────────────────────────────────────────────────────────────
 with app.app_context():
     db.create_all()

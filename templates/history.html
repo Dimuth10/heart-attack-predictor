@@ -18,10 +18,18 @@
                     <p style="color:#666;margin:6px 0 0;font-size:0.9rem;">A chronological record of all your heart attack risk assessments</p>
                 </div>
                 <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                    <a href="/predict" class="hist-new-btn">
-                        <i class="fas fa-plus me-2"></i>New Prediction
-                        <span class="hist-btn-shine"></span>
-                    </a>
+                    <div class="d-flex gap-2 justify-content-md-end flex-wrap">
+                        {% if predictions %}
+                        <a href="/export-history" class="hist-new-btn" style="background:linear-gradient(135deg,#198754,#146c43);box-shadow:0 5px 20px rgba(25,135,84,0.4);">
+                            <i class="fas fa-file-csv me-2"></i>Export CSV
+                            <span class="hist-btn-shine"></span>
+                        </a>
+                        {% endif %}
+                        <a href="/predict" class="hist-new-btn">
+                            <i class="fas fa-plus me-2"></i>New Prediction
+                            <span class="hist-btn-shine"></span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
