@@ -7,7 +7,7 @@
     <div class="mb-3">
         <span class="eval-badge"><i class="fas fa-chart-line me-2"></i>Model Performance</span>
     </div>
-    <h2 style="color:white;font-weight:900;font-size:2.2rem;">Model <span style="color:#dc3545">Evaluation</span></h2>
+    <h2 style="color:white;font-weight:900;font-size:2.2rem;">Model <span style="color:#9b2335">Evaluation</span></h2>
     <p style="color:#555;max-width:520px;margin:10px auto 0;">Performance metrics of the CardioPredict AI Random Forest classifier</p>
 </div>
 
@@ -15,7 +15,7 @@
 <div class="row g-3 mb-5">
     <div class="col-6 col-md-3">
         <div class="eval-metric animate-in" style="--delay:0.15s">
-            <canvas class="eval-arc" data-v="{{ acc|float|round }}" data-c="#dc3545" width="110" height="110"></canvas>
+            <canvas class="eval-arc" data-v="{{ acc|float|round }}" data-c="#9b2335" width="110" height="110"></canvas>
             <div class="eval-metric-num">{{ acc }}%</div>
             <div class="eval-metric-lbl">Accuracy</div>
             <div class="eval-metric-desc">Overall correct predictions</div>
@@ -54,7 +54,7 @@
     <div class="col-md-5">
         <div class="card p-4 h-100 animate-in" style="--delay:0.35s">
             <div class="d-flex align-items-center gap-3 mb-4">
-                <div class="eval-icon-wrap"><i class="fas fa-table" style="color:#dc3545"></i></div>
+                <div class="eval-icon-wrap"><i class="fas fa-table" style="color:#9b2335"></i></div>
                 <div>
                     <h5 style="color:white;font-weight:700;margin:0;">Confusion Matrix</h5>
                     <small style="color:#555;">Rows = Actual | Cols = Predicted</small>
@@ -66,7 +66,7 @@
                 <div class="cm-label-row">
                     <div class="cm-blank"></div>
                     <div class="cm-col-label" style="color:#6edba8"><i class="fas fa-check me-1"></i>No Disease</div>
-                    <div class="cm-col-label" style="color:#ff6b7a"><i class="fas fa-times me-1"></i>Disease</div>
+                    <div class="cm-col-label" style="color:#c44d5f"><i class="fas fa-times me-1"></i>Disease</div>
                 </div>
                 <div class="cm-data-row">
                     <div class="cm-row-label" style="color:#6edba8">No Disease</div>
@@ -80,7 +80,7 @@
                     </div>
                 </div>
                 <div class="cm-data-row">
-                    <div class="cm-row-label" style="color:#ff6b7a">Disease</div>
+                    <div class="cm-row-label" style="color:#c44d5f">Disease</div>
                     <div class="cm-cell cm-cell-wrong">
                         <div class="cm-cell-val">{{ fn }}</div>
                         <div class="cm-cell-tag">False Negative</div>
@@ -102,7 +102,7 @@
                 </div>
                 <div class="col-6">
                     <div class="cm-legend cm-legend-bad">
-                        <span style="color:#ff6b7a;font-weight:700;">FP {{ fp }} / FN {{ fn }}</span>
+                        <span style="color:#c44d5f;font-weight:700;">FP {{ fp }} / FN {{ fn }}</span>
                         <small style="color:#555;display:block;">Incorrect predictions</small>
                     </div>
                 </div>
@@ -115,14 +115,14 @@
         <div class="card p-4 h-100 animate-in" style="--delay:0.4s">
             <div class="d-flex align-items-center justify-content-between mb-3">
                 <div class="d-flex align-items-center gap-3">
-                    <div class="eval-icon-wrap"><i class="fas fa-chart-area" style="color:#dc3545"></i></div>
+                    <div class="eval-icon-wrap"><i class="fas fa-chart-area" style="color:#9b2335"></i></div>
                     <div>
                         <h5 style="color:white;font-weight:700;margin:0;">ROC Curve</h5>
                         <small style="color:#555;">Receiver Operating Characteristic</small>
                     </div>
                 </div>
                 <div class="eval-auc-badge">
-                    AUC = <span id="aucVal" style="color:#dc3545;font-weight:800;"></span>
+                    AUC = <span id="aucVal" style="color:#9b2335;font-weight:800;"></span>
                 </div>
             </div>
             <div style="position:relative;height:280px;">
@@ -137,7 +137,7 @@
     <div class="col-12 animate-in" style="--delay:0.45s">
         <div class="card p-4">
             <div class="d-flex align-items-center gap-3 mb-4">
-                <div class="eval-icon-wrap"><i class="fas fa-database" style="color:#dc3545"></i></div>
+                <div class="eval-icon-wrap"><i class="fas fa-database" style="color:#9b2335"></i></div>
                 <h5 style="color:white;font-weight:700;margin:0;">Training Details</h5>
             </div>
             <div class="row g-3 mb-4">
@@ -199,7 +199,7 @@
             <div class="row g-3">
                 <div class="col-md-3">
                     <div class="eval-guide-item">
-                        <div style="color:#dc3545;font-weight:700;font-size:0.85rem;margin-bottom:4px;">Accuracy</div>
+                        <div style="color:#9b2335;font-weight:700;font-size:0.85rem;margin-bottom:4px;">Accuracy</div>
                         <p style="color:#666;font-size:0.82rem;margin:0;line-height:1.6;">Percentage of all predictions that were correct across both classes.</p>
                     </div>
                 </div>
@@ -233,7 +233,7 @@
 .eval-badge {
     display:inline-flex; align-items:center;
     background:rgba(220,53,69,0.1); border:1px solid rgba(220,53,69,0.25);
-    color:#dc3545; padding:6px 16px; border-radius:20px;
+    color:#9b2335; padding:6px 16px; border-radius:20px;
     font-size:0.8rem; font-weight:600;
 }
 .eval-icon-wrap {
@@ -276,7 +276,7 @@
 .cm-cell-val { font-size:1.8rem; font-weight:900; color:white; line-height:1; }
 .cm-cell-tag { font-size:0.68rem; color:#555; margin-top:4px; }
 .cm-cell-correct .cm-cell-val { color:#6edba8; }
-.cm-cell-wrong   .cm-cell-val { color:#ff6b7a; }
+.cm-cell-wrong   .cm-cell-val { color:#c44d5f; }
 .cm-legend {
     padding:10px 12px; border-radius:10px; text-align:center;
     font-size:0.82rem;
@@ -294,7 +294,7 @@
     background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06);
     border-radius:14px; padding:16px; text-align:center;
 }
-.eval-detail-num { color:#dc3545; font-size:1.6rem; font-weight:900; line-height:1; }
+.eval-detail-num { color:#9b2335; font-size:1.6rem; font-weight:900; line-height:1; }
 .eval-detail-lbl { color:#555; font-size:0.78rem; margin-top:4px; }
 .eval-dataset-card {
     display:flex; align-items:center; gap:12px;
@@ -332,7 +332,7 @@ new Chart(document.getElementById('rocChart').getContext('2d'), {
             {
                 label: 'ROC Curve (AUC = ' + rocData.auc + ')',
                 data: rocData.tpr,
-                borderColor: '#dc3545', borderWidth: 2.5,
+                borderColor: '#9b2335', borderWidth: 2.5,
                 backgroundColor: ctx => {
                     const g = ctx.chart.ctx.createLinearGradient(0,0,0,280);
                     g.addColorStop(0,'rgba(220,53,69,0.2)');

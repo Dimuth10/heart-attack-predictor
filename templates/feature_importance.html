@@ -8,7 +8,7 @@
         <div class="col-12 text-center">
             <div class="mb-3">
                 <span style="background:rgba(220,53,69,0.1); border:1px solid rgba(220,53,69,0.3);
-                             color:#dc3545; padding:6px 18px; border-radius:20px; font-size:0.8rem;
+                             color:#9b2335; padding:6px 18px; border-radius:20px; font-size:0.8rem;
                              font-weight:600; letter-spacing:1px; text-transform:uppercase;">
                     <i class="fas fa-brain me-2"></i>Model Insights
                 </span>
@@ -25,28 +25,28 @@
     <div class="row g-3 mb-5">
         <div class="col-6 col-md-3">
             <div class="stat-card">
-                <i class="fas fa-project-diagram fa-lg mb-2" style="color:#dc3545"></i>
+                <i class="fas fa-project-diagram fa-lg mb-2" style="color:#9b2335"></i>
                 <div class="stat-number">{{ total_features }}</div>
                 <div class="stat-label">Clinical Features</div>
             </div>
         </div>
         <div class="col-6 col-md-3">
             <div class="stat-card">
-                <i class="fas fa-tree fa-lg mb-2" style="color:#dc3545"></i>
+                <i class="fas fa-tree fa-lg mb-2" style="color:#9b2335"></i>
                 <div class="stat-number">100</div>
                 <div class="stat-label">Decision Trees</div>
             </div>
         </div>
         <div class="col-6 col-md-3">
             <div class="stat-card">
-                <i class="fas fa-bullseye fa-lg mb-2" style="color:#dc3545"></i>
+                <i class="fas fa-bullseye fa-lg mb-2" style="color:#9b2335"></i>
                 <div class="stat-number">{{ MODEL_STATS.accuracy }}%</div>
                 <div class="stat-label">Model Accuracy</div>
             </div>
         </div>
         <div class="col-6 col-md-3">
             <div class="stat-card">
-                <i class="fas fa-database fa-lg mb-2" style="color:#dc3545"></i>
+                <i class="fas fa-database fa-lg mb-2" style="color:#9b2335"></i>
                 <div class="stat-number">2,024</div>
                 <div class="stat-label">Training Records</div>
             </div>
@@ -62,7 +62,7 @@
                     <div style="width:40px; height:40px; background:rgba(220,53,69,0.1);
                                 border-radius:10px; display:flex; align-items:center;
                                 justify-content:center; margin-right:12px;">
-                        <i class="fas fa-chart-bar" style="color:#dc3545"></i>
+                        <i class="fas fa-chart-bar" style="color:#9b2335"></i>
                     </div>
                     <div>
                         <h5 class="mb-0" style="color:white; font-weight:700;">Importance Score</h5>
@@ -82,7 +82,7 @@
                     <div style="width:40px; height:40px; background:rgba(220,53,69,0.1);
                                 border-radius:10px; display:flex; align-items:center;
                                 justify-content:center; margin-right:12px;">
-                        <i class="fas fa-chart-pie" style="color:#dc3545"></i>
+                        <i class="fas fa-chart-pie" style="color:#9b2335"></i>
                     </div>
                     <div>
                         <h5 class="mb-0" style="color:white; font-weight:700;">Distribution</h5>
@@ -101,7 +101,7 @@
                                         background:{{ item.color }}; margin-right:8px; flex-shrink:0;"></div>
                             <small style="color:#aaa; font-size:0.78rem;">{{ item.feature }}</small>
                         </div>
-                        <small style="color:#dc3545; font-weight:600; font-size:0.78rem;">
+                        <small style="color:#9b2335; font-weight:600; font-size:0.78rem;">
                             {{ item.percentage }}%
                         </small>
                     </div>
@@ -115,7 +115,7 @@
     <div class="row mt-4 mb-2">
         <div class="col-12">
             <h5 style="color:white; font-weight:700;">
-                <i class="fas fa-list-ol me-2" style="color:#dc3545"></i>Feature Breakdown
+                <i class="fas fa-list-ol me-2" style="color:#9b2335"></i>Feature Breakdown
             </h5>
             <p style="color:#666; font-size:0.88rem;">Click any feature card to learn more</p>
         </div>
@@ -170,7 +170,7 @@
                 <div class="feature-description mt-3 pt-3"
                      style="border-top:1px solid rgba(255,255,255,0.05);
                             display:none; color:#aaa; font-size:0.85rem; line-height:1.6;">
-                    <i class="fas fa-info-circle me-2" style="color:#dc3545"></i>
+                    <i class="fas fa-info-circle me-2" style="color:#9b2335"></i>
                     {{ item.description }}
                 </div>
             </div>
@@ -183,19 +183,19 @@
         <div class="row align-items-center">
             <div class="col-lg-6 mb-4 mb-lg-0">
                 <h5 style="color:white; font-weight:700; margin-bottom:15px;">
-                    <i class="fas fa-question-circle me-2" style="color:#dc3545"></i>
+                    <i class="fas fa-question-circle me-2" style="color:#9b2335"></i>
                     How Feature Importance Works
                 </h5>
                 <p style="color:#888; font-size:0.9rem; line-height:1.8; margin-bottom:12px;">
-                    The Random Forest model consists of <strong style="color:#dc3545;">100 decision trees</strong>,
+                    The Random Forest model consists of <strong style="color:#9b2335;">100 decision trees</strong>,
                     each trained on a random subset of the data. Feature importance is measured using
-                    <strong style="color:#dc3545;">Gini impurity</strong> — how much each feature reduces
+                    <strong style="color:#9b2335;">Gini impurity</strong> — how much each feature reduces
                     uncertainty across all trees.
                 </p>
                 <p style="color:#888; font-size:0.9rem; line-height:1.8; margin-bottom:0;">
                     A higher importance score means the model relies more heavily on that feature
                     when deciding whether a patient is at high or low risk of a heart attack.
-                    All scores sum to <strong style="color:#dc3545;">1.0 (100%)</strong>.
+                    All scores sum to <strong style="color:#9b2335;">1.0 (100%)</strong>.
                 </p>
             </div>
             <div class="col-lg-6">
@@ -203,7 +203,7 @@
                     <div class="col-6">
                         <div style="background:rgba(220,53,69,0.05); border:1px solid rgba(220,53,69,0.15);
                                     border-radius:14px; padding:16px; text-align:center;">
-                            <i class="fas fa-random fa-2x mb-2" style="color:#dc3545"></i>
+                            <i class="fas fa-random fa-2x mb-2" style="color:#9b2335"></i>
                             <div style="color:white; font-weight:700; font-size:0.9rem;">Random Forest</div>
                             <div style="color:#666; font-size:0.8rem; margin-top:4px;">Ensemble of 100 trees</div>
                         </div>
@@ -211,7 +211,7 @@
                     <div class="col-6">
                         <div style="background:rgba(220,53,69,0.05); border:1px solid rgba(220,53,69,0.15);
                                     border-radius:14px; padding:16px; text-align:center;">
-                            <i class="fas fa-filter fa-2x mb-2" style="color:#dc3545"></i>
+                            <i class="fas fa-filter fa-2x mb-2" style="color:#9b2335"></i>
                             <div style="color:white; font-weight:700; font-size:0.9rem;">Gini Impurity</div>
                             <div style="color:#666; font-size:0.8rem; margin-top:4px;">Importance metric</div>
                         </div>
@@ -219,7 +219,7 @@
                     <div class="col-6">
                         <div style="background:rgba(220,53,69,0.05); border:1px solid rgba(220,53,69,0.15);
                                     border-radius:14px; padding:16px; text-align:center;">
-                            <i class="fas fa-heartbeat fa-2x mb-2" style="color:#dc3545"></i>
+                            <i class="fas fa-heartbeat fa-2x mb-2" style="color:#9b2335"></i>
                             <div style="color:white; font-weight:700; font-size:0.9rem;">7 Features</div>
                             <div style="color:#666; font-size:0.8rem; margin-top:4px;">Clinical inputs used</div>
                         </div>
@@ -227,7 +227,7 @@
                     <div class="col-6">
                         <div style="background:rgba(220,53,69,0.05); border:1px solid rgba(220,53,69,0.15);
                                     border-radius:14px; padding:16px; text-align:center;">
-                            <i class="fas fa-chart-line fa-2x mb-2" style="color:#dc3545"></i>
+                            <i class="fas fa-chart-line fa-2x mb-2" style="color:#9b2335"></i>
                             <div style="color:white; font-weight:700; font-size:0.9rem;">AUC {{ MODEL_STATS.auc }}</div>
                             <div style="color:#666; font-size:0.8rem; margin-top:4px;">Discrimination score</div>
                         </div>

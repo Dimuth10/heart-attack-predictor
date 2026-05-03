@@ -11,7 +11,7 @@
                     <i class="fas fa-stethoscope me-2"></i>Clinical Assessment
                 </span>
             </div>
-            <h2 style="color:white; font-weight:800; font-size:2rem;">Heart Attack <span style="color:#dc3545;">Risk Prediction</span></h2>
+            <h2 style="color:white; font-weight:800; font-size:2rem;">Heart Attack <span style="color:#9b2335;">Risk Prediction</span></h2>
             <p style="color:#666; margin:8px auto 0; max-width:500px;">Fill in your clinical parameters below for an AI-powered risk assessment</p>
         </div>
 
@@ -39,7 +39,7 @@
             <div class="predict-section animate-in" style="--delay:0.3s">
                 <div class="predict-section-header">
                     <div class="predict-section-icon">
-                        <i class="fas fa-user" style="color:#dc3545"></i>
+                        <i class="fas fa-user" style="color:#9b2335"></i>
                     </div>
                     <div>
                         <h6 class="predict-section-title">Basic Information</h6>
@@ -52,7 +52,8 @@
                         <div class="predict-input-wrap">
                             <i class="fas fa-user predict-input-icon"></i>
                             <input type="number" name="age" class="predict-input" placeholder="e.g. 45" min="1" max="120" required
-                                   oninput="updateCard('age',this.value,'years')">
+                                   value="{{ current_user.age }}"
+                                   oninput="updateCard('age',this.value,'years'); updateBpAutoSuggest()">
                         </div>
                         <small class="predict-hint">Your current age in years</small>
                     </div>
@@ -63,8 +64,8 @@
                             <select name="sex" class="predict-input predict-select" required
                                     onchange="updateCard('sex',this.options[this.selectedIndex].text,'')">
                                 <option value="">Select your sex</option>
-                                <option value="1">Male</option>
-                                <option value="0">Female</option>
+                                <option value="1" {% if current_user.gender == 'male' %}selected{% endif %}>Male</option>
+                                <option value="0" {% if current_user.gender == 'female' %}selected{% endif %}>Female</option>
                             </select>
                         </div>
                         <small class="predict-hint">Your biological sex</small>
@@ -76,7 +77,7 @@
             <div class="predict-section animate-in" style="--delay:0.4s">
                 <div class="predict-section-header">
                     <div class="predict-section-icon">
-                        <i class="fas fa-flask" style="color:#dc3545"></i>
+                        <i class="fas fa-flask" style="color:#9b2335"></i>
                     </div>
                     <div>
                         <h6 class="predict-section-title">Blood Test Results</h6>
@@ -120,6 +121,44 @@
                             <div class="predict-status-fill" id="bpFill"></div>
                         </div>
                         <small class="predict-hint" id="bpHint">Blood pressure in mmHg</small>
+                        <!-- BP Helper -->
+                        <div class="bp-helper mt-2">
+                            <button type="button" class="bp-helper-toggle" onclick="toggleBpHelper()">
+                                <i class="fas fa-question-circle me-1"></i>Don't know your BP?
+                                <i class="fas fa-chevron-down ms-1" id="bpHelperChevron"></i>
+                            </button>
+                            <div class="bp-helper-body" id="bpHelperBody" style="display:none;">
+                                <p class="bp-helper-desc">
+                                    <i class="fas fa-info-circle me-1" style="color:#7edfee"></i>
+                                    If you don't have a BP monitor, use the estimate below based on your age.
+                                    You can also visit a nearby <strong>pharmacy</strong> or <strong>government hospital OPD</strong> for a free BP check.
+                                </p>
+                                <!-- Auto suggestion based on age -->
+                                <div class="bp-auto-suggest" id="bpAutoSuggest" style="display:none;">
+                                    <div class="bp-suggest-label">
+                                        <i class="fas fa-magic me-1" style="color:#6edba8"></i>
+                                        Based on your age (<span id="bpSuggestAge"></span> years):
+                                    </div>
+                                    <div class="bp-suggest-options" id="bpSuggestOptions"></div>
+                                </div>
+                                <!-- Manual age group picker -->
+                                <div class="mt-2">
+                                    <label class="bp-helper-label">Or select your age group manually:</label>
+                                    <div class="bp-age-groups" id="bpAgeGroups">
+                                        <button type="button" class="bp-age-btn" onclick="selectBpRange(108,120,'18–25')">18–25 yrs<br><small>108–120 mmHg</small></button>
+                                        <button type="button" class="bp-age-btn" onclick="selectBpRange(110,125,'26–35')">26–35 yrs<br><small>110–125 mmHg</small></button>
+                                        <button type="button" class="bp-age-btn" onclick="selectBpRange(115,130,'36–45')">36–45 yrs<br><small>115–130 mmHg</small></button>
+                                        <button type="button" class="bp-age-btn" onclick="selectBpRange(120,135,'46–55')">46–55 yrs<br><small>120–135 mmHg</small></button>
+                                        <button type="button" class="bp-age-btn" onclick="selectBpRange(125,140,'56–65')">56–65 yrs<br><small>125–140 mmHg</small></button>
+                                        <button type="button" class="bp-age-btn" onclick="selectBpRange(130,145,'65+')">65+ yrs<br><small>130–145 mmHg</small></button>
+                                    </div>
+                                </div>
+                                <p class="bp-helper-note">
+                                    <i class="fas fa-exclamation-triangle me-1" style="color:#ffc107"></i>
+                                    This is an estimate only. For accurate results, measure with a BP monitor or visit a clinic.
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -128,7 +167,7 @@
             <div class="predict-section animate-in" style="--delay:0.5s">
                 <div class="predict-section-header">
                     <div class="predict-section-icon">
-                        <i class="fas fa-heart" style="color:#dc3545"></i>
+                        <i class="fas fa-heart" style="color:#9b2335"></i>
                     </div>
                     <div>
                         <h6 class="predict-section-title">Heart Symptoms</h6>
@@ -142,11 +181,11 @@
                             <i class="fas fa-lungs predict-input-icon"></i>
                             <select name="cp" class="predict-input predict-select" required
                                     onchange="updateCard('cp',this.options[this.selectedIndex].text,'')">
-                                <option value="">Select chest pain type</option>
-                                <option value="1">Typical Angina — Activity-triggered</option>
-                                <option value="2">Atypical Angina — Unusual discomfort</option>
-                                <option value="3">Non-Anginal — Unrelated to heart</option>
-                                <option value="0">Asymptomatic — No chest pain</option>
+                                <option value="">Select your chest pain experience</option>
+                                <option value="0">I have no chest pain at all</option>
+                                <option value="1">I get chest tightness or pressure during exercise or walking</option>
+                                <option value="2">I sometimes feel unusual chest discomfort not during activity</option>
+                                <option value="3">I have chest pain but doctors said it is not heart related</option>
                             </select>
                         </div>
                         <small class="predict-hint">Type of chest pain experienced</small>
@@ -159,6 +198,45 @@
                                    oninput="updateCard('hr',this.value,'bpm')">
                         </div>
                         <small class="predict-hint">Highest heart rate achieved in bpm</small>
+                        <!-- HR Tip -->
+                        <div class="hr-tip mt-2">
+                            <button type="button" class="bp-helper-toggle" onclick="toggleHrTip()">
+                                <i class="fas fa-hand-paper me-1"></i>How to measure without a device?
+                                <i class="fas fa-chevron-down ms-1" id="hrTipChevron"></i>
+                            </button>
+                            <div class="bp-helper-body" id="hrTipBody" style="display:none;">
+                                <p class="bp-helper-desc">
+                                    <i class="fas fa-info-circle me-1" style="color:#7edfee"></i>
+                                    You can measure your heart rate at home using just your fingers and a clock.
+                                </p>
+                                <div class="hr-steps">
+                                    <div class="hr-step">
+                                        <div class="hr-step-num">1</div>
+                                        <div class="hr-step-text">Place your <strong>index and middle fingers</strong> on the inside of your wrist just below the thumb, or on the side of your neck beside the windpipe. Never use your thumb.</div>
+                                    </div>
+                                    <div class="hr-step">
+                                        <div class="hr-step-num">2</div>
+                                        <div class="hr-step-text">Press <strong>gently</strong> until you feel a pulse beat. Look at a clock or timer.</div>
+                                    </div>
+                                    <div class="hr-step">
+                                        <div class="hr-step-num">3</div>
+                                        <div class="hr-step-text">Count the beats for <strong>30 seconds</strong> then multiply by 2 to get your beats per minute (bpm).</div>
+                                    </div>
+                                    <div class="hr-step">
+                                        <div class="hr-step-num">4</div>
+                                        <div class="hr-step-text">For <strong>maximum heart rate</strong>, measure after climbing stairs or a short brisk walk. Your resting rate is measured after sitting quietly for 5 minutes.</div>
+                                    </div>
+                                    <div class="hr-step">
+                                        <div class="hr-step-num">5</div>
+                                        <div class="hr-step-text">Normal resting heart rate is <strong>60–100 bpm</strong>. Maximum heart rate during activity is approximately <strong>220 minus your age</strong>.</div>
+                                    </div>
+                                </div>
+                                <p class="bp-helper-note">
+                                    <i class="fas fa-lightbulb me-1" style="color:#ffc107"></i>
+                                    If you have a smartphone, many free apps can measure heart rate using your camera flash.
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -166,7 +244,7 @@
             <!-- ── Live Preview Card ── -->
             <div class="predict-preview animate-in" style="--delay:0.6s">
                 <div class="predict-preview-header">
-                    <i class="fas fa-eye me-2" style="color:#dc3545"></i>
+                    <i class="fas fa-eye me-2" style="color:#9b2335"></i>
                     <span>Live Input Preview</span>
                 </div>
                 <div class="row g-2 mt-1" id="previewGrid">
@@ -222,7 +300,7 @@
 <style>
 .predict-badge {
     display:inline-flex; align-items:center;
-    background:rgba(220,53,69,0.1); color:#dc3545;
+    background:rgba(220,53,69,0.1); color:#9b2335;
     padding:7px 18px; border-radius:25px; font-size:0.8rem;
     border:1px solid rgba(220,53,69,0.25); font-weight:600; letter-spacing:0.5px;
 }
@@ -244,12 +322,12 @@
 }
 .step.active .step-circle {
     background:rgba(220,53,69,0.15);
-    border-color:#dc3545; color:#dc3545;
+    border-color:#9b2335; color:#9b2335;
     box-shadow:0 0 15px rgba(220,53,69,0.3);
 }
-.step.done .step-circle { background:#dc3545; border-color:#dc3545; color:white; }
+.step.done .step-circle { background:#9b2335; border-color:#9b2335; color:white; }
 .step-label { font-size:0.72rem; color:#555; font-weight:600; }
-.step.active .step-label, .step.done .step-label { color:#dc3545; }
+.step.active .step-label, .step.done .step-label { color:#9b2335; }
 .step-line { flex:1; height:2px; background:rgba(255,255,255,0.06); min-width:60px; margin:0 8px; margin-bottom:20px; }
 
 /* Sections */
@@ -273,11 +351,11 @@
 
 /* Inputs */
 .predict-label { color:rgba(255,255,255,0.65); font-weight:500; font-size:0.88rem; margin-bottom:7px; display:block; }
-.req { color:#dc3545; }
+.req { color:#9b2335; }
 .predict-input-wrap { position:relative; }
 .predict-input-icon {
     position:absolute; left:14px; top:50%; transform:translateY(-50%);
-    color:#dc3545; font-size:0.85rem; pointer-events:none; z-index:2;
+    color:#9b2335; font-size:0.85rem; pointer-events:none; z-index:2;
 }
 .predict-input {
     width:100%; padding:12px 14px 12px 40px;
@@ -309,9 +387,9 @@
     border:1px solid rgba(220,53,69,0.12);
     border-radius:16px; padding:18px 20px; margin-bottom:16px;
 }
-.predict-preview-header { color:#dc3545; font-size:0.85rem; font-weight:600; }
+.predict-preview-header { color:#9b2335; font-size:0.85rem; font-weight:600; }
 .prev-item { text-align:center; padding:8px 4px; }
-.prev-val { color:#dc3545; font-weight:700; font-size:0.95rem; }
+.prev-val { color:#9b2335; font-weight:700; font-size:0.95rem; }
 .prev-lbl { color:#444; font-size:0.72rem; margin-top:2px; }
 
 /* Info Box */
@@ -333,7 +411,7 @@
 /* Submit */
 .predict-submit-btn {
     width:100%; padding:16px;
-    background:linear-gradient(135deg,#dc3545,#b02a37);
+    background:linear-gradient(135deg,#9b2335,#7d1c2a);
     border:none; border-radius:14px; color:white;
     font-weight:700; font-size:1.05rem; cursor:pointer;
     position:relative; overflow:hidden;
@@ -354,12 +432,66 @@
     width:100%; padding:16px;
     background:transparent;
     border:1px solid rgba(220,53,69,0.35);
-    border-radius:14px; color:#dc3545;
+    border-radius:14px; color:#9b2335;
     font-weight:700; font-size:1rem; cursor:pointer;
     transition:all 0.3s;
 }
-.predict-reset-btn:hover { background:rgba(220,53,69,0.1); border-color:#dc3545; }
+.predict-reset-btn:hover { background:rgba(220,53,69,0.1); border-color:#9b2335; }
 
+
+/* BP Helper & HR Tip */
+.bp-helper-toggle {
+    background: rgba(126,223,238,0.06);
+    border: 1px solid rgba(126,223,238,0.2);
+    color: #7edfee; border-radius: 8px;
+    padding: 6px 12px; font-size: 0.78rem;
+    font-weight: 600; cursor: pointer;
+    transition: all 0.3s; width: 100%; text-align: left;
+}
+.bp-helper-toggle:hover { background: rgba(126,223,238,0.12); }
+.bp-helper-body {
+    background: rgba(126,223,238,0.04);
+    border: 1px solid rgba(126,223,238,0.1);
+    border-radius: 10px; padding: 14px;
+    margin-top: 8px;
+}
+.bp-helper-desc { color: #888; font-size: 0.8rem; line-height: 1.6; margin-bottom: 10px; }
+.bp-helper-label { color: #666; font-size: 0.78rem; margin-bottom: 8px; display: block; }
+.bp-helper-note { color: #666; font-size: 0.75rem; margin: 10px 0 0; line-height: 1.5; }
+.bp-auto-suggest { margin-bottom: 10px; }
+.bp-suggest-label { color: #6edba8; font-size: 0.78rem; font-weight: 600; margin-bottom: 6px; }
+.bp-suggest-options { display: flex; gap: 6px; flex-wrap: wrap; }
+.bp-suggest-btn {
+    background: rgba(110,219,168,0.1);
+    border: 1px solid rgba(110,219,168,0.3);
+    color: #6edba8; border-radius: 8px;
+    padding: 5px 10px; font-size: 0.75rem;
+    cursor: pointer; transition: all 0.2s;
+}
+.bp-suggest-btn:hover { background: rgba(110,219,168,0.2); transform: translateY(-1px); }
+.bp-age-groups { display: flex; gap: 6px; flex-wrap: wrap; }
+.bp-age-btn {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #aaa; border-radius: 8px;
+    padding: 6px 10px; font-size: 0.72rem;
+    cursor: pointer; transition: all 0.2s;
+    text-align: center; line-height: 1.4;
+}
+.bp-age-btn:hover { background: rgba(155,35,53,0.15); border-color: rgba(155,35,53,0.4); color: #c44d5f; }
+.bp-age-btn.selected { background: rgba(155,35,53,0.2); border-color: #9b2335; color: white; }
+/* HR Steps */
+.hr-steps { display: flex; flex-direction: column; gap: 8px; margin: 8px 0; }
+.hr-step { display: flex; gap: 10px; align-items: flex-start; }
+.hr-step-num {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: rgba(155,35,53,0.2); border: 1px solid rgba(155,35,53,0.4);
+    color: #c44d5f; font-size: 0.72rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 1px;
+}
+.hr-step-text { color: #888; font-size: 0.8rem; line-height: 1.6; }
+.hr-step-text strong { color: #ccc; }
 </style>
 
 <script>
@@ -388,8 +520,8 @@ function checkSteps() {
 
     // Animate lines
     const lines = document.querySelectorAll('.step-line');
-    if(lines[0]) lines[0].style.background = s1 ? 'linear-gradient(90deg,#dc3545,rgba(220,53,69,0.3))' : 'rgba(255,255,255,0.06)';
-    if(lines[1]) lines[1].style.background = s2 ? 'linear-gradient(90deg,#dc3545,rgba(220,53,69,0.3))' : 'rgba(255,255,255,0.06)';
+    if(lines[0]) lines[0].style.background = s1 ? 'linear-gradient(90deg,#9b2335,rgba(220,53,69,0.3))' : 'rgba(255,255,255,0.06)';
+    if(lines[1]) lines[1].style.background = s2 ? 'linear-gradient(90deg,#9b2335,rgba(220,53,69,0.3))' : 'rgba(255,255,255,0.06)';
 }
 
 function updateStep(num, done, reachable) {
@@ -399,8 +531,8 @@ function updateStep(num, done, reachable) {
     const label  = ind.querySelector('.step-label');
 
     if(done) {
-        circle.style.background   = '#dc3545';
-        circle.style.borderColor  = '#dc3545';
+        circle.style.background   = '#9b2335';
+        circle.style.borderColor  = '#9b2335';
         circle.style.color        = 'white';
         circle.style.boxShadow    = '0 0 15px rgba(220,53,69,0.5)';
         circle.innerHTML          = '<i class="fas fa-check" style="font-size:0.75rem"></i>';
@@ -409,11 +541,11 @@ function updateStep(num, done, reachable) {
         ind.style.transition      = 'transform 0.3s';
     } else if(reachable) {
         circle.style.background   = 'rgba(220,53,69,0.15)';
-        circle.style.borderColor  = '#dc3545';
-        circle.style.color        = '#dc3545';
+        circle.style.borderColor  = '#9b2335';
+        circle.style.color        = '#9b2335';
         circle.style.boxShadow    = '0 0 10px rgba(220,53,69,0.3)';
         circle.innerHTML          = num;
-        label.style.color         = '#dc3545';
+        label.style.color         = '#9b2335';
         ind.style.transform       = 'scale(1.0)';
     } else {
         circle.style.background   = 'rgba(255,255,255,0.05)';
@@ -446,7 +578,7 @@ function updateCholStatus(v) {
     if(!v) return;
     bar.style.display = 'block';
     fill.style.width  = Math.min((v/400)*100, 100) + '%';
-    if(v >= 240)      { fill.style.background='#dc3545'; hint.textContent='⚠ High — above 240 mg/dl is risky'; hint.style.color='#ff6b7a'; }
+    if(v >= 240)      { fill.style.background='#9b2335'; hint.textContent='⚠ High — above 240 mg/dl is risky'; hint.style.color='#c44d5f'; }
     else if(v >= 200) { fill.style.background='#ffc107'; hint.textContent='⚡ Borderline — aim for below 200 mg/dl'; hint.style.color='#ffd85e'; }
     else              { fill.style.background='#198754'; hint.textContent='✓ Normal — within healthy range'; hint.style.color='#6edba8'; }
     checkSteps();
@@ -459,10 +591,59 @@ function updateBpStatus(v) {
     if(!v) return;
     bar.style.display = 'block';
     fill.style.width  = Math.min((v/200)*100, 100) + '%';
-    if(v >= 140)      { fill.style.background='#dc3545'; hint.textContent='⚠ High — above 140 mmHg is hypertension'; hint.style.color='#ff6b7a'; }
+    if(v >= 140)      { fill.style.background='#9b2335'; hint.textContent='⚠ High — above 140 mmHg is hypertension'; hint.style.color='#c44d5f'; }
     else if(v >= 120) { fill.style.background='#ffc107'; hint.textContent='⚡ Elevated — healthy is below 120 mmHg'; hint.style.color='#ffd85e'; }
     else              { fill.style.background='#198754'; hint.textContent='✓ Normal — within healthy range'; hint.style.color='#6edba8'; }
     checkSteps();
+}
+
+function toggleBpHelper() {
+    const body = document.getElementById('bpHelperBody');
+    const chevron = document.getElementById('bpHelperChevron');
+    const visible = body.style.display !== 'none';
+    body.style.display = visible ? 'none' : 'block';
+    chevron.className = visible ? 'fas fa-chevron-down ms-1' : 'fas fa-chevron-up ms-1';
+}
+
+function toggleHrTip() {
+    const body = document.getElementById('hrTipBody');
+    const chevron = document.getElementById('hrTipChevron');
+    const visible = body.style.display !== 'none';
+    body.style.display = visible ? 'none' : 'block';
+    chevron.className = visible ? 'fas fa-chevron-down ms-1' : 'fas fa-chevron-up ms-1';
+}
+
+function selectBpRange(min, max, label) {
+    const mid = Math.round((min + max) / 2);
+    const input = document.querySelector('[name="trestbps"]');
+    input.value = mid;
+    updateBpStatus(mid);
+    updateCard('bp', mid, 'mmHg');
+    document.querySelectorAll('.bp-age-btn').forEach(b => b.classList.remove('selected'));
+    event.target.closest('.bp-age-btn').classList.add('selected');
+}
+
+function updateBpAutoSuggest() {
+    const age = parseInt(document.querySelector('[name="age"]').value);
+    const suggest = document.getElementById('bpAutoSuggest');
+    const ageSpan = document.getElementById('bpSuggestAge');
+    const opts = document.getElementById('bpSuggestOptions');
+    if(!age || age < 1) { suggest.style.display = 'none'; return; }
+    suggest.style.display = 'block';
+    ageSpan.textContent = age;
+    let min, max;
+    if(age <= 25)      { min=108; max=120; }
+    else if(age <= 35) { min=110; max=125; }
+    else if(age <= 45) { min=115; max=130; }
+    else if(age <= 55) { min=120; max=135; }
+    else if(age <= 65) { min=125; max=140; }
+    else               { min=130; max=145; }
+    const mid = Math.round((min + max) / 2);
+    opts.innerHTML = `
+        <button type="button" class="bp-suggest-btn" onclick="selectBpRange(${min},${max},'auto')">
+            <i class="fas fa-check-circle me-1"></i>Use average: ${mid} mmHg (${min}–${max} range)
+        </button>
+    `;
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -471,6 +652,12 @@ document.addEventListener('DOMContentLoaded', function() {
         input.addEventListener('input',  checkSteps);
         input.addEventListener('change', checkSteps);
     });
+    // Auto-trigger on load since age is pre-filled
+    const ageInput = document.querySelector('[name="age"]');
+    if(ageInput && ageInput.value) {
+        updateCard('age', ageInput.value, 'years');
+        updateBpAutoSuggest();
+    }
     checkSteps();
 });
 

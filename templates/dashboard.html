@@ -235,21 +235,21 @@
     <div class="col-6 col-md-3">
         <div class="stat-card-pro animate-in" style="--delay:0.1s">
             <div class="stat-icon-wrap" style="background:rgba(220,53,69,0.12);">
-                <i class="fas fa-chart-bar" style="color:#dc3545"></i>
+                <i class="fas fa-chart-bar" style="color:#9b2335"></i>
             </div>
             <div class="stat-num counter" data-target="{{ total }}">0</div>
             <div class="stat-lbl">Total Predictions</div>
-            <div class="stat-bar" style="--pct:100%; --clr:#dc3545"></div>
+            <div class="stat-bar" style="--pct:100%; --clr:#9b2335"></div>
         </div>
     </div>
     <div class="col-6 col-md-3">
         <div class="stat-card-pro animate-in" style="--delay:0.2s">
             <div class="stat-icon-wrap" style="background:rgba(255,107,122,0.12);">
-                <i class="fas fa-exclamation-triangle" style="color:#ff6b7a"></i>
+                <i class="fas fa-exclamation-triangle" style="color:#c44d5f"></i>
             </div>
-            <div class="stat-num counter" data-target="{{ high_risk }}" style="color:#ff6b7a">0</div>
+            <div class="stat-num counter" data-target="{{ high_risk }}" style="color:#c44d5f">0</div>
             <div class="stat-lbl">High Risk</div>
-            <div class="stat-bar" style="--pct:{% if total > 0 %}{{ (high_risk/total*100)|int }}%{% else %}0%{% endif %}; --clr:#ff6b7a"></div>
+            <div class="stat-bar" style="--pct:{% if total > 0 %}{{ (high_risk/total*100)|int }}%{% else %}0%{% endif %}; --clr:#c44d5f"></div>
         </div>
     </div>
     <div class="col-6 col-md-3">
@@ -281,7 +281,7 @@
     <div class="col-md-4">
         <div class="card p-4 h-100 text-center">
             <h5 class="card-heading mb-3">
-                <i class="fas fa-clock me-2" style="color:#dc3545"></i>Latest Result
+                <i class="fas fa-clock me-2" style="color:#9b2335"></i>Latest Result
             </h5>
             {% if latest %}
             <div class="gauge-wrap mb-3">
@@ -326,7 +326,7 @@
         <div class="card p-4 h-100">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h5 class="card-heading mb-0">
-                    <i class="fas fa-chart-line me-2" style="color:#dc3545"></i>Risk Trend
+                    <i class="fas fa-chart-line me-2" style="color:#9b2335"></i>Risk Trend
                 </h5>
                 <a href="/history" class="view-all-link">
                     View All <i class="fas fa-arrow-right ms-1"></i>
@@ -338,7 +338,7 @@
             </div>
             {% else %}
             <div class="text-center" style="color:#555; padding:60px 0;">
-                <p>No data yet. <a href="/predict" style="color:#dc3545;">Make a prediction!</a></p>
+                <p>No data yet. <a href="/predict" style="color:#9b2335;">Make a prediction!</a></p>
             </div>
             {% endif %}
         </div>
@@ -351,7 +351,7 @@
         <div class="card p-4">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h5 class="card-heading mb-0">
-                    <i class="fas fa-list me-2" style="color:#dc3545"></i>Recent Predictions
+                    <i class="fas fa-list me-2" style="color:#9b2335"></i>Recent Predictions
                 </h5>
                 <a href="/history" class="view-all-link">
                     View All <i class="fas fa-arrow-right ms-1"></i>
@@ -407,7 +407,7 @@
             </div>
             {% else %}
             <div class="text-center" style="color:#555; padding:30px 0;">
-                <p>No predictions yet. <a href="/predict" style="color:#dc3545;">Make your first prediction!</a></p>
+                <p>No predictions yet. <a href="/predict" style="color:#9b2335;">Make your first prediction!</a></p>
             </div>
             {% endif %}
         </div>
@@ -419,15 +419,15 @@
     <div class="col-12">
         <div class="card p-4">
             <h5 class="card-heading mb-4">
-                <i class="fas fa-bolt me-2" style="color:#dc3545"></i>Quick Actions
+                <i class="fas fa-bolt me-2" style="color:#9b2335"></i>Quick Actions
             </h5>
             <div class="row g-3">
                 <div class="col-6 col-md-3">
                     <a href="/predict" class="quick-action-card animate-in" style="--delay:0.1s">
                         <div class="qa-icon-wrap" style="background:rgba(220,53,69,0.12);">
-                            <i class="fas fa-stethoscope" style="color:#dc3545"></i>
+                            <i class="fas fa-stethoscope" style="color:#9b2335"></i>
                         </div>
-                        <div class="qa-glow" style="--glow:#dc3545"></div>
+                        <div class="qa-glow" style="--glow:#9b2335"></div>
                         <p class="qa-label">New Prediction</p>
                         <span class="qa-arrow"><i class="fas fa-arrow-right"></i></span>
                     </a>
@@ -535,7 +535,7 @@
 .welcome-title {
     color: white; font-weight: 800; font-size: 1.7rem; margin-bottom: 8px;
 }
-.welcome-title span { color: #dc3545; }
+.welcome-title span { color: #9b2335; }
 .welcome-sub { color: #888; font-size: 0.95rem; line-height: 1.6; margin-bottom: 0; }
 
 /* Pop Buttons */
@@ -556,7 +556,7 @@
 .btn-pop:hover::after { left: 100%; }
 .btn-pop:hover { transform: translateY(-3px) scale(1.04); }
 .btn-pop-red {
-    background: linear-gradient(135deg, #dc3545, #b02a37);
+    background: linear-gradient(135deg, #9b2335, #7d1c2a);
     color: white !important;
     box-shadow: 0 4px 20px rgba(220,53,69,0.4);
 }
@@ -564,11 +564,11 @@
 .btn-pop-outline {
     background: transparent;
     border: 1px solid rgba(220,53,69,0.4);
-    color: #dc3545 !important;
+    color: #9b2335 !important;
 }
 .btn-pop-outline:hover {
     background: rgba(220,53,69,0.1);
-    border-color: #dc3545;
+    border-color: #9b2335;
     box-shadow: 0 4px 20px rgba(220,53,69,0.2);
 }
 .btn-sm-pop { padding: 7px 18px; font-size: 0.82rem; }
@@ -598,7 +598,7 @@
     display: flex; align-items: center; justify-content: center;
     margin: 0 auto 10px; font-size: 1.1rem;
 }
-.stat-num { font-size: 2rem; font-weight: 900; color: #dc3545; line-height: 1; }
+.stat-num { font-size: 2rem; font-weight: 900; color: #9b2335; line-height: 1; }
 .stat-lbl { color: #666; font-size: 0.78rem; margin-top: 4px; }
 .stat-bar {
     position: absolute; bottom: 0; left: 0;
@@ -638,7 +638,7 @@
     padding: 2px 8px; border-radius: 10px; margin-top: 3px;
     display: inline-block;
 }
-.gauge-high { background: rgba(220,53,69,0.2); color: #ff6b7a; }
+.gauge-high { background: rgba(220,53,69,0.2); color: #c44d5f; }
 .gauge-low  { background: rgba(25,135,84,0.2); color: #6edba8; }
 
 /* Latest Details */
@@ -654,10 +654,10 @@
 
 /* View All Link */
 .view-all-link {
-    color: #dc3545; font-size: 0.83rem;
+    color: #9b2335; font-size: 0.83rem;
     text-decoration: none; transition: all 0.2s;
 }
-.view-all-link:hover { color: #ff6b7a; letter-spacing: 0.5px; }
+.view-all-link:hover { color: #c44d5f; letter-spacing: 0.5px; }
 
 /* Pro Table */
 .pro-table thead th {
@@ -674,7 +674,7 @@
 /* Probability Bar */
 .prob-wrap { display: flex; flex-direction: column; gap: 3px; }
 .prob-num { font-size: 0.88rem; font-weight: 700; }
-.prob-high { color: #ff6b7a; }
+.prob-high { color: #c44d5f; }
 .prob-low  { color: #6edba8; }
 .prob-bar-bg {
     height: 4px; border-radius: 2px;
@@ -684,7 +684,7 @@
     height: 100%; border-radius: 2px;
     transition: width 1s ease;
 }
-.prob-bar-high { background: linear-gradient(90deg, #dc3545, #ff6b7a); }
+.prob-bar-high { background: linear-gradient(90deg, #9b2335, #c44d5f); }
 .prob-bar-low  { background: linear-gradient(90deg, #198754, #6edba8); }
 
 /* Quick Action Cards */
@@ -729,7 +729,7 @@
     transition: all 0.3s;
 }
 .quick-action-card:hover .qa-arrow {
-    color: #dc3545; transform: translateX(4px);
+    color: #9b2335; transform: translateX(4px);
     display: inline-block;
 }
 
@@ -744,7 +744,7 @@
 .ticker-label {
     flex-shrink: 0;
     background: rgba(220,53,69,0.15);
-    color: #dc3545; font-size: 0.78rem; font-weight: 700;
+    color: #9b2335; font-size: 0.78rem; font-weight: 700;
     padding: 0 16px; height: 100%;
     display: flex; align-items: center;
     letter-spacing: 0.5px; white-space: nowrap;
@@ -813,7 +813,7 @@ document.querySelectorAll('.counter').forEach(el => {
         const grad = ctx.createLinearGradient(cx - r, cy, cx + r, cy);
         grad.addColorStop(0, '#6edba8');
         grad.addColorStop(0.5, '#ffc107');
-        grad.addColorStop(1, '#dc3545');
+        grad.addColorStop(1, '#9b2335');
         ctx.beginPath();
         ctx.arc(cx, cy, r, startAngle, valueAngle);
         ctx.strokeStyle = grad;
@@ -827,7 +827,7 @@ document.querySelectorAll('.counter').forEach(el => {
         const ny = cy + (r - 10) * Math.sin(needleAngle);
         ctx.beginPath();
         ctx.arc(nx, ny, 5, 0, Math.PI * 2);
-        ctx.fillStyle = isHigh ? '#ff6b7a' : '#6edba8';
+        ctx.fillStyle = isHigh ? '#c44d5f' : '#6edba8';
         ctx.fill();
     }
 
@@ -856,7 +856,7 @@ document.querySelectorAll('.counter').forEach(el => {
 
     const labels = predictions.map(p => p.date);
     const data   = predictions.map(p => p.prob);
-    const pointColors = data.map(v => v >= 50 ? '#ff6b7a' : '#6edba8');
+    const pointColors = data.map(v => v >= 50 ? '#c44d5f' : '#6edba8');
 
     new Chart(canvas.getContext('2d'), {
         type: 'line',
@@ -865,7 +865,7 @@ document.querySelectorAll('.counter').forEach(el => {
             datasets: [{
                 label: 'Risk %',
                 data,
-                borderColor: '#dc3545',
+                borderColor: '#9b2335',
                 borderWidth: 2.5,
                 pointBackgroundColor: pointColors,
                 pointBorderColor: pointColors,

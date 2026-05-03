@@ -8,12 +8,12 @@
         <div class="profile-hero mb-4 animate-in" style="--delay:0.1s">
             <div class="profile-hero-bg"></div>
             <div class="profile-avatar">
-                <i class="fas fa-user fa-2x" style="color:#dc3545"></i>
+                <i class="fas fa-user fa-2x" style="color:#9b2335"></i>
                 <div class="profile-avatar-ring"></div>
             </div>
             <div class="profile-hero-info">
                 <h3 class="profile-name">{{ current_user.full_name }}</h3>
-                <p class="profile-email"><i class="fas fa-envelope me-2" style="color:#dc3545; font-size:0.8rem;"></i>{{ current_user.email }}</p>
+                <p class="profile-email"><i class="fas fa-envelope me-2" style="color:#9b2335; font-size:0.8rem;"></i>{{ current_user.email }}</p>
                 <small class="profile-since"><i class="fas fa-calendar me-1"></i>Member since {{ current_user.created_at.strftime('%B %Y') }}</small>
             </div>
             <div class="profile-hero-badge">
@@ -27,21 +27,21 @@
             <div class="col-md-4">
                 <div class="profile-stat animate-in" style="--delay:0.2s">
                     <div class="profile-stat-icon" style="background:rgba(220,53,69,0.1)">
-                        <i class="fas fa-chart-bar" style="color:#dc3545"></i>
+                        <i class="fas fa-chart-bar" style="color:#9b2335"></i>
                     </div>
                     <div class="profile-stat-num counter" data-target="{{ total }}">0</div>
                     <div class="profile-stat-lbl">Total Predictions</div>
-                    <div class="profile-stat-bar" style="--clr:#dc3545; --pct:100%"></div>
+                    <div class="profile-stat-bar" style="--clr:#9b2335; --pct:100%"></div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="profile-stat animate-in" style="--delay:0.3s">
                     <div class="profile-stat-icon" style="background:rgba(255,107,122,0.1)">
-                        <i class="fas fa-exclamation-triangle" style="color:#ff6b7a"></i>
+                        <i class="fas fa-exclamation-triangle" style="color:#c44d5f"></i>
                     </div>
-                    <div class="profile-stat-num counter" data-target="{{ high_risk }}" style="color:#ff6b7a">0</div>
+                    <div class="profile-stat-num counter" data-target="{{ high_risk }}" style="color:#c44d5f">0</div>
                     <div class="profile-stat-lbl">High Risk Results</div>
-                    <div class="profile-stat-bar" style="--clr:#ff6b7a; --pct:{% if total > 0 %}{{ (high_risk/total*100)|int }}%{% else %}0%{% endif %}"></div>
+                    <div class="profile-stat-bar" style="--clr:#c44d5f; --pct:{% if total > 0 %}{{ (high_risk/total*100)|int }}%{% else %}0%{% endif %}"></div>
                 </div>
             </div>
             <div class="col-md-4">
@@ -64,7 +64,7 @@
                 <div class="profile-card mb-4 animate-in" style="--delay:0.3s">
                     <div class="profile-card-header">
                         <div class="profile-card-icon">
-                            <i class="fas fa-user-edit" style="color:#dc3545"></i>
+                            <i class="fas fa-user-edit" style="color:#9b2335"></i>
                         </div>
                         <h5 class="profile-card-title">Update Profile</h5>
                     </div>
@@ -88,7 +88,15 @@
                                 </div>
                             </div>
                             <div class="col-12">
-                                <label class="profile-label">Email</label>
+                                <label class="profile-label">Gender</label>
+                                <div class="profile-input-wrap mb-3">
+                                    <select name="gender" class="profile-input">
+                                        <option value="">Select your gender</option>
+                                        <option value="male" {% if current_user.gender == 'male' %}selected{% endif %}>Male</option>
+                                        <option value="female" {% if current_user.gender == 'female' %}selected{% endif %}>Female</option>
+                                    </select>
+                                </div>
+                            <label class="profile-label">Email</label>
                                 <div class="profile-input-wrap">
                                     <i class="fas fa-envelope profile-input-icon"></i>
                                     <input type="email" class="profile-input" value="{{ current_user.email }}"
@@ -108,7 +116,7 @@
                 <div class="profile-card animate-in" style="--delay:0.4s">
                     <div class="profile-card-header">
                         <div class="profile-card-icon">
-                            <i class="fas fa-lock" style="color:#dc3545"></i>
+                            <i class="fas fa-lock" style="color:#9b2335"></i>
                         </div>
                         <h5 class="profile-card-title">Change Password</h5>
                     </div>
@@ -156,41 +164,48 @@
                 <div class="profile-card animate-in" style="--delay:0.5s">
                     <div class="profile-card-header">
                         <div class="profile-card-icon">
-                            <i class="fas fa-id-card" style="color:#dc3545"></i>
+                            <i class="fas fa-id-card" style="color:#9b2335"></i>
                         </div>
                         <h5 class="profile-card-title">Account Info</h5>
                     </div>
                     <div class="account-info-list">
                         <div class="account-info-row">
-                            <div class="account-info-icon"><i class="fas fa-user" style="color:#dc3545"></i></div>
+                            <div class="account-info-icon"><i class="fas fa-user" style="color:#9b2335"></i></div>
                             <div>
                                 <div class="account-info-key">Full Name</div>
                                 <div class="account-info-val">{{ current_user.full_name }}</div>
                             </div>
                         </div>
                         <div class="account-info-row">
-                            <div class="account-info-icon"><i class="fas fa-envelope" style="color:#dc3545"></i></div>
+                            <div class="account-info-icon"><i class="fas fa-envelope" style="color:#9b2335"></i></div>
                             <div>
                                 <div class="account-info-key">Email</div>
                                 <div class="account-info-val">{{ current_user.email }}</div>
                             </div>
                         </div>
                         <div class="account-info-row">
-                            <div class="account-info-icon"><i class="fas fa-birthday-cake" style="color:#dc3545"></i></div>
+                            <div class="account-info-icon"><i class="fas fa-birthday-cake" style="color:#9b2335"></i></div>
                             <div>
                                 <div class="account-info-key">Age</div>
                                 <div class="account-info-val">{{ current_user.age }} years</div>
                             </div>
+                            <div class="account-info-row">
+                                <div class="account-info-icon"><i class="fas fa-venus-mars"></i></div>
+                                <div>
+                                    <div class="account-info-key">Gender</div>
+                                    <div class="account-info-val">{{ current_user.gender|capitalize if current_user.gender else 'Not set' }}</div>
+                                </div>
+                            </div>
                         </div>
                         <div class="account-info-row">
-                            <div class="account-info-icon"><i class="fas fa-calendar" style="color:#dc3545"></i></div>
+                            <div class="account-info-icon"><i class="fas fa-calendar" style="color:#9b2335"></i></div>
                             <div>
                                 <div class="account-info-key">Member Since</div>
                                 <div class="account-info-val">{{ current_user.created_at.strftime('%B %d, %Y') }}</div>
                             </div>
                         </div>
                         <div class="account-info-row" style="border:none">
-                            <div class="account-info-icon"><i class="fas fa-shield-alt" style="color:#dc3545"></i></div>
+                            <div class="account-info-icon"><i class="fas fa-shield-alt" style="color:#9b2335"></i></div>
                             <div>
                                 <div class="account-info-key">Account Type</div>
                                 <div class="account-info-val">
@@ -208,12 +223,12 @@
                 <!-- Quick Links -->
                 <div class="profile-card mt-4 animate-in" style="--delay:0.6s">
                     <div class="profile-card-header mb-3">
-                        <div class="profile-card-icon"><i class="fas fa-bolt" style="color:#dc3545"></i></div>
+                        <div class="profile-card-icon"><i class="fas fa-bolt" style="color:#9b2335"></i></div>
                         <h5 class="profile-card-title">Quick Links</h5>
                     </div>
                     <div class="d-grid gap-2">
                         <a href="/predict" class="profile-quick-link">
-                            <i class="fas fa-stethoscope me-2" style="color:#dc3545"></i>New Prediction
+                            <i class="fas fa-stethoscope me-2" style="color:#9b2335"></i>New Prediction
                             <i class="fas fa-arrow-right ms-auto" style="color:#555; font-size:0.75rem;"></i>
                         </a>
                         <a href="/history" class="profile-quick-link">
@@ -273,7 +288,7 @@
 .profile-hero-info { flex:1; }
 .profile-hero-badge {
     background:rgba(220,53,69,0.1); border:1px solid rgba(220,53,69,0.25);
-    color:#dc3545; padding:6px 14px; border-radius:20px;
+    color:#9b2335; padding:6px 14px; border-radius:20px;
     font-size:0.78rem; font-weight:700; flex-shrink:0;
 }
 
@@ -289,7 +304,7 @@
     display:flex; align-items:center; justify-content:center;
     margin:0 auto 10px; font-size:1rem;
 }
-.profile-stat-num { font-size:1.9rem; font-weight:900; color:#dc3545; line-height:1; }
+.profile-stat-num { font-size:1.9rem; font-weight:900; color:#9b2335; line-height:1; }
 .profile-stat-lbl { color:#666; font-size:0.78rem; margin-top:4px; }
 .profile-stat-bar {
     position:absolute; bottom:0; left:0;
@@ -318,7 +333,7 @@
 .profile-input-wrap { position:relative; }
 .profile-input-icon {
     position:absolute; left:13px; top:50%; transform:translateY(-50%);
-    color:#dc3545; font-size:0.8rem; pointer-events:none;
+    color:#9b2335; font-size:0.8rem; pointer-events:none;
 }
 .profile-input {
     width:100%; padding:11px 14px 11px 38px;
@@ -340,7 +355,7 @@
 
 /* Buttons */
 .profile-save-btn {
-    padding:11px 28px; background:linear-gradient(135deg,#dc3545,#b02a37);
+    padding:11px 28px; background:linear-gradient(135deg,#9b2335,#7d1c2a);
     border:none; border-radius:12px; color:white; font-weight:700;
     cursor:pointer; position:relative; overflow:hidden;
     box-shadow:0 4px 18px rgba(220,53,69,0.35);
@@ -356,9 +371,9 @@
 .profile-outline-btn {
     padding:11px 28px; background:transparent;
     border:1px solid rgba(220,53,69,0.35); border-radius:12px;
-    color:#dc3545; font-weight:700; cursor:pointer; transition:all 0.3s;
+    color:#9b2335; font-weight:700; cursor:pointer; transition:all 0.3s;
 }
-.profile-outline-btn:hover { background:rgba(220,53,69,0.1); border-color:#dc3545; }
+.profile-outline-btn:hover { background:rgba(220,53,69,0.1); border-color:#9b2335; }
 
 /* Account Info */
 .account-info-list { display:flex; flex-direction:column; gap:0; }
@@ -416,7 +431,7 @@ document.getElementById('newPw').addEventListener('input', function(){
     if(/[^A-Za-z0-9]/.test(v)) strength++;
     const pct = (strength/5)*100;
     fill.style.width = pct + '%';
-    if(strength <= 2){ fill.style.background='#dc3545'; label.textContent='Weak'; label.style.color='#ff6b7a'; }
+    if(strength <= 2){ fill.style.background='#9b2335'; label.textContent='Weak'; label.style.color='#c44d5f'; }
     else if(strength <= 3){ fill.style.background='#ffc107'; label.textContent='Fair'; label.style.color='#ffd85e'; }
     else { fill.style.background='#198754'; label.textContent='Strong'; label.style.color='#6edba8'; }
 });

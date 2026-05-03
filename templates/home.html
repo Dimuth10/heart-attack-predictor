@@ -26,7 +26,7 @@
             <p class="hero-desc animate-in" style="--delay:0.35s">
                 Machine learning trained on <strong style="color:white">2,024 clinical records</strong>
                 delivers your personalised cardiovascular risk score with
-                <strong style="color:#dc3545">{{ MODEL_STATS.accuracy }}% accuracy</strong> — in seconds, for free.
+                <strong style="color:#9b2335">{{ MODEL_STATS.accuracy }}% accuracy</strong> — in seconds, for free.
             </p>
 
             <div class="hero-btns animate-in" style="--delay:0.45s">
@@ -85,7 +85,7 @@
                 <div class="hv-corner hv-br"></div>
                 <!-- Floating data tags -->
                 <div class="hv-tag hv-tag-1">
-                    <i class="fas fa-heartbeat me-1" style="color:#dc3545"></i>
+                    <i class="fas fa-heartbeat me-1" style="color:#9b2335"></i>
                     <span>{{ MODEL_STATS.accuracy_int }}% Accuracy</span>
                 </div>
                 <div class="hv-tag hv-tag-2">
@@ -247,7 +247,7 @@
     <!-- Section Label -->
     <div class="text-center mb-4">
         <div class="section-eyebrow">// MEDICAL AI IN ACTION</div>
-        <h2 class="section-big-title">WHERE <span style="color:#dc3545">TECHNOLOGY</span> MEETS MEDICINE</h2>
+        <h2 class="section-big-title">WHERE <span style="color:#9b2335">TECHNOLOGY</span> MEETS MEDICINE</h2>
     </div>
 
     <!-- Main Carousel -->
@@ -277,9 +277,9 @@
                       <!-- Neural network nodes -->
                       <g opacity="0.9">
                         <!-- Layer 1 -->
-                        <circle cx="120" cy="112" r="18" fill="rgba(220,53,69,0.15)" stroke="#dc3545" stroke-width="1.5"/>
-                        <circle cx="120" cy="225" r="18" fill="rgba(220,53,69,0.15)" stroke="#dc3545" stroke-width="1.5"/>
-                        <circle cx="120" cy="338" r="18" fill="rgba(220,53,69,0.15)" stroke="#dc3545" stroke-width="1.5"/>
+                        <circle cx="120" cy="112" r="18" fill="rgba(220,53,69,0.15)" stroke="#9b2335" stroke-width="1.5"/>
+                        <circle cx="120" cy="225" r="18" fill="rgba(220,53,69,0.15)" stroke="#9b2335" stroke-width="1.5"/>
+                        <circle cx="120" cy="338" r="18" fill="rgba(220,53,69,0.15)" stroke="#9b2335" stroke-width="1.5"/>
                         <!-- Layer 2 -->
                         <circle cx="280" cy="80" r="18" fill="rgba(126,223,238,0.12)" stroke="#7edfee" stroke-width="1.5"/>
                         <circle cx="280" cy="168" r="18" fill="rgba(126,223,238,0.12)" stroke="#7edfee" stroke-width="1.5"/>
@@ -290,7 +290,7 @@
                         <circle cx="440" cy="225" r="18" fill="rgba(110,219,168,0.12)" stroke="#6edba8" stroke-width="1.5"/>
                         <circle cx="440" cy="338" r="18" fill="rgba(110,219,168,0.12)" stroke="#6edba8" stroke-width="1.5"/>
                         <!-- Layer 4 - output -->
-                        <circle cx="600" cy="168" r="22" fill="rgba(220,53,69,0.2)" stroke="#dc3545" stroke-width="2"/>
+                        <circle cx="600" cy="168" r="22" fill="rgba(220,53,69,0.2)" stroke="#9b2335" stroke-width="2"/>
                         <circle cx="600" cy="280" r="22" fill="rgba(25,135,84,0.2)" stroke="#198754" stroke-width="2"/>
                         <!-- Connections L1-L2 -->
                         <line x1="138" y1="112" x2="262" y2="80" stroke="rgba(220,53,69,0.2)" stroke-width="1"/>
@@ -316,7 +316,7 @@
                         <line x1="458" y1="225" x2="578" y2="280" stroke="rgba(110,219,168,0.25)" stroke-width="1.5"/>
                         <line x1="458" y1="338" x2="578" y2="280" stroke="rgba(110,219,168,0.25)" stroke-width="1.5"/>
                         <!-- Output labels -->
-                        <text x="632" y="173" fill="#ff6b7a" font-size="11" font-family="monospace" font-weight="bold">HIGH</text>
+                        <text x="632" y="173" fill="#c44d5f" font-size="11" font-family="monospace" font-weight="bold">HIGH</text>
                         <text x="632" y="285" fill="#6edba8" font-size="11" font-family="monospace" font-weight="bold">LOW</text>
                         <!-- Animated pulse on output -->
                         <circle cx="600" cy="280" r="30" fill="none" stroke="#6edba8" stroke-width="1" opacity="0">
@@ -368,7 +368,7 @@
                         <rect x="200" y="60" width="180" height="14" rx="3" fill="rgba(220,53,69,0.7)">
                           <animate attributeName="width" from="0" to="180" dur="1.5s" fill="freeze"/>
                         </rect>
-                        <text x="390" y="72" fill="#dc3545" font-weight="bold">25.88%</text>
+                        <text x="390" y="72" fill="#9b2335" font-weight="bold">25.88%</text>
 
                         <text x="50" y="110" fill="#888">Max Heart Rate</text>
                         <rect x="200" y="95" width="200" height="14" rx="3" fill="rgba(255,255,255,0.04)"/>
@@ -552,7 +552,7 @@
     background: linear-gradient(transparent, rgba(2,8,24,0.95));
 }
 .ics-tag {
-    color: #dc3545; font-size: 0.72rem; font-weight: 700;
+    color: #9b2335; font-size: 0.72rem; font-weight: 700;
     letter-spacing: 2px; margin-bottom: 8px; font-family: monospace;
 }
 .ics-title {
@@ -584,7 +584,7 @@
     background: rgba(255,255,255,0.2); cursor: pointer;
     transition: all 0.3s;
 }
-.ics-dot.active { background: #dc3545; width: 24px; border-radius: 4px; }
+.ics-dot.active { background: #9b2335; width: 24px; border-radius: 4px; }
 
 /* Progress bar */
 .ics-progress {
@@ -592,7 +592,7 @@
     position: absolute; bottom: 0; left: 0; right: 0;
 }
 .ics-progress-fill {
-    height: 100%; background: #dc3545;
+    height: 100%; background: #9b2335;
     transition: width 0.1s linear;
 }
 
@@ -665,7 +665,7 @@ resetProgress();
 <div class="section-block">
     <div class="text-center mb-5">
         <div class="section-eyebrow">// PROCESS</div>
-        <h2 class="section-big-title">HOW IT <span style="color:#dc3545">WORKS</span></h2>
+        <h2 class="section-big-title">HOW IT <span style="color:#9b2335">WORKS</span></h2>
         <p style="color:#555; max-width:480px; margin:12px auto 0; font-size:0.95rem;">
             Three steps to your personalised heart attack risk assessment
         </p>
@@ -711,7 +711,7 @@ resetProgress();
 <div class="section-block">
     <div class="text-center mb-5">
         <div class="section-eyebrow">// CAPABILITIES</div>
-        <h2 class="section-big-title">WHAT YOU <span style="color:#dc3545">GET</span></h2>
+        <h2 class="section-big-title">WHAT YOU <span style="color:#9b2335">GET</span></h2>
     </div>
     <div class="row g-3">
         <div class="col-md-4">
@@ -784,7 +784,7 @@ resetProgress();
         <div class="row align-items-center g-5">
             <div class="col-lg-5">
                 <div class="section-eyebrow">// ML MODEL</div>
-                <h2 class="section-big-title" style="font-size:2.2rem;">RANDOM<br><span style="color:#dc3545">FOREST</span><br>CLASSIFIER</h2>
+                <h2 class="section-big-title" style="font-size:2.2rem;">RANDOM<br><span style="color:#9b2335">FOREST</span><br>CLASSIFIER</h2>
                 <p style="color:#666; font-size:0.92rem; line-height:1.8; margin-top:16px;">
                     100 decision trees trained on the UCI Heart Disease dataset combined with
                     the Statlog Cleveland Hungary dataset — 2,024 records total.
@@ -798,7 +798,7 @@ resetProgress();
                 <div class="row g-3">
                     <div class="col-6">
                         <div class="ms-metric sr-item">
-                            <canvas class="ms-arc" data-v="{{ MODEL_STATS.accuracy_int }}" data-c="#dc3545" width="100" height="100"></canvas>
+                            <canvas class="ms-arc" data-v="{{ MODEL_STATS.accuracy_int }}" data-c="#9b2335" width="100" height="100"></canvas>
                             <div class="ms-metric-num">{{ MODEL_STATS.accuracy }}%</div>
                             <div class="ms-metric-lbl">Accuracy</div>
                         </div>
@@ -840,9 +840,9 @@ resetProgress();
         <div class="cta-bg-orb-2"></div>
         <div class="cta-inner">
             <div class="cta-heart-icon">
-                <i class="fas fa-heartbeat animate-heartbeat" style="color:#dc3545; font-size:2.5rem; filter:drop-shadow(0 0 15px rgba(220,53,69,0.5))"></i>
+                <i class="fas fa-heartbeat animate-heartbeat" style="color:#9b2335; font-size:2.5rem; filter:drop-shadow(0 0 15px rgba(220,53,69,0.5))"></i>
             </div>
-            <h2 class="cta-title">READY TO CHECK YOUR<br><span style="color:#dc3545">HEART HEALTH?</span></h2>
+            <h2 class="cta-title">READY TO CHECK YOUR<br><span style="color:#9b2335">HEART HEALTH?</span></h2>
             <p class="cta-desc">Create a free account and get your first heart attack risk assessment today. No credit card required. Takes 2 minutes.</p>
             <a href="/register" class="hbtn hbtn-primary hbtn-lg">
                 <i class="fas fa-user-plus me-2"></i>Get Started Now — It's Free
@@ -911,14 +911,14 @@ resetProgress();
     display: inline-flex; align-items: center; gap: 8px;
     background: rgba(220,53,69,0.08);
     border: 1px solid rgba(220,53,69,0.2);
-    color: #dc3545; padding: 7px 16px;
+    color: #9b2335; padding: 7px 16px;
     border-radius: 4px; font-size: 0.72rem;
     font-weight: 700; letter-spacing: 2px;
     margin-bottom: 24px; display: block;
 }
 .hero-tag-dot {
     display: inline-block; width: 7px; height: 7px;
-    border-radius: 50%; background: #dc3545;
+    border-radius: 50%; background: #9b2335;
     box-shadow: 0 0 0 0 rgba(220,53,69,0.4);
     animation: tagDot 1.5s infinite; margin-right: 6px;
 }
@@ -940,7 +940,7 @@ resetProgress();
     display: block;
 }
 .hero-title-red {
-    color: #dc3545;
+    color: #9b2335;
     text-shadow: 0 0 40px rgba(220,53,69,0.4);
 }
 .hero-title-outline {
@@ -966,7 +966,7 @@ resetProgress();
     gap: 6px;
 }
 .hbtn-primary {
-    background: linear-gradient(135deg, #dc3545, #a01020);
+    background: linear-gradient(135deg, #9b2335, #a01020);
     color: white !important;
     box-shadow: 0 6px 30px rgba(220,53,69,0.45);
     border: 1px solid rgba(220,53,69,0.5);
@@ -1127,7 +1127,7 @@ resetProgress();
 .stats-ticker-item { text-align: center; }
 .sticker-num {
     display: block; font-size: 1.8rem; font-weight: 900;
-    color: #dc3545; line-height: 1;
+    color: #9b2335; line-height: 1;
 }
 .sticker-lbl { color: #555; font-size: 0.75rem; margin-top: 3px; display: block; }
 .stats-ticker-sep { color: rgba(220,53,69,0.2); font-size: 1.5rem; }
@@ -1135,7 +1135,7 @@ resetProgress();
 /* Section blocks */
 .section-block { margin-bottom: 100px; }
 .section-eyebrow {
-    color: #dc3545; font-size: 0.75rem; font-weight: 700;
+    color: #9b2335; font-size: 0.75rem; font-weight: 700;
     letter-spacing: 3px; margin-bottom: 8px;
 }
 .section-big-title {
@@ -1168,7 +1168,7 @@ resetProgress();
     background: rgba(220,53,69,0.1);
     border: 1px solid rgba(220,53,69,0.2);
     display: flex; align-items: center; justify-content: center;
-    font-size: 1.3rem; color: #dc3545;
+    font-size: 1.3rem; color: #9b2335;
     margin-bottom: 20px;
     transition: transform 0.3s;
 }
@@ -1176,7 +1176,7 @@ resetProgress();
 .how-block-line {
     position: absolute; bottom: 0; left: 0;
     height: 2px; width: 0;
-    background: linear-gradient(90deg, #dc3545, transparent);
+    background: linear-gradient(90deg, #9b2335, transparent);
     transition: width 0.4s ease;
 }
 .how-block:hover .how-block-line { width: 100%; }
@@ -1204,7 +1204,7 @@ resetProgress();
     width: 40px; height: 40px; border-radius: 10px;
     background: rgba(220,53,69,0.1);
     display: flex; align-items: center; justify-content: center;
-    color: #dc3545; font-size: 1rem;
+    color: #9b2335; font-size: 1rem;
     transition: transform 0.3s;
 }
 .feat-block:hover .feat-icon { transform: scale(1.15) rotate(-8deg); }
@@ -1256,9 +1256,9 @@ resetProgress();
 .tech-pill:hover {
     background: rgba(220,53,69,0.08);
     border-color: rgba(220,53,69,0.25);
-    color: #dc3545; transform: translateY(-3px);
+    color: #9b2335; transform: translateY(-3px);
 }
-.tech-pill i { color: #dc3545; }
+.tech-pill i { color: #9b2335; }
 
 /* CTA */
 .cta-block {
@@ -1340,8 +1340,8 @@ resetProgress();
     function resize(){ w=c.offsetWidth||300; c.width=w; c.height=36; }
     function draw(){
         ctx.clearRect(0,0,w,36);
-        ctx.beginPath(); ctx.strokeStyle='#dc3545'; ctx.lineWidth=1.5;
-        ctx.shadowBlur=5; ctx.shadowColor='#dc3545';
+        ctx.beginPath(); ctx.strokeStyle='#9b2335'; ctx.lineWidth=1.5;
+        ctx.shadowBlur=5; ctx.shadowColor='#9b2335';
         for(let i=0;i<w;i++){
             const y=18-ecgY((i+off)/100);
             i===0?ctx.moveTo(i,y):ctx.lineTo(i,y);

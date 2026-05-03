@@ -66,6 +66,7 @@ class User(db.Model, UserMixin):
     age         = db.Column(db.Integer, nullable=False)
     password    = db.Column(db.String(200), nullable=False)
     is_admin    = db.Column(db.Boolean, default=False)
+    gender      = db.Column(db.String(10), nullable=True)
     created_at  = db.Column(db.DateTime, default=datetime.utcnow)
     predictions = db.relationship('Prediction', backref='user', lazy=True)
 
@@ -157,10 +158,11 @@ def register():
             flash('Email already registered!', 'danger')
             return redirect(url_for('register'))
 
+        gender    = request.form.get('gender', '')
         is_admin  = User.query.count() == 0
         hashed_pw = bcrypt.generate_password_hash(password).decode('utf-8')
         user = User(full_name=full_name, email=email, age=age,
-                    password=hashed_pw, is_admin=is_admin)
+                    password=hashed_pw, is_admin=is_admin, gender=gender)
         db.session.add(user)
         db.session.commit()
         flash('Account created successfully! Please login.', 'success')
@@ -264,37 +266,45 @@ def predict():
             factors = []
 
             if user_input['chol'] >= 240:
-                factors.append({'name': 'Cholesterol', 'value': f"{int(user_input['chol'])} mg/dl", 'status': 'danger', 'msg': 'High — above 240 mg/dl is considered high risk'})
+                factors.append({'name': 'Cholesterol', 'value': f"{int(user_input['chol'])} mg/dl", 'status': 'danger', 'msg': f"Your cholesterol is {int(user_input['chol'])} mg/dl which is above 240 mg/dl — classified as high. High cholesterol causes fatty deposits (plaque) to build up inside your arteries, narrowing them and reducing blood flow to the heart. This significantly increases your risk of heart attack and stroke. Consider reducing saturated fats, red meat, and processed foods in your diet."})
             elif user_input['chol'] >= 200:
-                factors.append({'name': 'Cholesterol', 'value': f"{int(user_input['chol'])} mg/dl", 'status': 'warning', 'msg': 'Borderline — healthy range is below 200 mg/dl'})
+                factors.append({'name': 'Cholesterol', 'value': f"{int(user_input['chol'])} mg/dl", 'status': 'warning', 'msg': f"Your cholesterol is {int(user_input['chol'])} mg/dl which is borderline (200–239 mg/dl). While not yet high, this level can gradually contribute to plaque buildup in your arteries. Increasing physical activity, reducing fried and fatty foods, and eating more fibre-rich foods like oats and vegetables can help bring this down to the healthy range below 200 mg/dl."})
             else:
-                factors.append({'name': 'Cholesterol', 'value': f"{int(user_input['chol'])} mg/dl", 'status': 'success', 'msg': 'Normal — within healthy range'})
+                factors.append({'name': 'Cholesterol', 'value': f"{int(user_input['chol'])} mg/dl", 'status': 'success', 'msg': f"Your cholesterol is {int(user_input['chol'])} mg/dl which is within the healthy range (below 200 mg/dl). This means your arteries are less likely to have dangerous plaque buildup. Continue maintaining a balanced diet, regular exercise, and routine check-ups to keep it at this level."})
 
             if user_input['trestbps'] >= 140:
-                factors.append({'name': 'Blood Pressure', 'value': f"{int(user_input['trestbps'])} mmHg", 'status': 'danger', 'msg': 'High — above 140 mmHg indicates hypertension'})
+                factors.append({'name': 'Blood Pressure', 'value': f"{int(user_input['trestbps'])} mmHg", 'status': 'danger', 'msg': f"Your resting blood pressure is {int(user_input['trestbps'])} mmHg which is above 140 mmHg — this is hypertension (high blood pressure). High blood pressure forces your heart to work harder than normal, damaging artery walls over time and dramatically increasing your risk of heart attack and stroke. Reducing salt intake, avoiding alcohol, managing stress, and regular exercise can help lower it. Please consult a doctor."})
             elif user_input['trestbps'] >= 120:
-                factors.append({'name': 'Blood Pressure', 'value': f"{int(user_input['trestbps'])} mmHg", 'status': 'warning', 'msg': 'Elevated — healthy range is below 120 mmHg'})
+                factors.append({'name': 'Blood Pressure', 'value': f"{int(user_input['trestbps'])} mmHg", 'status': 'warning', 'msg': f"Your resting blood pressure is {int(user_input['trestbps'])} mmHg which is elevated (120–139 mmHg). While not yet hypertension, this level puts extra strain on your heart and blood vessels over time. Lifestyle changes such as reducing sodium, increasing potassium-rich foods like bananas, regular aerobic exercise, and stress management can help bring it back to the healthy range below 120 mmHg."})
             else:
-                factors.append({'name': 'Blood Pressure', 'value': f"{int(user_input['trestbps'])} mmHg", 'status': 'success', 'msg': 'Normal — within healthy range'})
+                factors.append({'name': 'Blood Pressure', 'value': f"{int(user_input['trestbps'])} mmHg", 'status': 'success', 'msg': f"Your resting blood pressure is {int(user_input['trestbps'])} mmHg which is within the normal healthy range (below 120 mmHg). This means your heart is not under excessive strain from blood pressure. Continue staying active, maintaining a low-sodium diet, and getting regular check-ups."})
 
             expected_max = 220 - user_input['age']
             if user_input['thalach'] < expected_max * 0.5:
-                factors.append({'name': 'Maximum Heart Rate', 'value': f"{int(user_input['thalach'])} bpm", 'status': 'danger', 'msg': f"Very low — expected around {int(expected_max * 0.85)} bpm for your age"})
+                factors.append({'name': 'Maximum Heart Rate', 'value': f"{int(user_input['thalach'])} bpm", 'status': 'danger', 'msg': f"Your maximum heart rate is {int(user_input['thalach'])} bpm which is very low compared to the expected {int(expected_max * 0.85)} bpm for your age. A very low maximum heart rate can indicate that your heart muscle is weakened or your arteries are narrowed, preventing your heart from pumping efficiently during activity. This is a significant warning sign. Please consult a cardiologist for further evaluation such as a stress test."})
             elif user_input['thalach'] < expected_max * 0.7:
-                factors.append({'name': 'Maximum Heart Rate', 'value': f"{int(user_input['thalach'])} bpm", 'status': 'warning', 'msg': f"Below average — expected around {int(expected_max * 0.85)} bpm for your age"})
+                factors.append({'name': 'Maximum Heart Rate', 'value': f"{int(user_input['thalach'])} bpm", 'status': 'warning', 'msg': f"Your maximum heart rate is {int(user_input['thalach'])} bpm which is below the expected {int(expected_max * 0.85)} bpm for your age. A lower than expected heart rate during activity may suggest reduced cardiovascular fitness or early signs of reduced heart efficiency. Regular aerobic exercise such as brisk walking, swimming, or cycling can gradually improve your heart rate capacity."})
             else:
-                factors.append({'name': 'Maximum Heart Rate', 'value': f"{int(user_input['thalach'])} bpm", 'status': 'success', 'msg': 'Normal — within expected range for your age'})
+                factors.append({'name': 'Maximum Heart Rate', 'value': f"{int(user_input['thalach'])} bpm", 'status': 'success', 'msg': f"Your maximum heart rate is {int(user_input['thalach'])} bpm which is within the expected range for your age (target: {int(expected_max * 0.85)} bpm). This suggests your heart is pumping efficiently during physical activity. Maintaining regular exercise and a healthy lifestyle will help preserve this good cardiovascular fitness."})
 
             if user_input['fbs'] == 1:
-                factors.append({'name': 'Fasting Blood Sugar', 'value': 'Above 120 mg/dl', 'status': 'warning', 'msg': 'Elevated — may indicate diabetes risk which affects heart health'})
+                factors.append({'name': 'Fasting Blood Sugar', 'value': 'Above 120 mg/dl', 'status': 'warning', 'msg': 'Your fasting blood sugar is above 120 mg/dl which is elevated. High blood sugar over time damages blood vessel walls and nerves that control the heart. People with diabetes or pre-diabetes are 2–4 times more likely to develop heart disease. Reducing sugary foods, refined carbohydrates, and staying physically active can help manage blood sugar levels. A doctor check-up is recommended.'})
             else:
-                factors.append({'name': 'Fasting Blood Sugar', 'value': 'Below 120 mg/dl', 'status': 'success', 'msg': 'Normal — within healthy range'})
+                factors.append({'name': 'Fasting Blood Sugar', 'value': 'Below 120 mg/dl', 'status': 'success', 'msg': 'Your fasting blood sugar is below 120 mg/dl which is within the normal healthy range. Normal blood sugar means your body is processing glucose effectively, which reduces the risk of damage to your blood vessels and heart. Maintain this by limiting sugary drinks, processed foods, and staying physically active.'})
+
+            # ── Sex Factor ───────────────────────────────────────────────────────────
+            if user_input['sex'] == 1:
+                factors.append({'name': 'Sex', 'value': 'Male', 'status': 'warning',
+                    'msg': 'Being male is a clinically recognised risk factor for heart disease. Men tend to develop heart disease 10–15 years earlier than women on average. Male hormones such as testosterone can contribute to higher LDL (bad) cholesterol and lower HDL (good) cholesterol levels compared to pre-menopausal women. This does not mean heart disease is inevitable — maintaining a healthy lifestyle, regular check-ups, and managing other risk factors can significantly reduce this risk.'})
+            else:
+                factors.append({'name': 'Sex', 'value': 'Female', 'status': 'success',
+                    'msg': 'Being female is generally associated with a lower risk of heart disease before menopause, due to the protective effect of oestrogen which helps maintain healthy cholesterol levels and flexible blood vessels. However, after menopause this protective effect reduces and womens risk increases significantly. Women also tend to experience different heart attack symptoms such as fatigue, nausea, and jaw pain rather than classic chest pain, so awareness remains important.'})
 
             cp_analysis = {
-                0: ('Asymptomatic',  'danger',  'No chest pain felt — often associated with higher cardiac risk'),
-                1: ('Typical Angina',  'warning', 'Chest pain triggered by activity — may indicate reduced blood flow'),
-                2: ('Atypical Angina', 'warning', 'Unusual chest discomfort — worth monitoring'),
-                3: ('Non-Anginal',     'success', 'Chest pain unrelated to heart — lower cardiac concern'),
+                0: ('Asymptomatic', 'danger', 'You reported no chest pain at all. While this may seem reassuring, medically it can be a significant warning sign. When heart disease is severe, damaged nerves may stop sending pain signals — a condition known as silent ischemia. This means serious blockages can exist without any discomfort. This is especially common in people with diabetes or older adults. This is why the model assigns higher risk to this pattern.'),
+                1: ('Typical Angina', 'warning', 'You experience chest tightness or pressure during physical activity or stress that goes away with rest. This is called typical angina and is caused by reduced blood flow to the heart during exertion. While this is a warning sign of narrowed arteries, it also means your heart is still communicating warning signals — which is medically better than silent ischemia. A cardiology evaluation including a stress test is recommended.'),
+                2: ('Atypical Angina', 'warning', 'You experience unusual chest discomfort that does not follow the typical pattern of heart-related pain. Atypical angina may feel like burning, aching, or pressure that occurs at rest or in unexpected situations. While it does not always indicate heart disease, it can sometimes be an early or atypical presentation of reduced blood flow. Monitoring and a medical check-up are advisable.'),
+                3: ('Non-Anginal', 'success', 'Your chest pain has been assessed as non-anginal, meaning it is not directly related to the heart. This type of pain is often caused by musculoskeletal issues, acid reflux, or anxiety. From a cardiac perspective this is a more reassuring pattern and the model assigns lower risk contribution to this finding. However always consult a doctor to confirm the cause of any chest pain.'),
             }
             cp_info = cp_analysis.get(user_input['cp'], ('Unknown', 'warning', ''))
             factors.append({'name': 'Chest Pain Type', 'value': cp_info[0], 'status': cp_info[1], 'msg': cp_info[2]})
@@ -371,7 +381,7 @@ def download_report():
 
     title_style = ParagraphStyle('title',
         fontSize=24, fontName='Helvetica-Bold',
-        textColor=colors.HexColor('#dc3545'),
+        textColor=colors.HexColor('#9b2335'),
         alignment=TA_CENTER, spaceAfter=5)
     subtitle_style = ParagraphStyle('subtitle',
         fontSize=11, fontName='Helvetica',
@@ -393,7 +403,7 @@ def download_report():
     elements.append(Paragraph('CardioPredict AI', title_style))
     elements.append(Paragraph('Heart Attack Risk Assessment Report', subtitle_style))
     elements.append(HRFlowable(width="100%", thickness=1,
-                               color=colors.HexColor('#dc3545'), spaceAfter=20))
+                               color=colors.HexColor('#9b2335'), spaceAfter=20))
 
     elements.append(Paragraph('Patient Information', heading_style))
     patient_data = [
@@ -429,7 +439,7 @@ def download_report():
     ]
     input_table = Table(input_data, colWidths=[7*cm, 5*cm, 5*cm])
     input_table.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#dc3545')),
+        ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#9b2335')),
         ('TEXTCOLOR',  (0, 0), (-1, 0), colors.white),
         ('FONTNAME',   (0, 0), (-1, 0), 'Helvetica-Bold'),
         ('FONTNAME',   (0, 1), (-1, -1), 'Helvetica'),
@@ -444,7 +454,7 @@ def download_report():
     elements.append(Spacer(1, 0.5*cm))
 
     elements.append(Paragraph('Prediction Result', heading_style))
-    risk_color = '#dc3545' if data['risk_level'] == 'High Risk' else '#198754'
+    risk_color = '#9b2335' if data['risk_level'] == 'High Risk' else '#198754'
     result_data = [
         ['Risk Level',            data['risk_level']],
         ['Predicted Probability', f"{data['probability']}%"],
@@ -636,7 +646,7 @@ def feature_importance():
 
         importance_data.sort(key=lambda x: x['importance'], reverse=True)
 
-        bar_colors = ['#dc3545', '#e05a2b', '#e07b20', '#c99a18', '#a0a818',
+        bar_colors = ['#9b2335', '#e05a2b', '#e07b20', '#c99a18', '#a0a818',
                       '#6aaa20', '#20aa6a']
         for i, item in enumerate(importance_data):
             item['color'] = bar_colors[i] if i < len(bar_colors) else '#888888'
@@ -666,6 +676,7 @@ def profile():
         if action == 'update_profile':
             current_user.full_name = request.form['full_name']
             current_user.age       = request.form['age']
+            current_user.gender    = request.form.get('gender', current_user.gender)
             db.session.commit()
             flash('Profile updated successfully!', 'success')
             return redirect(url_for('profile'))
@@ -760,12 +771,12 @@ def forgot_password():
                         Hi <strong style="color:#e0e0e0;">{user.full_name}</strong>,<br><br>
                         We received a request to reset your CardioPredict AI password.
                         Click the button below to create a new password.
-                        This link will expire in <strong style="color:#dc3545;">30 minutes</strong>.
+                        This link will expire in <strong style="color:#9b2335;">30 minutes</strong>.
                       </p>
                       <!-- Button -->
                       <div style="text-align:center;margin:32px 0;">
                         <a href="{reset_url}"
-                           style="display:inline-block;background:linear-gradient(135deg,#dc3545,#b02a37);
+                           style="display:inline-block;background:linear-gradient(135deg,#9b2335,#b02a37);
                                   color:white;text-decoration:none;padding:14px 36px;
                                   border-radius:8px;font-weight:700;font-size:1rem;
                                   box-shadow:0 4px 20px rgba(220,53,69,0.4);">
@@ -774,7 +785,7 @@ def forgot_password():
                       </div>
                       <p style="color:#555;font-size:0.82rem;line-height:1.6;margin:0;">
                         If the button doesn't work, copy and paste this link into your browser:<br>
-                        <a href="{reset_url}" style="color:#dc3545;word-break:break-all;">{reset_url}</a>
+                        <a href="{reset_url}" style="color:#9b2335;word-break:break-all;">{reset_url}</a>
                       </p>
                       <hr style="border:none;border-top:1px solid rgba(255,255,255,0.06);margin:28px 0;">
                       <p style="color:#444;font-size:0.8rem;margin:0;">

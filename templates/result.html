@@ -54,14 +54,14 @@
             <div class="col-md-7">
                 <div class="card p-4 h-100 animate-in" style="--delay:0.3s">
                     <h6 class="result-section-title">
-                        <i class="fas fa-notes-medical me-2" style="color:#dc3545"></i>Clinical Interpretation
+                        <i class="fas fa-notes-medical me-2" style="color:#9b2335"></i>Clinical Interpretation
                     </h6>
                     {% if risk_level == 'High Risk' %}
                     <p style="color:#888; font-size:0.9rem; line-height:1.8;">
-                        The model estimates a <strong style="color:#ff6b7a;">significantly elevated risk</strong> of heart attack.
+                        The model estimates a <strong style="color:#c44d5f;">significantly elevated risk</strong> of heart attack.
                         This may be associated with abnormal chest pain patterns, reduced maximum heart rate,
                         high blood pressure, or cholesterol imbalance.
-                        <strong style="color:#ff6b7a;">Further clinical evaluation is strongly recommended.</strong>
+                        <strong style="color:#c44d5f;">Further clinical evaluation is strongly recommended.</strong>
                     </p>
                     {% else %}
                     <p style="color:#888; font-size:0.9rem; line-height:1.8;">
@@ -76,10 +76,10 @@
                     </h6>
                     {% if risk_level == 'High Risk' %}
                     <ul class="result-list">
-                        <li><i class="fas fa-angle-right me-2" style="color:#dc3545"></i>Consult a cardiologist immediately</li>
-                        <li><i class="fas fa-angle-right me-2" style="color:#dc3545"></i>Consider ECG, blood profile, stress test or echocardiography</li>
-                        <li><i class="fas fa-angle-right me-2" style="color:#dc3545"></i>Monitor blood pressure and cholesterol regularly</li>
-                        <li><i class="fas fa-angle-right me-2" style="color:#dc3545"></i>Improve diet, exercise routine and quit smoking</li>
+                        <li><i class="fas fa-angle-right me-2" style="color:#9b2335"></i>Consult a cardiologist immediately</li>
+                        <li><i class="fas fa-angle-right me-2" style="color:#9b2335"></i>Consider ECG, blood profile, stress test or echocardiography</li>
+                        <li><i class="fas fa-angle-right me-2" style="color:#9b2335"></i>Monitor blood pressure and cholesterol regularly</li>
+                        <li><i class="fas fa-angle-right me-2" style="color:#9b2335"></i>Improve diet, exercise routine and quit smoking</li>
                     </ul>
                     {% else %}
                     <ul class="result-list">
@@ -97,7 +97,7 @@
         {% if factors %}
         <div class="card p-4 mb-4 animate-in" style="--delay:0.4s">
             <h6 class="result-section-title mb-3">
-                <i class="fas fa-microscope me-2" style="color:#dc3545"></i>Your Health Factors Analysis
+                <i class="fas fa-microscope me-2" style="color:#9b2335"></i>Your Health Factors Analysis
             </h6>
             <div class="row g-3">
                 {% for factor in factors %}
@@ -124,11 +124,11 @@
         {% if shap_data %}
         <div class="card p-4 mb-4 animate-in" style="--delay:0.5s">
             <h6 class="result-section-title mb-1">
-                <i class="fas fa-brain me-2" style="color:#dc3545"></i>Why Did The Model Make This Prediction?
+                <i class="fas fa-brain me-2" style="color:#9b2335"></i>Why Did The Model Make This Prediction?
             </h6>
             <p style="color:#555; font-size:0.83rem; margin-bottom:20px;">
                 SHAP values show each feature's influence.
-                <span style="color:#ff6b7a;">● Red</span> increases risk,
+                <span style="color:#c44d5f;">● Red</span> increases risk,
                 <span style="color:#6edba8;">● Green</span> decreases risk.
             </p>
             {% for item in shap_data %}
@@ -205,15 +205,15 @@
     margin:0 auto 16px; animation:resultPop 0.6s cubic-bezier(0.34,1.56,0.64,1) 0.3s both;
 }
 @keyframes resultPop { from{transform:scale(0)} to{transform:scale(1)} }
-.result-icon-high { background:rgba(220,53,69,0.15); border:2px solid rgba(220,53,69,0.4); color:#ff6b7a; }
+.result-icon-high { background:rgba(220,53,69,0.15); border:2px solid rgba(220,53,69,0.4); color:#c44d5f; }
 .result-icon-low  { background:rgba(25,135,84,0.15);  border:2px solid rgba(25,135,84,0.4);  color:#6edba8; }
 .result-title { font-weight:800; font-size:1.6rem; margin:0; }
-.result-title-high { color:#ff6b7a; }
+.result-title-high { color:#c44d5f; }
 .result-title-low  { color:#6edba8; }
 
 /* Probability */
 .result-prob-num { font-size:3.5rem; font-weight:900; line-height:1; margin-bottom:4px; }
-.result-high-text { color:#ff6b7a; }
+.result-high-text { color:#c44d5f; }
 .result-low-text  { color:#6edba8; }
 .result-progress-wrap {
     height:10px; border-radius:5px;
@@ -223,7 +223,7 @@
     height:100%; border-radius:5px;
     transition:width 1.5s cubic-bezier(0.4,0,0.2,1);
 }
-.result-prog-high { background:linear-gradient(90deg,#dc3545,#ff6b7a); }
+.result-prog-high { background:linear-gradient(90deg,#9b2335,#c44d5f); }
 .result-prog-low  { background:linear-gradient(90deg,#198754,#6edba8); }
 
 /* Section Title */
@@ -237,12 +237,12 @@
     transition:transform 0.2s;
 }
 .factor-card:hover { transform:translateX(4px); }
-.factor-danger  { border-left-color:#dc3545; }
+.factor-danger  { border-left-color:#9b2335; }
 .factor-warning { border-left-color:#ffc107; }
 .factor-success { border-left-color:#198754; }
 .factor-top { display:flex; align-items:center; gap:10px; margin-bottom:5px; }
 .factor-icon { font-size:1.1rem; flex-shrink:0; }
-.factor-danger  .factor-icon { color:#dc3545; }
+.factor-danger  .factor-icon { color:#9b2335; }
 .factor-warning .factor-icon { color:#ffc107; }
 .factor-success .factor-icon { color:#198754; }
 .factor-name { color:white; font-weight:600; font-size:0.9rem; flex:1; }
@@ -250,7 +250,7 @@
     padding:3px 10px; border-radius:15px;
     font-size:0.75rem; font-weight:600; flex-shrink:0;
 }
-.factor-badge-danger  { background:rgba(220,53,69,0.15); color:#ff6b7a; border:1px solid rgba(220,53,69,0.3); }
+.factor-badge-danger  { background:rgba(220,53,69,0.15); color:#c44d5f; border:1px solid rgba(220,53,69,0.3); }
 .factor-badge-warning { background:rgba(255,193,7,0.15);  color:#ffd85e; border:1px solid rgba(255,193,7,0.3); }
 .factor-badge-success { background:rgba(25,135,84,0.15);  color:#6edba8; border:1px solid rgba(25,135,84,0.3); }
 .factor-msg { color:#666; font-size:0.82rem; margin:0; line-height:1.5; }
@@ -270,10 +270,10 @@
     position:absolute; top:0; height:100%; border-radius:7px;
     transition:width 1s ease;
 }
-.shap-fill-pos { left:50%; background:linear-gradient(90deg,rgba(220,53,69,0.5),#dc3545); border-radius:0 7px 7px 0; }
+.shap-fill-pos { left:50%; background:linear-gradient(90deg,rgba(220,53,69,0.5),#9b2335); border-radius:0 7px 7px 0; }
 .shap-fill-neg { right:50%; background:linear-gradient(270deg,rgba(25,135,84,0.5),#198754); border-radius:7px 0 0 7px; }
 .shap-val { font-size:0.8rem; font-weight:600; min-width:60px; text-align:right; }
-.shap-val-pos { color:#ff6b7a; }
+.shap-val-pos { color:#c44d5f; }
 .shap-val-neg { color:#6edba8; }
 
 /* Result List */
@@ -297,7 +297,7 @@
 }
 .result-btn:hover { transform:translateY(-3px) scale(1.02); }
 .result-btn-primary {
-    background:linear-gradient(135deg,#dc3545,#b02a37); color:white !important;
+    background:linear-gradient(135deg,#9b2335,#7d1c2a); color:white !important;
     box-shadow:0 5px 20px rgba(220,53,69,0.4);
 }
 .result-btn-primary:hover { box-shadow:0 10px 30px rgba(220,53,69,0.55); }
@@ -306,7 +306,7 @@
     box-shadow:0 5px 20px rgba(255,193,7,0.25);
 }
 .result-btn-outline {
-    background:transparent; border:1px solid rgba(220,53,69,0.35); color:#dc3545 !important;
+    background:transparent; border:1px solid rgba(220,53,69,0.35); color:#9b2335 !important;
 }
 .result-btn-outline:hover { background:rgba(220,53,69,0.1); }
 .result-btn-shine {
@@ -348,13 +348,13 @@ setTimeout(() => {
         ctx.beginPath(); ctx.arc(cx,cy,r,Math.PI,2*Math.PI);
         ctx.strokeStyle='rgba(255,255,255,0.06)'; ctx.lineWidth=18; ctx.lineCap='round'; ctx.stroke();
         const grad = ctx.createLinearGradient(cx-r,cy,cx+r,cy);
-        grad.addColorStop(0,'#6edba8'); grad.addColorStop(0.5,'#ffc107'); grad.addColorStop(1,'#dc3545');
+        grad.addColorStop(0,'#6edba8'); grad.addColorStop(0.5,'#ffc107'); grad.addColorStop(1,'#9b2335');
         ctx.beginPath(); ctx.arc(cx,cy,r,Math.PI,Math.PI+(val/100)*Math.PI);
         ctx.strokeStyle=grad; ctx.lineWidth=18; ctx.lineCap='round'; ctx.stroke();
         const angle = Math.PI + (val/100)*Math.PI;
         const nx=cx+(r-10)*Math.cos(angle), ny=cy+(r-10)*Math.sin(angle);
         ctx.beginPath(); ctx.arc(nx,ny,6,0,Math.PI*2);
-        ctx.fillStyle=isHigh?'#ff6b7a':'#6edba8'; ctx.fill();
+        ctx.fillStyle=isHigh?'#c44d5f':'#6edba8'; ctx.fill();
     }
     const t = setInterval(() => {
         cur = Math.min(cur+2, probability);
