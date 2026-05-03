@@ -218,24 +218,14 @@ def predict():
 
 
             user_input = {
-                'age':              float(request.form['age']),
-                'sex':              sex_val,
-                'chest pain type':  cp_val,
-                'resting bp s':     float(request.form['trestbps']),
-                'cholesterol':      float(request.form['chol']),
-                'fasting blood sugar': fbs_val,
-                'resting ecg':      int(request.form.get('resting_ecg', 0)),
-                'max heart rate':   float(request.form['thalach']),
-                'exercise angina':  int(request.form.get('exercise_angina', 0)),
-                'oldpeak':          float(request.form.get('oldpeak', 0.0)),
-                'ST slope':         int(request.form.get('st_slope', 1)),
+                'age':      float(request.form['age']),
+                'sex':      sex_val,
+                'cp':       cp_val,
+                'trestbps': float(request.form['trestbps']),
+                'chol':     float(request.form['chol']),
+                'fbs':      fbs_val,
+                'thalach':  float(request.form['thalach']),
             }
-            # keep short-key aliases for factors section below
-            user_input['cp']       = user_input['chest pain type']
-            user_input['trestbps'] = user_input['resting bp s']
-            user_input['chol']     = user_input['cholesterol']
-            user_input['fbs']      = user_input['fasting blood sugar']
-            user_input['thalach']  = user_input['max heart rate']
 
             input_df = pd.DataFrame([user_input])
             input_df = input_df.reindex(columns=features, fill_value=0)
@@ -322,8 +312,9 @@ def predict():
             # ── SHAP Explainability ───────────────────────────────────────
             shap_data = []
             try:
-                rf_model      = model
-                input_imputed = input_df.reindex(columns=features, fill_value=0)
+                rf_model      = model.named_steps['model']
+                imputer       = model.named_steps['imputer']
+                input_imputed = imputer.transform(input_df)
 
                 explainer   = shap.TreeExplainer(rf_model)
                 shap_values = explainer.shap_values(input_imputed)
@@ -607,7 +598,7 @@ def evaluation():
 @login_required
 def feature_importance():
     try:
-        rf_model    = model
+        rf_model    = model.named_steps['model']
         importances = rf_model.feature_importances_
 
         feature_labels = {
