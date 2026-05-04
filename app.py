@@ -135,6 +135,10 @@ def inject_model_stats():
 def home():
     return render_template('home.html')
 
+@app.route('/medical-reference')
+def medical_reference():
+    return render_template('medical_reference.html')
+
 @app.route('/about')
 def about():
     return render_template('about.html')

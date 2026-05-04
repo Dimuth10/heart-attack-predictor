@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+<div class="col-lg-10">
+
+    <!-- Hero -->
+    <div class="card p-4 mb-4 animate-in text-center" style="--delay:0.1s; background:linear-gradient(135deg,rgba(155,35,53,0.12),rgba(155,35,53,0.03)); border:1px solid rgba(155,35,53,0.2);">
+        <div style="width:72px;height:72px;border-radius:50%;background:rgba(155,35,53,0.15);border:2px solid rgba(155,35,53,0.4);color:#c44d5f;font-size:1.8rem;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+            <i class="fas fa-notes-medical"></i>
+        </div>
+        <h2 style="color:white;font-weight:800;margin:0 0 8px;">Essential Medical Reference Values</h2>
+        <p style="color:#666;font-size:0.9rem;margin:0;">Normal ranges every person should know. Always consult a doctor for personal medical advice.</p>
+    </div>
+
+    <!-- Vital Signs -->
+    <div class="card p-4 mb-4 animate-in" style="--delay:0.2s">
+        <h6 class="med-section-title"><i class="fas fa-heartbeat me-2" style="color:#9b2335"></i>Vital Signs</h6>
+        <div class="row g-3">
+            <div class="col-md-4"><div class="med-card"><div class="med-icon" style="background:rgba(155,35,53,0.15);color:#c44d5f"><i class="fas fa-heart-pulse"></i></div><div class="med-name">Blood Pressure</div><div class="med-val">120/80 mmHg</div><div class="med-desc">Systolic / Diastolic. Above 140/90 is hypertension.</div></div></div>
+            <div class="col-md-4"><div class="med-card"><div class="med-icon" style="background:rgba(255,193,7,0.15);color:#ffd85e"><i class="fas fa-heart"></i></div><div class="med-name">Heart Rate</div><div class="med-val">60 – 100 bpm</div><div class="med-desc">Resting heart rate. Below 60 is bradycardia, above 100 is tachycardia.</div></div></div>
+            <div class="col-md-4"><div class="med-card"><div class="med-icon" style="background:rgba(25,135,84,0.15);color:#6edba8"><i class="fas fa-thermometer-half"></i></div><div class="med-name">Body Temperature</div><div class="med-val">97°F – 99°F</div><div class="med-desc">Normal: 36.1°C to 37.2°C. Above 38°C is fever.</div></div></div>
+            <div class="col-md-4"><div class="med-card"><div class="med-icon" style="background:rgba(13,202,240,0.15);color:#0dcaf0"><i class="fas fa-lungs"></i></div><div class="med-name">Respiratory Rate</div><div class="med-val">12 – 20 /min</div><div class="med-desc">Breaths per minute at rest. Children: 14–24/min.</div></div></div>
+            <div class="col-md-4"><div class="med-card"><div class="med-icon" style="background:rgba(155,35,53,0.15);color:#c44d5f"><i class="fas fa-tint"></i></div><div class="med-name">Blood Volume</div><div class="med-val">5 – 6 Litres</div><div class="med-desc">Average total blood volume in the human body.</div></div></div>
+            <div class="col-md-4"><div class="med-card"><div class="med-icon" style="background:rgba(255,193,7,0.15);color:#ffd85e"><i class="fas fa-oxygen"></i></div><div class="med-name">Oxygen Saturation</div><div class="med-val">95 – 100%</div><div class="med-desc">SpO2 level. Below 92% requires medical attention.</div></div></div>
+        </div>
+    </div>
+
+    <!-- Blood Sugar & Cholesterol -->
+    <div class="card p-4 mb-4 animate-in" style="--delay:0.3s">
+        <h6 class="med-section-title"><i class="fas fa-droplet me-2" style="color:#9b2335"></i>Blood Sugar & Cholesterol</h6>
+        <div class="row g-3">
+            <div class="col-md-4"><div class="med-card"><div class="med-icon" style="background:rgba(255,193,7,0.15);color:#ffd85e"><i class="fas fa-cookie"></i></div><div class="med-name">Fasting Blood Sugar</div><div class="med-val">70 – 100 mg/dl</div><div class="med-desc">Normal fasting glucose. 100–125 is pre-diabetes. Above 126 is diabetes.</div></div></div>
+            <div class="col-md-4"><div class="med-card"><div class="med-icon" style="background:rgba(255,193,7,0.15);color:#ffd85e"><i class="fas fa-utensils"></i></div><div class="med-name">Post-meal Blood Sugar</div><div class="med-val">70 – 140 mg/dl</div><div class="med-desc">2 hours after eating. Above 200 mg/dl suggests diabetes.</div></div></div>
+            <div class="col-md-4"><div class="med-card"><div class="med-icon" style="background:rgba(155,35,53,0.15);color:#c44d5f"><i class="fas fa-circle-nodes"></i></div><div class="med-name">Total Cholesterol</div><div class="med-val">Below 200 mg/dl</div><div class="med-desc">130–200 is desirable. 200–239 borderline. Above 240 is high.</div></div></div>
+            <div class="col-md-4"><div class="med-card"><div class="med-icon" style="background:rgba(25,135,84,0.15);color:#6edba8"><i class="fas fa-shield-heart"></i></div><div class="med-name">HDL (Good) Cholesterol</div><div class="med-val">Above 40 mg/dl</div><div class="med-desc">Higher is better. Above 60 is protective against heart disease.</div></div></div>
+            <div class="col-md-4"><div class="med-card"><div class="med-icon" style="background:rgba(155,35,53,0.15);color:#c44d5f"><i class="fas fa-triangle-exclamation"></i></div><div class="med-name">LDL (Bad) Cholesterol</div><div class="med-val">Below 100 mg/dl</div><div class="med-desc">Lower is better. Above 160 is high risk for heart disease.</div></div></div>
+            <div class="col-md-4"><div class="med-card"><div class="med-icon" style="background:rgba(255,193,7,0.15);color:#ffd85e"><i class="fas fa-bacon"></i></div><div class="med-name">Triglycerides</div><div class="med-val">Below 150 mg/dl</div><div class="med-desc">Blood fats. 150–199 is borderline. Above 200 is high.</div></div></div>
+        </div>
+    </div>
+
+    <!-- Blood Count -->
+    <div class="card p-4 mb-4 animate-in" style="--delay:0.4s">
+        <h6 class="med-section-title"><i class="fas fa-microscope me-2" style="color:#9b2335"></i>Blood Count</h6>
+        <div class="row g-3">
+            <div class="col-md-4"><div class="med-card"><div class="med-icon" style="background:rgba(155,35,53,0.15);color:#c44d5f"><i class="fas fa-circle"></i></div><div class="med-name">Red Blood Cells</div><div class="med-val">4.50 – 6.0 million/µL</div><div class="med-desc">Male: 4.7–6.1, Female: 4.2–5.4 million cells per microlitre.</div></div></div>
+            <div class="col-md-4"><div class="med-card"><div class="med-icon" style="background:rgba(255,255,255,0.1);color:white"><i class="fas fa-circle"></i></div><div class="med-name">White Blood Cells</div><div class="med-val">4,000 – 11,000 /µL</div><div class="med-desc">Immune cells. High count may indicate infection or inflammation.</div></div></div>
+            <div class="col-md-4"><div class="med-card"><div class="med-icon" style="background:rgba(255,193,7,0.15);color:#ffd85e"><i class="fas fa-circle-dot"></i></div><div class="med-name">Platelets</div><div class="med-val">150,000 – 400,000 /µL</div><div class="med-desc">Clotting cells. Low count causes bleeding risk.</div></div></div>
+            <div class="col-md-4"><div class="med-card"><div class="med-icon" style="background:rgba(155,35,53,0.15);color:#c44d5f"><i class="fas fa-vial"></i></div><div class="med-name">Haemoglobin</div><div class="med-val">Male: 13–18 g/dl</div><div class="med-desc">Female: 11.5–16 g/dl. Carries oxygen in red blood cells.</div></div></div>
+            <div class="col-md-4"><div class="med-card"><div class="med-icon" style="background:rgba(255,103,7,0.15);color:#ff6703"><i class="fas fa-magnet"></i></div><div class="med-name">Iron</div><div class="med-val">8 – 15 mg/day</div><div class="med-desc">Daily requirement. Low iron causes anaemia and fatigue.</div></div></div>
+            <div class="col-md-4"><div class="med-card"><div class="med-icon" style="background:rgba(25,135,84,0.15);color:#6edba8"><i class="fas fa-percent"></i></div><div class="med-name">HbA1c</div><div class="med-val">Below 5.7%</div><div class="med-desc">3-month average blood sugar. 5.7–6.4% pre-diabetes. Above 6.5% diabetes.</div></div></div>
+        </div>
+    </div>
+
+    <!-- Minerals & Vitamins -->
+    <div class="card p-4 mb-4 animate-in" style="--delay:0.5s">
+        <h6 class="med-section-title"><i class="fas fa-capsules me-2" style="color:#9b2335"></i>Minerals & Vitamins</h6>
+        <div class="row g-3">
+            <div class="col-md-4"><div class="med-card"><div class="med-icon" style="background:rgba(255,193,7,0.15);color:#ffd85e"><i class="fas fa-bone"></i></div><div class="med-name">Calcium</div><div class="med-val">8.6 – 10.3 mg/dl</div><div class="med-desc">Essential for bones, teeth and heart function.</div></div></div>
+            <div class="col-md-4"><div class="med-card"><div class="med-icon" style="background:rgba(25,135,84,0.15);color:#6edba8"><i class="fas fa-leaf"></i></div><div class="med-name">Potassium</div><div class="med-val">3.5 – 5.0 mEq/L</div><div class="med-desc">Vital for heart rhythm and muscle function.</div></div></div>
+            <div class="col-md-4"><div class="med-card"><div class="med-icon" style="background:rgba(13,202,240,0.15);color:#0dcaf0"><i class="fas fa-wave-square"></i></div><div class="med-name">Sodium</div><div class="med-val">135 – 145 mEq/L</div><div class="med-desc">Controls fluid balance. High sodium raises blood pressure.</div></div></div>
+            <div class="col-md-4"><div class="med-card"><div class="med-icon" style="background:rgba(255,193,7,0.15);color:#ffd85e"><i class="fas fa-sun"></i></div><div class="med-name">Vitamin D3</div><div class="med-val">20 – 50 ng/ml</div><div class="med-desc">Below 20 is deficiency. Essential for bones and immunity.</div></div></div>
+            <div class="col-md-4"><div class="med-card"><div class="med-icon" style="background:rgba(155,35,53,0.15);color:#c44d5f"><i class="fas fa-dna"></i></div><div class="med-name">Vitamin B12</div><div class="med-val">200 – 900 pg/ml</div><div class="med-desc">Below 200 causes nerve damage and anaemia.</div></div></div>
+            <div class="col-md-4"><div class="med-card"><div class="med-icon" style="background:rgba(255,103,7,0.15);color:#ff6703"><i class="fas fa-fire"></i></div><div class="med-name">Magnesium</div><div class="med-val">1.7 – 2.2 mg/dl</div><div class="med-desc">Needed for muscle, nerve and heart function.</div></div></div>
+        </div>
+    </div>
+
+    <!-- Disclaimer -->
+    <div class="result-disclaimer mb-5 animate-in" style="--delay:0.6s">
+        <i class="fas fa-shield-alt me-2" style="color:#666"></i>
+        <strong style="color:#666;">Disclaimer:</strong>
+        <span style="color:#555;"> These are general reference ranges for adults. Normal values may vary by lab, age, sex and health condition. Always consult a qualified healthcare professional for interpretation.</span>
+    </div>
+
+</div>
+</div>
+
+<style>
+.animate-in { opacity:0; transform:translateY(18px); animation:fadeUp 0.5s ease forwards; animation-delay:var(--delay); }
+@keyframes fadeUp { to { opacity:1; transform:translateY(0); } }
+.med-section-title { color:white; font-weight:700; font-size:0.95rem; margin-bottom:16px; }
+.med-card {
+    background:rgba(255,255,255,0.03);
+    border:1px solid rgba(255,255,255,0.06);
+    border-radius:14px; padding:16px;
+    height:100%; transition:transform 0.2s, border-color 0.2s;
+}
+.med-card:hover { transform:translateY(-3px); border-color:rgba(155,35,53,0.3); }
+.med-icon {
+    width:42px; height:42px; border-radius:12px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.1rem; margin-bottom:10px;
+}
+.med-name { color:white; font-weight:700; font-size:0.88rem; margin-bottom:4px; }
+.med-val  { color:#9b2335; font-weight:800; font-size:0.95rem; margin-bottom:6px; }
+.med-desc { color:#666; font-size:0.78rem; line-height:1.5; margin:0; }
+.result-disclaimer {
+    background:rgba(255,255,255,0.02);
+    border:1px solid rgba(255,255,255,0.05);
+    border-radius:12px; padding:14px 18px; font-size:0.84rem;
+}
+</style>
+{% endblock %}
